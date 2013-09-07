@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="formSeccRes">
+		<p:panelMenu>
+			<p:submenu label="#{msg['menuIndicadores']}">
+				<p:menuitem value="#{msg['menuArbolTematico']}" icon="ui-icon-folder-collapsed" />
+				<p:menuitem value="#{msg['menuIndicador']}" icon="ui-icon-document" />
+			</p:submenu>
+			<p:submenu label="#{msg['menuCargaDatos']}">
+				<p:menuitem value="#{msg['menuMonitoreo']}" icon="ui-icon-disk" />
+				<p:menuitem value="#{msg['menuConfiguracion']}" icon="ui-icon-disk" />
+			</p:submenu>
+			<p:submenu label="#{msg['menuMantenimiento']}">
+				<p:menuitem value="#{msg['menuUnidadMedida']}" icon="ui-icon-pencil" />
+			</p:submenu>
+			<p:submenu label="#{msg['menuBoletin']}">
+				<p:menuitem value="#{msg['menuConfBoletin']}" icon="ui-icon-note" />
+			</p:submenu>
+			<p:submenu label="#{msg['menuReporte']}">
+				<p:menuitem value="#{msg['menuRepIndicador']}" icon="ui-icon-bookmark" />
+			</p:submenu>
+			<p:submenu label="#{msg['menuSesion']}">
+				<p:menuitem value="#{msg['menuSalir']}" icon="ui-icon-power" />
+			</p:submenu>
+		</p:panelMenu>
+	</h:form>
+</ui:composition>
