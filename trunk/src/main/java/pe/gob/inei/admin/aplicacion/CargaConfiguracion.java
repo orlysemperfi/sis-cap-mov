@@ -22,7 +22,7 @@ public class CargaConfiguracion extends HttpServlet {
 		String nivelLog = context.getInitParameter("nivelLog");
 		File carpetaLog = new File(carpetaActual, "log-series");
 		File archivoLog = new File(carpetaLog, "log.log");
-		File carpetaMapa = new File(carpetaActual, "js/json");
+		//File carpetaMapa = new File(carpetaActual, "js/json");
 		Properties properties = new Properties ();
 		if (PRODUCCION.equals(estado)) {
 			properties.put("log4j.rootLogger", nivelLog + ", archivo");
