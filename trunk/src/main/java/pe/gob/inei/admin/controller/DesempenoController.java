@@ -26,8 +26,10 @@ public class DesempenoController implements Serializable {
 	public void buscar(ActionEvent event){
 		PersonalDAO personalDAO=DAOFactory.getInstance().getPersonalDAO();
 		Personal personal=personalDAO.buscarPorDni(dni);
+		if (personal!=null){
 		RutaPersonalDAO rutaPersonalDAO=DAOFactory.getInstance().getRutaPersonalDAO();
 		rutaPersonal =rutaPersonalDAO.buscarPersona(personal.getCodigoPersonal());
+		}
 	}
 	
 	public String getDni() {
