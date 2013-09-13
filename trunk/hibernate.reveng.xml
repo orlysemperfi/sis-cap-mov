@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="bd_sistencuesta" match-name="acceso"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="capitulo"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="cargo"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="categoria"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="cedula"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="cedula_respuesta"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="cuestionario"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="detalle_marco_muestral"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="detalle_ruta"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="encuesta"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="establecimiento"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="inconsistencia"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="marco_muestral"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="opcion"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="perfil"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="personal"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="pregunta"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="regla"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="respuesta"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="rubro"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="ruta"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="ruta_personal"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="ubigeo"/>
+  <table-filter match-catalog="bd_sistencuesta" match-name="usuario"/>
+</hibernate-reverse-engineering>
