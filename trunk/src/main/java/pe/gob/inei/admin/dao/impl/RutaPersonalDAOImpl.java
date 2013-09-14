@@ -29,7 +29,7 @@ public class RutaPersonalDAOImpl extends GenericDAOImpl<RutaPersonal, RutaPerson
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction tx = session.beginTransaction();
 		Query query = session.createQuery("select o from RutaPersonal o where o.personal.codigoPersonal=:p_codigoPersonal ");
-		query.setInteger("p_codigoUbigeo", codigoPersonal);
+		query.setInteger("p_codigoPersonal", codigoPersonal);
 		List<RutaPersonal> lista = query.list();
 		tx.commit();
 		return lista;

@@ -11,18 +11,18 @@
     		</f:facet>
 			<p:panelGrid columns="2" style="width:100%">
 				<h:outputLabel for="lblDni" value="DNI(*):" />
-				<p:inputText id="txtDni" value="#{desempeno.dni}" label="txtDni" style="width:100%" />
+				<p:inputText id="txtDni" value="#{desempeno.dni}" label="txtDni"
+					style="width:100%" />
 			</p:panelGrid>
 			<p:panelGrid columns="6" style="width:100%">
 				<h:outputLabel for="lblApPaterno" value="Ap. Pat.:" />
-				<p:inputText id="txtApPaterno"  label="txtApPaterno"
+				<p:inputText id="txtApPaterno" label="txtApPaterno"
 					style="width:100%" />
 				<h:outputLabel for="lblApMaterno" value="Ap. Mat.:" />
 				<p:inputText id="txtApMaterno" label="txtApMaterno"
 					style="width:100%" />
 				<h:outputLabel for="lblNombre" value="Nombres:" />
-				<p:inputText id="txtNombre"  label="txtNombre"
-					style="width:100%" />
+				<p:inputText id="txtNombre" label="txtNombre" style="width:100%" />
 			</p:panelGrid>
 
 		</p:panelGrid>
@@ -35,26 +35,41 @@
 				<h:outputLabel for="lblDepartamento" value="Departamento:" />
 				<h:outputLabel for="lblProvincia" value="Provincia:" />
 				<h:outputLabel for="lblDistrito" value="Distrito:" />
-				<h:selectOneMenu for="somDepartamento"  />
-				<h:selectOneMenu for="somProvincia"  />
-				<h:selectOneMenu for="somDistrito"  />
+				<h:selectOneMenu for="somDepartamento" value="#{desempeno.ruta}">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItems value="#{desempeno.rutaPersonal}" var="item" itemLabel="#{item.estado}" itemValue="#{item.id}"/>
+				</h:selectOneMenu>
+				<h:selectOneMenu for="somProvincia" />
+				<h:selectOneMenu for="somDistrito" />
 			</p:panelGrid>
 
 		</p:panelGrid>
 		<p:panelGrid columns="2" style="margin:0 auto;width:600px">
-			<p:commandButton id="btnBuscar" value="Buscar" style="margin:0 auto" actionListener="#{desempeno.buscar}"
-					update="lstDesempeno"/>
+			<p:commandButton id="btnBuscar" value="Buscar" style="margin:0 auto"
+				actionListener="#{desempeno.buscar}" update="dtDesempeno" />
 			<p:button id="btnCancelar" value="Cancelar" style="margin:0 auto" />
 		</p:panelGrid>
-		<p:dataList var="lstDesempeno" id="lstDesempeno" paginator="true"
-			rows="5" value="#{desempeno.rutaPersonal}" 
+		<p:dataTable var="dtDesempeno" id="dtDesempeno"
+			value="#{desempeno.rutaPersonal}">
+			<p:column headerText="Codigo_Ruta">
+				<h:outputText value="#{dtDesempeno.ruta.codigoRuta}" />
+			</p:column>
+
+			<p:column headerText="Numero_Ruta">
+				<h:outputText value="#{dtDesempeno.ruta.numeroRuta}" />
+			</p:column>
+
+		</p:dataTable>
+		<!-- p:dataList var="lstDesempeno" id="lstDesempeno" paginator="true"
+			rows="5" value="#{desempeno.rutaPersonal}"
 			paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
 			rowsPerPageTemplate="5,10,15" type="none">
-		
-			<h:outputText value="#{lstDesempeno.id}" />
 
-			
-		</p:dataList>
+			<h:outputText value="#{lstDesempeno.id.codigoPersonal}" />
+			<h:outputText value="#{lstDesempeno.id.codigoPersonal}" />
+
+
+		</p:dataList-->
 	</h:form>
 
 </ui:composition>
