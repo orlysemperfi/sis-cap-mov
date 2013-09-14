@@ -1,6 +1,6 @@
 package pe.gob.inei.sistencuesta;
 
-// Generated 12/09/2013 09:31:22 PM by Hibernate Tools 3.4.0.CR1
+// Generated 13/09/2013 09:04:32 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,6 +21,9 @@ public class Ubigeo implements java.io.Serializable {
 
 	private String codigoUbigeo;
 	private String nombre;
+	private String codigoDepartamento;
+	private String codigoProvincia;
+	private String codigoDistrito;
 	private Set<Personal> personals = new HashSet<Personal>(0);
 	private Set<MarcoMuestral> marcoMuestrals = new HashSet<MarcoMuestral>(0);
 	private Set<Ruta> rutas = new HashSet<Ruta>(0);
@@ -33,10 +36,15 @@ public class Ubigeo implements java.io.Serializable {
 		this.nombre = nombre;
 	}
 
-	public Ubigeo(String codigoUbigeo, String nombre, Set<Personal> personals,
+	public Ubigeo(String codigoUbigeo, String nombre,
+			String codigoDepartamento, String codigoProvincia,
+			String codigoDistrito, Set<Personal> personals,
 			Set<MarcoMuestral> marcoMuestrals, Set<Ruta> rutas) {
 		this.codigoUbigeo = codigoUbigeo;
 		this.nombre = nombre;
+		this.codigoDepartamento = codigoDepartamento;
+		this.codigoProvincia = codigoProvincia;
+		this.codigoDistrito = codigoDistrito;
 		this.personals = personals;
 		this.marcoMuestrals = marcoMuestrals;
 		this.rutas = rutas;
@@ -59,6 +67,33 @@ public class Ubigeo implements java.io.Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	@Column(name = "CodigoDepartamento", length = 2)
+	public String getCodigoDepartamento() {
+		return this.codigoDepartamento;
+	}
+
+	public void setCodigoDepartamento(String codigoDepartamento) {
+		this.codigoDepartamento = codigoDepartamento;
+	}
+
+	@Column(name = "CodigoProvincia", length = 2)
+	public String getCodigoProvincia() {
+		return this.codigoProvincia;
+	}
+
+	public void setCodigoProvincia(String codigoProvincia) {
+		this.codigoProvincia = codigoProvincia;
+	}
+
+	@Column(name = "CodigoDistrito", length = 2)
+	public String getCodigoDistrito() {
+		return this.codigoDistrito;
+	}
+
+	public void setCodigoDistrito(String codigoDistrito) {
+		this.codigoDistrito = codigoDistrito;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ubigeo")

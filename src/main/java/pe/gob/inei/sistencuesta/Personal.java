@@ -1,6 +1,6 @@
 package pe.gob.inei.sistencuesta;
 
-// Generated 12/09/2013 09:31:22 PM by Hibernate Tools 3.4.0.CR1
+// Generated 13/09/2013 09:04:32 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -33,6 +33,7 @@ public class Personal implements java.io.Serializable {
 	private String estado;
 	private Set<RutaPersonal> rutaPersonals = new HashSet<RutaPersonal>(0);
 	private Set<Usuario> usuarios = new HashSet<Usuario>(0);
+	private Set<Cedula> cedulas = new HashSet<Cedula>(0);
 
 	public Personal() {
 	}
@@ -52,7 +53,7 @@ public class Personal implements java.io.Serializable {
 	public Personal(Cargo cargo, Ubigeo ubigeo, String nombres,
 			String apellidos, String numeroDocumento, String telefono,
 			String direccion, String estado, Set<RutaPersonal> rutaPersonals,
-			Set<Usuario> usuarios) {
+			Set<Usuario> usuarios, Set<Cedula> cedulas) {
 		this.cargo = cargo;
 		this.ubigeo = ubigeo;
 		this.nombres = nombres;
@@ -63,6 +64,7 @@ public class Personal implements java.io.Serializable {
 		this.estado = estado;
 		this.rutaPersonals = rutaPersonals;
 		this.usuarios = usuarios;
+		this.cedulas = cedulas;
 	}
 
 	@Id
@@ -166,6 +168,15 @@ public class Personal implements java.io.Serializable {
 
 	public void setUsuarios(Set<Usuario> usuarios) {
 		this.usuarios = usuarios;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "personal")
+	public Set<Cedula> getCedulas() {
+		return this.cedulas;
+	}
+
+	public void setCedulas(Set<Cedula> cedulas) {
+		this.cedulas = cedulas;
 	}
 
 }

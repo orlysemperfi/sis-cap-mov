@@ -1,6 +1,6 @@
 package pe.gob.inei.sistencuesta;
 
-// Generated 12/09/2013 09:31:22 PM by Hibernate Tools 3.4.0.CR1
+// Generated 13/09/2013 09:04:32 PM by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

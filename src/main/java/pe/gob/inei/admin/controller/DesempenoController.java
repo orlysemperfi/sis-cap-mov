@@ -19,9 +19,11 @@ public class DesempenoController implements Serializable {
 	
 	private String dni;
 	private List<RutaPersonal> rutaPersonal;
+	private String ruta;
 	public DesempenoController() {
-		
-	}
+		RutaPersonalDAO rutaPersonalDAO=DAOFactory.getInstance().getRutaPersonalDAO();
+		rutaPersonal =rutaPersonalDAO.buscarPersona(1);
+		}
 
 	public void buscar(ActionEvent event){
 		PersonalDAO personalDAO=DAOFactory.getInstance().getPersonalDAO();
@@ -46,6 +48,14 @@ public class DesempenoController implements Serializable {
 
 	public void setRutaPersonal(List<RutaPersonal> rutaPersonal) {
 		this.rutaPersonal = rutaPersonal;
+	}
+
+	public String getRuta() {
+		return ruta;
+	}
+
+	public void setRuta(String ruta) {
+		this.ruta = ruta;
 	}
 
 	

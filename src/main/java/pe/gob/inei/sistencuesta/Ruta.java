@@ -1,6 +1,6 @@
 package pe.gob.inei.sistencuesta;
 
-// Generated 12/09/2013 09:31:22 PM by Hibernate Tools 3.4.0.CR1
+// Generated 13/09/2013 09:04:32 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,10 +23,6 @@ import javax.persistence.Table;
 @Table(name = "ruta", catalog = "bd_sistencuesta")
 public class Ruta implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
-	
 	private Integer codigoRuta;
 	private Ubigeo ubigeo;
 	private Encuesta encuesta;
@@ -36,7 +32,8 @@ public class Ruta implements java.io.Serializable {
 	private int correlativoInicial;
 	private int correlativoFinal;
 	private String estado;
-	private Set<Establecimiento> establecimientos = new HashSet<Establecimiento>(0);
+	private Set<Establecimiento> establecimientos = new HashSet<Establecimiento>(
+			0);
 	private Set<Cedula> cedulas = new HashSet<Cedula>(0);
 	private Set<RutaPersonal> rutaPersonals = new HashSet<RutaPersonal>(0);
 
