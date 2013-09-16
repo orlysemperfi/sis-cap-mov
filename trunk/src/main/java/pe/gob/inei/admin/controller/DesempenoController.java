@@ -10,19 +10,27 @@ import javax.faces.event.ActionEvent;
 import pe.gob.inei.admin.dao.DAOFactory;
 import pe.gob.inei.admin.dao.PersonalDAO;
 import pe.gob.inei.admin.dao.RutaPersonalDAO;
+import pe.gob.inei.admin.dao.UbigeoDAO;
 import pe.gob.inei.sistencuesta.Personal;
 import pe.gob.inei.sistencuesta.RutaPersonal;
+import pe.gob.inei.sistencuesta.Ubigeo;
 
 @ManagedBean(name="desempeno")
 @ViewScoped
 public class DesempenoController implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String dni;
 	private List<RutaPersonal> rutaPersonal;
 	private String ruta;
+	private String codDepartamento;
+	private List<Ubigeo> ubigeo;
 	public DesempenoController() {
-		RutaPersonalDAO rutaPersonalDAO=DAOFactory.getInstance().getRutaPersonalDAO();
-		rutaPersonal =rutaPersonalDAO.buscarPersona(1);
+		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDao();
+		ubigeo= ubigeoDAO.BuscarPorDepartamento();
 		}
 
 	public void buscar(ActionEvent event){
@@ -56,6 +64,22 @@ public class DesempenoController implements Serializable {
 
 	public void setRuta(String ruta) {
 		this.ruta = ruta;
+	}
+
+	public List<Ubigeo> getUbigeo() {
+		return ubigeo;
+	}
+
+	public void setUbigeo(List<Ubigeo> ubigeo) {
+		this.ubigeo = ubigeo;
+	}
+
+	public String getCodDepartamento() {
+		return codDepartamento;
+	}
+
+	public void setCodDepartamento(String codDepartamento) {
+		this.codDepartamento = codDepartamento;
 	}
 
 	

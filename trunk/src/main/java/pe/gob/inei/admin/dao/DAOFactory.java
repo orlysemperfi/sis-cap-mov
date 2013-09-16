@@ -8,6 +8,7 @@ public abstract class DAOFactory {
  
 	public abstract PersonalDAO getPersonalDAO();
 	public abstract RutaPersonalDAO getRutaPersonalDAO();
+	public abstract UbigeoDAO getUbigeoDao();
 	
 	public synchronized static DAOFactory getInstance () {
 		if (daoFactory==null) {
