@@ -35,9 +35,9 @@
 				<h:outputLabel for="lblDepartamento" value="Departamento:" />
 				<h:outputLabel for="lblProvincia" value="Provincia:" />
 				<h:outputLabel for="lblDistrito" value="Distrito:" />
-				<h:selectOneMenu for="somDepartamento" value="#{desempeno.ruta}">
+				<h:selectOneMenu for="somDepartamento" value="#{desempeno.codDepartamento}">
 					<f:selectItem itemLabel="Select One" itemValue="" />
-					<f:selectItems value="#{desempeno.rutaPersonal}" var="item" itemLabel="#{item.estado}" itemValue="#{item.id}"/>
+					<f:selectItems value="#{desempeno.ubigeo}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.codigoDepartamento}"/>
 				</h:selectOneMenu>
 				<h:selectOneMenu for="somProvincia" />
 				<h:selectOneMenu for="somDistrito" />
