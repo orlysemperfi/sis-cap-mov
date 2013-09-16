@@ -1,6 +1,6 @@
 package pe.gob.inei.sistencuesta;
 
-// Generated 13/09/2013 09:04:32 PM by Hibernate Tools 3.4.0.CR1
+// Generated 15/09/2013 10:46:14 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,6 +25,8 @@ public class Ubigeo implements java.io.Serializable {
 	private String codigoProvincia;
 	private String codigoDistrito;
 	private Set<Personal> personals = new HashSet<Personal>(0);
+	private Set<Establecimiento> establecimientos = new HashSet<Establecimiento>(
+			0);
 	private Set<MarcoMuestral> marcoMuestrals = new HashSet<MarcoMuestral>(0);
 	private Set<Ruta> rutas = new HashSet<Ruta>(0);
 
@@ -39,6 +41,7 @@ public class Ubigeo implements java.io.Serializable {
 	public Ubigeo(String codigoUbigeo, String nombre,
 			String codigoDepartamento, String codigoProvincia,
 			String codigoDistrito, Set<Personal> personals,
+			Set<Establecimiento> establecimientos,
 			Set<MarcoMuestral> marcoMuestrals, Set<Ruta> rutas) {
 		this.codigoUbigeo = codigoUbigeo;
 		this.nombre = nombre;
@@ -46,6 +49,7 @@ public class Ubigeo implements java.io.Serializable {
 		this.codigoProvincia = codigoProvincia;
 		this.codigoDistrito = codigoDistrito;
 		this.personals = personals;
+		this.establecimientos = establecimientos;
 		this.marcoMuestrals = marcoMuestrals;
 		this.rutas = rutas;
 	}
@@ -103,6 +107,15 @@ public class Ubigeo implements java.io.Serializable {
 
 	public void setPersonals(Set<Personal> personals) {
 		this.personals = personals;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ubigeo")
+	public Set<Establecimiento> getEstablecimientos() {
+		return this.establecimientos;
+	}
+
+	public void setEstablecimientos(Set<Establecimiento> establecimientos) {
+		this.establecimientos = establecimientos;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "ubigeos")

@@ -1,6 +1,6 @@
 package pe.gob.inei.sistencuesta;
 
-// Generated 13/09/2013 09:04:32 PM by Hibernate Tools 3.4.0.CR1
+// Generated 15/09/2013 10:46:14 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -23,6 +24,7 @@ import javax.persistence.Table;
 public class Establecimiento implements java.io.Serializable {
 
 	private Integer codigoEstablecimiento;
+	private Ubigeo ubigeo;
 	private String nombre;
 	private String zona;
 	private String manzana;
@@ -33,12 +35,15 @@ public class Establecimiento implements java.io.Serializable {
 	public Establecimiento() {
 	}
 
-	public Establecimiento(String nombre) {
+	public Establecimiento(Ubigeo ubigeo, String nombre) {
+		this.ubigeo = ubigeo;
 		this.nombre = nombre;
 	}
 
-	public Establecimiento(String nombre, String zona, String manzana,
-			String numero, String referenciaGeografica, Set<Ruta> rutas) {
+	public Establecimiento(Ubigeo ubigeo, String nombre, String zona,
+			String manzana, String numero, String referenciaGeografica,
+			Set<Ruta> rutas) {
+		this.ubigeo = ubigeo;
 		this.nombre = nombre;
 		this.zona = zona;
 		this.manzana = manzana;
@@ -56,6 +61,16 @@ public class Establecimiento implements java.io.Serializable {
 
 	public void setCodigoEstablecimiento(Integer codigoEstablecimiento) {
 		this.codigoEstablecimiento = codigoEstablecimiento;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CodigoUbigeo", nullable = false)
+	public Ubigeo getUbigeo() {
+		return this.ubigeo;
+	}
+
+	public void setUbigeo(Ubigeo ubigeo) {
+		this.ubigeo = ubigeo;
 	}
 
 	@Column(name = "Nombre", nullable = false, length = 50)
