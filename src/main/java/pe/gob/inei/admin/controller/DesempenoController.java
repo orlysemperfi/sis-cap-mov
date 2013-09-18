@@ -27,7 +27,9 @@ public class DesempenoController implements Serializable {
 	private List<RutaPersonal> rutaPersonal;
 	private String ruta;
 	private String codDepartamento;
+	private String codProvincia;
 	private List<Ubigeo> ubigeo;
+	private List<Ubigeo> ubigeoProvincia;
 	public DesempenoController() {
 		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDao();
 		ubigeo= ubigeoDAO.BuscarPorDepartamento();
@@ -41,7 +43,10 @@ public class DesempenoController implements Serializable {
 		rutaPersonal =rutaPersonalDAO.buscarPersona(personal.getCodigoPersonal());
 		}
 	}
-	
+	public void buscarProvincia(ActionEvent event){
+		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDao();
+		ubigeoProvincia=ubigeoDAO.BuscarPorProvincia(codDepartamento);
+	}
 	public String getDni() {
 		return dni;
 	}
@@ -80,6 +85,22 @@ public class DesempenoController implements Serializable {
 
 	public void setCodDepartamento(String codDepartamento) {
 		this.codDepartamento = codDepartamento;
+	}
+
+	public List<Ubigeo> getUbigeoProvincia() {
+		return ubigeoProvincia;
+	}
+
+	public void setUbigeoProvincia(List<Ubigeo> ubigeoProvincia) {
+		this.ubigeoProvincia = ubigeoProvincia;
+	}
+
+	public String getCodProvincia() {
+		return codProvincia;
+	}
+
+	public void setCodProvincia(String codProvincia) {
+		this.codProvincia = codProvincia;
 	}
 
 	
