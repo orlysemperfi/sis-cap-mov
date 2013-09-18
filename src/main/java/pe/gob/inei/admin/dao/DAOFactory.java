@@ -8,8 +8,13 @@ public abstract class DAOFactory {
  
 	public abstract PersonalDAO getPersonalDAO();
 	public abstract RutaPersonalDAO getRutaPersonalDAO();
-	public abstract UbigeoDAO getUbigeoDao();
-	
+	public abstract UbigeoDAO getUbigeoDAO();
+	public abstract RutaDAO getRutaDAO();
+	public abstract EstablecimientoDAO getEstablecimientoDAO();
+	public abstract CategoriaDAO getCategoriaDAO();
+	public abstract EncuestaDAO getEncuestaDAO(); 
+	public abstract RubroDAO getRubroDAO();
+	public abstract MarcoMuestralDAO getMarcoMuestralDAO();
 	public synchronized static DAOFactory getInstance () {
 		if (daoFactory==null) {
 			daoFactory = new DAOFactoryImpl();
