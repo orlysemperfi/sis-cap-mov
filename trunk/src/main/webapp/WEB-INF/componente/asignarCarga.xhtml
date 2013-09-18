@@ -1,0 +1,144 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:panel visible="false" id="mantenimientoEncuesta">
+<h:form id="formMantenimientoEncuesta">
+	<p:panelGrid columns="1" style="margin:0 auto;width:600px">
+			<f:facet name="header">
+        	ASIGNACION DE CARGA DE TRABAJO
+    		</f:facet>
+			<p:panelGrid columns="2" style="width:100%">
+				<h:outputLabel for="lblCodigoEncuesta" value="Codigo:" />
+				<p:inputText id="txtCodigoEncuesta" value="#{encuesta.codigoEncuesta}" label="txtCodigoEncuesta" style="width:25%" />
+				
+				<h:outputLabel for="lblNombre" value="Nombre:" />
+				<p:inputText id="txtNombre" value="#{encuesta.nombre}" label="txtNombre" style="width:100%" />
+					
+				<h:outputLabel for="lblAño" value="Año:" />
+				<p:inputText id="txtAño" value="#{encuesta.año}" label="txtAño" style="width:25%" />
+					
+				<h:outputLabel for="lblDescripcion" value="Descripción:" />
+				<p:inputText id="txtDescripcion" value="#{encuesta.descripcion}" label="txtDescripcion" style="width:100%" />
+					
+				<h:outputLabel for="lblObjetivo" value="Objetivo:" />
+				<p:inputText id="txtObjetivo" value="#{encuesta.objetivo}" label="txtObjetivo" style="width:100%" />
+				
+				<h:outputLabel for="lblRubro" value="Rubro:" />
+				<h:selectOneMenu for="somRubro" value="#{encuesta.codigoRubro}">
+					<f:selectItem itemLabel="Elegir Rubro" itemValue="" />
+					<f:selectItems value="#{encuesta.rubro}" var="itemRubro" itemLabel="#{itemRubro.nombre}" itemValue="#{itemRubro.codigoRubro}"/>
+				</h:selectOneMenu>
+				
+				<h:outputLabel for="lblArea" value="Area:" />
+				<h:selectOneMenu for="somArea" value="#{encuesta.tipoArea}">
+					<f:selectItem itemLabel="Elegir Area" itemValue="" />
+					<f:selectItems value="#{encuesta.tipoAreaArr}" var="itemArea" itemLabel="#{itemArea.nombre}" itemValue="#{itemArea.codigoTipoArea}"/>
+				</h:selectOneMenu>
+								 
+				<h:outputLabel for="lblMarcoMuestral" value="Marco Muestral:" />
+				<h:selectOneMenu for="somMarcoMuestral" value="#{encuesta.codigoMarcoMuestral}">
+					<f:selectItem itemLabel="Elegir Marco Muestral" itemValue="" />
+					<f:selectItems value="#{encuesta.marcoMuestral}" var="itemMarcoMuestral" itemLabel="#{itemMarcoMuestral.descripcion}" itemValue="#{itemMarcoMuestral.codigoMarcoMuestral}"/>
+				</h:selectOneMenu>
+								
+				<h:outputLabel for="lblFechaInicio" value="Fecha Inicio:" />
+				<p:inputText id="txtFechaInicio" value="#{encuesta.fechaInicio}" label="txtFechaInicio" style="width:30%" />
+				
+				<h:outputLabel for="lblFechaFin" value="Fecha Fin:" />
+				<p:inputText id="txtFechaFin" value="#{encuesta.fechaFin}" label="txtFechaFin" style="width:30%" />
+				
+			</p:panelGrid>	
+			
+		<p:panelGrid columns="2" style="margin:0 auto;width:600px">
+			<p:commandButton id="btnGrabar" value="Grabar" style="margin:0 auto"
+				actionListener="#{encuesta.grabar}" />
+			<p:button id="btnCancelarEdicion" value="Cancelar" style="margin:0 auto" />
+		</p:panelGrid>		
+	</p:panelGrid>
+
+</h:form>
+</p:panel>
+
+
+<p:panel visible="true" id="consulta">
+	<h:form id="form">
+		<p:panelGrid columns="1" style="margin:0 auto;width:600px">
+			<f:facet name="header">
+        	ASIGNACION DE CARGA DE TRABAJO
+    		</f:facet>
+			<p:panelGrid columns="2" style="width:100%">
+				<h:outputLabel for="lblNomb" value="Nombre:" />
+				<p:inputText id="txtNomb" value="#{encuesta.nombre}" label="txtNomb"
+					style="width:100%" />
+					
+				<h:outputLabel for="lblAnio" value="Año:" />
+				<p:inputText id="txtAnio" value="#{encuesta.año}" label="txtAnio"
+					style="width:25%" />
+			</p:panelGrid>			
+		</p:panelGrid>
+
+
+
+		<p:panelGrid columns="3" style="margin:0 auto;width:600px">
+			<p:commandButton id="btnBuscar" value="Buscar" style="margin:0 auto"
+				actionListener="#{encuesta.buscar}" update="dtEncuesta" />
+				
+			<p:button id="btnCancelar" value="Cancelar" style="margin:0 auto" />
+			
+			<p:commandButton id="btnNuevo" value="Nuevo" style="margin:0 auto"
+				actionListener="#{encuesta.buscar}" update="dtEncuesta"/>
+				
+		</p:panelGrid>
+		
+              
+		
+		<p:growl id="msgs" showDetail="true" />  
+		
+		<p:dataTable var="dtEncuesta" id="dtEncuesta"
+			value="#{encuesta.encuesta}">
+			<p:column headerText="Encuesta" width="5%">
+				<h:outputText value="#{dtEncuesta.codigoEncuesta}" />
+			</p:column>
+
+			<p:column headerText="Año" width="5%">
+				<h:outputText value="#{dtEncuesta.año}" />
+			</p:column>
+
+			<p:column headerText="Nombre" width="10%">
+				<h:outputText value="#{dtEncuesta.nombre}" />
+			</p:column>
+
+			<p:column headerText="Descripcion" width="35%">
+				<h:outputText value="#{dtEncuesta.descripcion}" />
+			</p:column>
+			
+			<p:column headerText="Objetivo" width="35%">
+				<h:outputText value="#{dtEncuesta.objetivo}" />
+			</p:column>
+			
+			<p:column>  
+                <p:commandButton id="selectButton" update=":form:display" oncomplete="PF('encDialog').show()" icon="ui-icon-search"  title="Editar" value="Editar">  
+                <f:setPropertyActionListener value="#{dtEncuesta}" target="#{encuesta.selectedEncuesta}" />  
+           		</p:commandButton>  
+        	</p:column>  
+			
+		</p:dataTable>
+		
+		<p:dialog header="Editar Encuesta" widgetVar="encDialog" resizable="false" id="encDlg"  
+                showEffect="fade" hideEffect="explode" modal="true">  
+  
+        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">    
+  			<h:outputText value="Nombre:" />
+            <h:outputText value="#{encuesta.selectedEncuesta.nombre}" style="font-weight:bold"/>
+        </h:panelGrid>  
+  
+    </p:dialog>  
+
+
+	</h:form>
+	</p:panel>
+	
+</ui:composition>

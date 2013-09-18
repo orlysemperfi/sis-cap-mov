@@ -1,0 +1,65 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="formTransferencia">
+		<p:panelGrid columns="1" style="margin:0 auto;width:600px">
+			<f:facet name="header">
+        	DETALLE DE RUTA DE TRABAJO
+    		</f:facet>
+			<p:panelGrid columns="3" style="width:100%">
+				<h:outputLabel for="lblDepartamento" value="Departamento:" />
+				<h:outputLabel for="lblProvincia" value="Provincia:" />
+				<h:outputLabel for="lblDistrito" value="Distrito:" />
+				<h:selectOneMenu id="somDepartamento"  immediate="true"
+					value="#{transferencia.codDepartamento}">
+					<f:selectItem itemLabel="Select Dpto." itemValue="" />
+					<f:selectItems value="#{transferencia.ubigeo}" var="item"
+						itemLabel="#{item.nombre}" itemValue="#{item.codigoDepartamento}" />
+						<p:ajax event="valueChange" update="formTransferencia:somProvincia" Listener="#{transferencia.buscarProvincia}" 
+							immediate="true"/>
+				</h:selectOneMenu>
+				<h:selectOneMenu id="somProvincia" immediate="true" value="#{transferencia.codProvincia}">
+					<f:selectItem itemLabel="Select Prov." itemValue="" />
+					<f:selectItems value="#{transferencia.ubigeoProvincia}" var="item"
+						itemLabel="#{item.nombre}" itemValue="#{item.codigoProvincia}" />
+				</h:selectOneMenu>
+				<h:selectOneMenu id="somDistrito">
+					<f:selectItem itemLabel="Select Dist." itemValue="" />
+					<f:selectItems value="#{transferencia.ubigeo}" var="item"
+						itemLabel="#{item.nombre}" itemValue="#{item.codigoDistrito}" />
+				</h:selectOneMenu>
+			</p:panelGrid>
+			<p:panelGrid columns="1" style="width:100%">
+				<h:outputLabel for="lblRuta" value="Ruta:" />
+				<h:selectOneMenu id="somRuta" for="somRuta"
+					value="#{desempeno.codDepartamento}">
+					<f:selectItem itemLabel="Select Ruta" itemValue="" />
+					<f:selectItems value="#{desempeno.ubigeo}" var="item"
+						itemLabel="#{item.nombre}" itemValue="#{item.codigoDepartamento}" />
+						<p:ajax update="somProvincia" process="somDepartamento" actionListener="#{desempeno.buscarProvincia(desempeno.codDepartamento)}" 
+							immediate="true"/>
+				</h:selectOneMenu>
+			</p:panelGrid>
+			
+		</p:panelGrid>
+		<p:panelGrid columns="2" style="margin:0 auto;width:600px">
+			<p:commandButton id="btnBuscar" value="Buscar" style="margin:0 auto"
+				actionListener="#{desempeno.buscar}" update="dtDesempeno" />
+			<p:button id="btnCancelar" value="Cancelar" style="margin:0 auto" />
+		</p:panelGrid>
+		<p:dataTable var="dtDesempeno" id="dtDesempeno"
+			value="#{desempeno.rutaPersonal}">
+			<p:column headerText="Codigo_Ruta">
+				<h:outputText value="#{dtDesempeno.ruta.codigoRuta}" />
+			</p:column>
+			<p:column headerText="Numero_Ruta">
+				<h:outputText value="#{dtDesempeno.ruta.numeroRuta}" />
+			</p:column>
+		</p:dataTable>
+
+	</h:form>
+
+</ui:composition>
