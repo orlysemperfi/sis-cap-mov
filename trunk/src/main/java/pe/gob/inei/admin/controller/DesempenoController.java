@@ -6,6 +6,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
 
 import pe.gob.inei.admin.dao.DAOFactory;
 import pe.gob.inei.admin.dao.PersonalDAO;
@@ -31,7 +32,7 @@ public class DesempenoController implements Serializable {
 	private List<Ubigeo> ubigeo;
 	private List<Ubigeo> ubigeoProvincia;
 	public DesempenoController() {
-		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDao();
+		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
 		ubigeo= ubigeoDAO.BuscarPorDepartamento();
 		}
 
@@ -43,9 +44,11 @@ public class DesempenoController implements Serializable {
 		rutaPersonal =rutaPersonalDAO.buscarPersona(personal.getCodigoPersonal());
 		}
 	}
-	public void buscarProvincia(ActionEvent event){
-		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDao();
+	public void buscarProvincia(ValueChangeEvent event){
+		System.out.println("Ingreso a buscar provincia");
+		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
 		ubigeoProvincia=ubigeoDAO.BuscarPorProvincia(codDepartamento);
+		System.out.println("Sale a buscar provincia");
 	}
 	public String getDni() {
 		return dni;

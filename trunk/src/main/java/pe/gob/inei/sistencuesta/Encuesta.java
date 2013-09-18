@@ -20,6 +20,10 @@ import javax.persistence.Table;
 @Table(name = "encuesta", catalog = "bd_sistencuesta")
 public class Encuesta implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String codigoEncuesta;
 	private Rubro rubro;
 	private MarcoMuestral marcoMuestral;
