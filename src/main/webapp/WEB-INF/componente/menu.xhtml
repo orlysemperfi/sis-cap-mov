@@ -5,27 +5,28 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<h:form id="formSeccRes">
-		<p:panelMenu>
-			<p:submenu label="#{msg['menuIndicadores']}">
-				<p:menuitem value="#{msg['menuArbolTematico']}" icon="ui-icon-folder-collapsed" />
-				<p:menuitem value="#{msg['menuIndicador']}" icon="ui-icon-document" />
-			</p:submenu>
-			<p:submenu label="#{msg['menuCargaDatos']}">
-				<p:menuitem value="#{msg['menuMonitoreo']}" icon="ui-icon-disk" />
-				<p:menuitem value="#{msg['menuConfiguracion']}" icon="ui-icon-disk" />
-			</p:submenu>
-			<p:submenu label="#{msg['menuMantenimiento']}">
-				<p:menuitem value="#{msg['menuUnidadMedida']}" icon="ui-icon-pencil" />
-			</p:submenu>
-			<p:submenu label="#{msg['menuBoletin']}">
-				<p:menuitem value="#{msg['menuConfBoletin']}" icon="ui-icon-note" />
-			</p:submenu>
-			<p:submenu label="#{msg['menuReporte']}">
-				<p:menuitem value="#{msg['menuRepIndicador']}" icon="ui-icon-bookmark" />
-			</p:submenu>
-			<p:submenu label="#{msg['menuSesion']}">
+		<p:menu style="width:180px;margin:0 auto">
+			<p:submenu label="#{msg['menuPrincipal']}">
+
+				<p:menuitem value="#{msg['menuEncuesta']}" icon="ui-icon-bookmark" />
+				<p:menuitem value="#{msg['menuDesempeno']}" icon="ui-icon-bookmark" />
+				<p:menuitem value="#{msg['menuTransferencia']}"
+					icon="ui-icon-bookmark" />
+				<p:menuitem value="#{msg['menuPreTransferencia']}"
+					icon="ui-icon-bookmark" />
+				<p:menuitem value="#{msg['menuAvanceEncuesta']}"
+					icon="ui-icon-bookmark" />
+				<p:menuitem value="#{msg['menuProResultados']}"
+					icon="ui-icon-bookmark" />
+				<p:menuitem value="#{msg['menuAsignarCarga']}"
+					icon="ui-icon-bookmark" />
+				<p:menuitem value="#{msg['menuMarcoMuestral']}"
+					icon="ui-icon-bookmark" />
+				<p:menuitem value="#{msg['menuRuta']}" icon="ui-icon-bookmark" />
+
 				<p:menuitem value="#{msg['menuSalir']}" icon="ui-icon-power" />
 			</p:submenu>
-		</p:panelMenu>
+
+		</p:menu>
 	</h:form>
 </ui:composition>
