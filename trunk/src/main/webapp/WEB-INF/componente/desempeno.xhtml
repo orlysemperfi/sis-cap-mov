@@ -35,24 +35,21 @@
 				<h:outputLabel for="lblDistrito" value="Distrito:" />
 				<h:selectOneMenu id="somDepartamento" 
 					value="#{desempeno.codDepartamento}"
-					valueChangeListener="#{desempeno.buscarProvincia}">
+					valueChangeListener="#{desempeno.buscarProvincia}" immediate="true">
 					<f:selectItem itemLabel="Select Dpto." />
-					<f:selectItems value="#{desempeno.ubigeo}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.codigoDepartamento}" />
-					<p:ajax update="somProvincia" event="change" />
+					<f:selectItems value="#{desempeno.ubigeo}" var="itemDep" itemLabel="#{itemDep.nombre}" itemValue="#{itemDep.codigoDepartamento}" />
+					<p:ajax update="somProvincia" event="change" immediate="true" />
 				</h:selectOneMenu>
-				<h:selectOneMenu id="somProvincia" value="#{desempeno.codProvincia}" valueChangeListener="#{desempeno.buscarDistrito}" >
+				<h:selectOneMenu id="somProvincia" value="#{desempeno.codProvincia}" valueChangeListener="#{desempeno.buscarDistrito}" immediate="true" >
 					<f:selectItem itemLabel="Select Prov."  />
-					<f:selectItems value="#{desempeno.ubigeoProvincia}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.codigoProvincia}" />
-					<p:ajax update="somDistrito" event="change" />
+					<f:selectItems value="#{desempeno.ubigeoProvincia}" var="itemProv" itemLabel="#{itemProv.nombre}" itemValue="#{itemProv.codigoProvincia}"  />
+					<p:ajax update="somDistrito" event="change" immediate="true"/>
 				</h:selectOneMenu>
-				<h:selectOneMenu id="somDistrito" value="#{desempeno.codProvincia}">
+				<h:selectOneMenu id="somDistrito" value="#{desempeno.codDistrito}">
 					<f:selectItem itemLabel="Select Dist." />
-					<f:selectItems value="#{desempeno.ubigeo}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.codigoDistrito}" />
+					<f:selectItems value="#{desempeno.ubigeoDistrito}" var="itemDist" itemLabel="#{itemDist.nombre}" itemValue="#{itemDist.codigoDistrito}" />
 				</h:selectOneMenu>
-				<p>
-					<h:outputText id="cs"
-						value="#{desempeno.ubigeoProvincia} #{dataBean.selectedCity ne null ? ',': '' } #{dataBean.selectedState}" />
-				</p>
+				
 			</p:panelGrid>
 		</p:panelGrid>
 		<p:panelGrid columns="2" style="margin:0 auto;width:600px">
