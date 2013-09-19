@@ -29,8 +29,10 @@ public class DesempenoController implements Serializable {
 	private String ruta;
 	private String codDepartamento;
 	private String codProvincia;
+	private String codDistrito;
 	private List<Ubigeo> ubigeo;
 	private List<Ubigeo> ubigeoProvincia;
+	private List<Ubigeo> ubigeoDistrito;
 	public DesempenoController() {
 		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
 		ubigeo= ubigeoDAO.BuscarPorDepartamento();
@@ -45,10 +47,20 @@ public class DesempenoController implements Serializable {
 		}
 	}
 	public void buscarProvincia(ValueChangeEvent event){
-		System.out.println("Ingreso a buscar provincia");
+		System.out.println("Ingreso a buscar provincia1:"+codDepartamento);
+		if(codDepartamento==null){
+			codDepartamento= "02";
+		}
+		System.out.println("Ingreso a buscar provincia2:"+codDepartamento);
 		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
 		ubigeoProvincia=ubigeoDAO.BuscarPorProvincia(codDepartamento);
 		System.out.println("Sale a buscar provincia");
+	}
+	public void buscarDistrito(ValueChangeEvent event){
+		System.out.println("Ingreso a buscar Distrito, por dep:"+codDepartamento+" - y por prov: "+codProvincia);
+		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
+		ubigeoDistrito=ubigeoDAO.BuscarPorDistrito(codDepartamento, codProvincia);
+		System.out.println("Sale a buscar distrito");
 	}
 	public String getDni() {
 		return dni;
@@ -104,6 +116,22 @@ public class DesempenoController implements Serializable {
 
 	public void setCodProvincia(String codProvincia) {
 		this.codProvincia = codProvincia;
+	}
+
+	public List<Ubigeo> getUbigeoDistrito() {
+		return ubigeoDistrito;
+	}
+
+	public void setUbigeoDistrito(List<Ubigeo> ubigeoDistrito) {
+		this.ubigeoDistrito = ubigeoDistrito;
+	}
+
+	public String getCodDistrito() {
+		return codDistrito;
+	}
+
+	public void setCodDistrito(String codDistrito) {
+		this.codDistrito = codDistrito;
 	}
 
 	
