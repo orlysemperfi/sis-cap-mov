@@ -33,24 +33,26 @@
 				<h:outputLabel for="lblDepartamento" value="Departamento:" />
 				<h:outputLabel for="lblProvincia" value="Provincia:" />
 				<h:outputLabel for="lblDistrito" value="Distrito:" />
-				<h:selectOneMenu id="somDepartamento" for="somDepartamento"
-					value="#{desempeno.codDepartamento}">
-					<f:selectItem itemLabel="Select Dpto." itemValue="" />
-					<f:selectItems value="#{desempeno.ubigeo}" var="item"
-						itemLabel="#{item.nombre}" itemValue="#{item.codigoDepartamento}" />
-						<p:ajax update="somProvincia" process="somDepartamento" actionListener="#{desempeno.buscarProvincia(desempeno.codDepartamento)}" 
-							immediate="true"/>
+				<h:selectOneMenu id="somDepartamento" 
+					value="#{desempeno.codDepartamento}"
+					valueChangeListener="#{desempeno.buscarProvincia}">
+					<f:selectItem itemLabel="Select Dpto." />
+					<f:selectItems value="#{desempeno.ubigeo}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.codigoDepartamento}" />
+					<p:ajax update="somProvincia" event="change" />
 				</h:selectOneMenu>
-				<h:selectOneMenu id="somProvincia" for="somProvincia">
-					<f:selectItem itemLabel="Select Prov." itemValue="" />
-					<f:selectItems value="#{desempeno.ubigeoProvincia}" var="item"
-						itemLabel="#{item.nombre}" itemValue="#{item.codigoProvincia}" />
+				<h:selectOneMenu id="somProvincia" value="#{desempeno.codProvincia}" valueChangeListener="#{desempeno.buscarDistrito}" >
+					<f:selectItem itemLabel="Select Prov."  />
+					<f:selectItems value="#{desempeno.ubigeoProvincia}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.codigoProvincia}" />
+					<p:ajax update="somDistrito" event="change" />
 				</h:selectOneMenu>
-				<h:selectOneMenu for="somDistrito">
-					<f:selectItem itemLabel="Select Dist." itemValue="" />
-					<f:selectItems value="#{desempeno.ubigeo}" var="item"
-						itemLabel="#{item.nombre}" itemValue="#{item.codigoDistrito}" />
+				<h:selectOneMenu id="somDistrito" value="#{desempeno.codProvincia}">
+					<f:selectItem itemLabel="Select Dist." />
+					<f:selectItems value="#{desempeno.ubigeo}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.codigoDistrito}" />
 				</h:selectOneMenu>
+				<p>
+					<h:outputText id="cs"
+						value="#{desempeno.ubigeoProvincia} #{dataBean.selectedCity ne null ? ',': '' } #{dataBean.selectedState}" />
+				</p>
 			</p:panelGrid>
 		</p:panelGrid>
 		<p:panelGrid columns="2" style="margin:0 auto;width:600px">
