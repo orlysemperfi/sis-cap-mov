@@ -6,7 +6,6 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.ValueChangeEvent;
 
 import pe.gob.inei.admin.dao.DAOFactory;
 import pe.gob.inei.admin.dao.PersonalDAO;
@@ -20,21 +19,23 @@ import pe.gob.inei.sistencuesta.Ubigeo;
 @ViewScoped
 public class TransferenciaController implements Serializable{
 
+	
 	/**
 	 * 
 	 */
-	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6256978288485403182L;
 	private String dni;
 	private List<RutaPersonal> rutaPersonal;
 	private String ruta;
-	private String codDepartamento;
-	private String codProvincia;
-	private List<Ubigeo> ubigeo;
-	private List<Ubigeo> ubigeoProvincia;
+	private String codDep;
+	private String codProv;
+	private String codDist;
+	private List<Ubigeo> departamentos;
+	private List<Ubigeo> provincias;
+	private List<Ubigeo> distritos;
 	public TransferenciaController() {
 		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
-		ubigeo= ubigeoDAO.BuscarPorDepartamento();
+		departamentos=ubigeoDAO.BuscarPorDepartamento();
 		}
 
 	public void buscar(ActionEvent event){
@@ -45,10 +46,17 @@ public class TransferenciaController implements Serializable{
 		rutaPersonal =rutaPersonalDAO.buscarPersona(personal.getCodigoPersonal());
 		}
 	}
-	public void buscarProvincia(ValueChangeEvent event){
-		System.out.println("Ingreso a buscar provincia:"+codDepartamento);
-		//UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDao();
-		//ubigeoProvincia=ubigeoDAO.BuscarPorProvincia(codDepartamento);
+	public void buscarProvincia(){
+		System.out.println("Ingreso a buscar provincia:"+codDep);
+		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
+		provincias=ubigeoDAO.BuscarPorProvincia(codDep);
+		//distritos=ubigeoDAO.BuscarPorDistrito(codDep,codProv);
+		
+	}
+	public void buscarDistrito(){
+		System.out.println("Dep:"+codDep+" - Prov:"+codProv);
+		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
+		distritos=ubigeoDAO.BuscarPorDistrito(codDep,codProv);
 		
 	}
 	public String getDni() {
@@ -75,36 +83,51 @@ public class TransferenciaController implements Serializable{
 		this.ruta = ruta;
 	}
 
-	public List<Ubigeo> getUbigeo() {
-		return ubigeo;
+	public List<Ubigeo> getDepartamentos() {
+		return departamentos;
 	}
 
-	public void setUbigeo(List<Ubigeo> ubigeo) {
-		this.ubigeo = ubigeo;
+	public void setDepartamentos(List<Ubigeo> departamentos) {
+		this.departamentos = departamentos;
 	}
 
-	public String getCodDepartamento() {
-		return codDepartamento;
+	public List<Ubigeo> getProvincias() {
+		return provincias;
 	}
 
-	public void setCodDepartamento(String codDepartamento) {
-		this.codDepartamento = codDepartamento;
+	public void setProvincias(List<Ubigeo> provincias) {
+		this.provincias = provincias;
+	}
+	public String getCodDep() {
+		return codDep;
 	}
 
-	public List<Ubigeo> getUbigeoProvincia() {
-		return ubigeoProvincia;
+	public void setCodDep(String codDep) {
+		this.codDep = codDep;
 	}
 
-	public void setUbigeoProvincia(List<Ubigeo> ubigeoProvincia) {
-		this.ubigeoProvincia = ubigeoProvincia;
+	public String getCodProv() {
+		return codProv;
 	}
 
-	public String getCodProvincia() {
-		return codProvincia;
+	public void setCodProv(String codProv) {
+		this.codProv = codProv;
 	}
 
-	public void setCodProvincia(String codProvincia) {
-		this.codProvincia = codProvincia;
+	public String getCodDist() {
+		return codDist;
+	}
+
+	public void setCodDist(String codDist) {
+		this.codDist = codDist;
+	}
+
+	public List<Ubigeo> getDistritos() {
+		return distritos;
+	}
+
+	public void setDistritos(List<Ubigeo> distritos) {
+		this.distritos = distritos;
 	}
 
 	
