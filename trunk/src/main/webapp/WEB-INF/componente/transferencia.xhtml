@@ -13,37 +13,29 @@
 				<h:outputLabel for="lblDepartamento" value="Departamento:" />
 				<h:outputLabel for="lblProvincia" value="Provincia:" />
 				<h:outputLabel for="lblDistrito" value="Distrito:" />
-				<h:selectOneMenu id="somDepartamento"  immediate="true"
-					value="#{transferencia.codDepartamento}">
+				<h:selectOneMenu id="somDepartamento"
+					value="#{transferencia.codDep}">
 					<f:selectItem itemLabel="Select Dpto." itemValue="" />
-					<f:selectItems value="#{transferencia.ubigeo}" var="item"
+					<f:selectItems value="#{transferencia.departamentos}" var="item"
 						itemLabel="#{item.nombre}" itemValue="#{item.codigoDepartamento}" />
-						<p:ajax event="valueChange" update="formTransferencia:somProvincia" Listener="#{transferencia.buscarProvincia}" 
-							immediate="true"/>
+					<p:ajax update="somProvincia"
+						listener="#{transferencia.buscarProvincia}" />
 				</h:selectOneMenu>
-				<h:selectOneMenu id="somProvincia" immediate="true" value="#{transferencia.codProvincia}">
+				<h:selectOneMenu id="somProvincia"
+					value="#{transferencia.codProv}">
 					<f:selectItem itemLabel="Select Prov." itemValue="" />
-					<f:selectItems value="#{transferencia.ubigeoProvincia}" var="item"
+					<f:selectItems value="#{transferencia.provincias}" var="item"
 						itemLabel="#{item.nombre}" itemValue="#{item.codigoProvincia}" />
+					<p:ajax update="somDistrito"
+						listener="#{transferencia.buscarDistrito}" />
 				</h:selectOneMenu>
-				<h:selectOneMenu id="somDistrito">
+				<h:selectOneMenu id="somDistrito" value="#{transferencia.codDist}">
 					<f:selectItem itemLabel="Select Dist." itemValue="" />
-					<f:selectItems value="#{transferencia.ubigeo}" var="item"
+					<f:selectItems value="#{transferencia.distritos}" var="item"
 						itemLabel="#{item.nombre}" itemValue="#{item.codigoDistrito}" />
 				</h:selectOneMenu>
 			</p:panelGrid>
-			<p:panelGrid columns="1" style="width:100%">
-				<h:outputLabel for="lblRuta" value="Ruta:" />
-				<h:selectOneMenu id="somRuta" for="somRuta"
-					value="#{desempeno.codDepartamento}">
-					<f:selectItem itemLabel="Select Ruta" itemValue="" />
-					<f:selectItems value="#{desempeno.ubigeo}" var="item"
-						itemLabel="#{item.nombre}" itemValue="#{item.codigoDepartamento}" />
-						<p:ajax update="somProvincia" process="somDepartamento" actionListener="#{desempeno.buscarProvincia(desempeno.codDepartamento)}" 
-							immediate="true"/>
-				</h:selectOneMenu>
-			</p:panelGrid>
-			
+
 		</p:panelGrid>
 		<p:panelGrid columns="2" style="margin:0 auto;width:600px">
 			<p:commandButton id="btnBuscar" value="Buscar" style="margin:0 auto"
