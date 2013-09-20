@@ -2,8 +2,10 @@ package pe.gob.inei.sistencuesta;
 
 // Generated 17/09/2013 09:30:35 PM by Hibernate Tools 3.4.0.CR1
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,8 +19,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "ubigeo", catalog = "bd_sistencuesta")
-public class Ubigeo implements java.io.Serializable {
+public class Ubigeo implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5613127487865808751L;
 	private String codigoUbigeo;
 	private String nombre;
 	private String codigoDepartamento;
