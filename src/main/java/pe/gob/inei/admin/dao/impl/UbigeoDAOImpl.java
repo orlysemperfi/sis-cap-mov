@@ -26,7 +26,7 @@ public class UbigeoDAOImpl extends GenericDAOImpl<Ubigeo, String> implements Ubi
 	public List<Ubigeo> BuscarPorProvincia(String codDepartamento) {
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction tx = session.beginTransaction();
-		Query query = session.createQuery("select o from Ubigeo o where o.codigoDepartamento=:p_codigoDepartamento and o.codigoDistrito='00'");
+		Query query = session.createQuery("select o from Ubigeo o where o.codigoDepartamento=:p_codigoDepartamento and o.codigoProvincia<>'00' and o.codigoDistrito='00'");
 		query.setString("p_codigoDepartamento", codDepartamento);	
 		List<Ubigeo> ubigeo = query.list();
 		tx.commit();
@@ -37,7 +37,7 @@ public class UbigeoDAOImpl extends GenericDAOImpl<Ubigeo, String> implements Ubi
 	public List<Ubigeo> BuscarPorDistrito(String codDepartamento, String codProvincia) {
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction tx = session.beginTransaction();
-		Query query = session.createQuery("select o from Ubigeo o where o.codigoDepartamento=:p_codigoDepartamento and o.codigoProvincia=:p_codigoProvincia");
+		Query query = session.createQuery("select o from Ubigeo o where o.codigoDepartamento=:p_codigoDepartamento and o.codigoProvincia=:p_codigoProvincia and o.codigoDistrito<>'00'");
 		query.setString("p_codigoDepartamento", codDepartamento);
 		query.setString("p_codigoProvincia", codProvincia);
 		List<Ubigeo> ubigeo = query.list();
