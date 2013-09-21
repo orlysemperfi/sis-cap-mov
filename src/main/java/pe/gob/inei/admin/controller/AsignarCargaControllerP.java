@@ -20,7 +20,7 @@ import pe.gob.inei.sistencuesta.Ubigeo;
 import pe.gob.inei.sistencuesta.Encuesta;
 import pe.gob.inei.sistencuesta.RutaPersonal;
 
-@ManagedBean(name="asignarCarga")
+@ManagedBean(name="asignarCargaP")
 @ViewScoped
 public class AsignarCargaControllerP implements Serializable {
 
