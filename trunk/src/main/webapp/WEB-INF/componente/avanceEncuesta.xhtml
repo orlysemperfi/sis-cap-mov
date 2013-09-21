@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="formUbigeoDesep">
+		<p:panelGrid columns="1" style="margin:0 auto;width:600px">
+			<f:facet name="header">
+        	DATOS DE LA ENCUESTA
+    		</f:facet>
+			<p:panelGrid columns="2" style="width:100%">
+				<h:outputLabel for="lblEncuesta" value="Encuesta:" />
+				<h:selectOneMenu id="somEncuesta" value="#{avanceEncuesta.codEnc}">
+					<f:selectItem itemLabel="Select Encuesta" />
+					<f:selectItems value="#{avanceEncuesta.encuestas}" itemEnc="itemEnc"
+						itemLabel="#{itemEnc.nombre}"
+						itemValue="#{itemEnc.codigoEncuesta}" />
+					<p:ajax listener="#{avanceEncuesta.buscarCuestionario}"
+						update="somCuestionario" />
+				</h:selectOneMenu>
+				<h:outputLabel for="lblCuestionario" value="Cuestionario:" />
+				<h:selectOneMenu id="somCuestionario" value="#{avanceEncuesta.codCue}">
+					<f:selectItem itemLabel="Select Cuestionario" />
+					<f:selectItems value="#{avanceEncuesta.cuestionarios}" itemEnc="itemCue"
+						itemLabel="#{itemEnc.nombre}"
+						itemValue="#{itemEnc.codigoCue}" />
+				</h:selectOneMenu>
+			</p:panelGrid>
+		</p:panelGrid>
+		<p:panelGrid columns="1" style="margin:0 auto;width:600px">
+			<f:facet name="header">
+        	UBICACIÓN GEOGRÁFICA
+    		</f:facet>
+			<p:panelGrid columns="3" style="width:100%">
+				<h:outputLabel for="lblDepartamento" value="Departamento:" />
+				<h:outputLabel for="lblProvincia" value="Provincia:" />
+				<h:outputLabel for="lblDistrito" value="Distrito:" />
+				<h:selectOneMenu id="somDepartamento" value="#{desempeno.codDep}">
+					<f:selectItem itemLabel="Select Dpto." />
+					<f:selectItems value="#{desempeno.departamentos}" var="itemDep"
+						itemLabel="#{itemDep.nombre}"
+						itemValue="#{itemDep.codigoDepartamento}" />
+					<p:ajax listener="#{desempeno.buscarProvincia}"
+						update="somProvincia" />
+				</h:selectOneMenu>
+				<h:selectOneMenu id="somProvincia" value="#{desempeno.codProv}">
+					<f:selectItem itemLabel="Select Prov." />
+					<f:selectItems value="#{desempeno.provincias}" var="itemProv"
+						itemLabel="#{itemProv.nombre}"
+						itemValue="#{itemProv.codigoProvincia}" />
+					<p:ajax listener="#{desempeno.buscarDistrito}" update="somDistrito" />
+				</h:selectOneMenu>
+				<h:selectOneMenu id="somDistrito" value="#{desempeno.codDist}">
+					<f:selectItem itemLabel="Select Dist." />
+					<f:selectItems value="#{desempeno.distritos}" var="itemDist"
+						itemLabel="#{itemDist.nombre}"
+						itemValue="#{itemDist.codigoDistrito}" />
+				</h:selectOneMenu>
+
+			</p:panelGrid>
+		</p:panelGrid>
+
+
+	</h:form>
+
+</ui:composition>
