@@ -33,39 +33,53 @@
 				<h:outputLabel for="lblDepartamento" value="Departamento:" />
 				<h:outputLabel for="lblProvincia" value="Provincia:" />
 				<h:outputLabel for="lblDistrito" value="Distrito:" />
-				<h:selectOneMenu id="somDepartamento" 
-					value="#{desempeno.codDepartamento}"
-					valueChangeListener="#{desempeno.buscarProvincia}" immediate="true">
+				<h:selectOneMenu id="somDepartamento" value="#{desempeno.codDep}">
 					<f:selectItem itemLabel="Select Dpto." />
-					<f:selectItems value="#{desempeno.ubigeo}" var="itemDep" itemLabel="#{itemDep.nombre}" itemValue="#{itemDep.codigoDepartamento}" />
-					<p:ajax update="somProvincia" event="change" immediate="true" />
+					<f:selectItems value="#{desempeno.departamentos}" var="itemDep"
+						itemLabel="#{itemDep.nombre}"
+						itemValue="#{itemDep.codigoDepartamento}" />
+					<p:ajax listener="#{desempeno.buscarProvincia}"
+						update="somProvincia" />
 				</h:selectOneMenu>
-				<h:selectOneMenu id="somProvincia" value="#{desempeno.codProvincia}" valueChangeListener="#{desempeno.buscarDistrito}" immediate="true" >
-					<f:selectItem itemLabel="Select Prov."  />
-					<f:selectItems value="#{desempeno.ubigeoProvincia}" var="itemProv" itemLabel="#{itemProv.nombre}" itemValue="#{itemProv.codigoProvincia}"  />
-					<p:ajax update="somDistrito" event="change" immediate="true"/>
+				<h:selectOneMenu id="somProvincia" value="#{desempeno.codProv}">
+					<f:selectItem itemLabel="Select Prov." />
+					<f:selectItems value="#{desempeno.provincias}" var="itemProv"
+						itemLabel="#{itemProv.nombre}"
+						itemValue="#{itemProv.codigoProvincia}" />
+					<p:ajax listener="#{desempeno.buscarDistrito}" update="somDistrito" />
 				</h:selectOneMenu>
-				<h:selectOneMenu id="somDistrito" value="#{desempeno.codDistrito}">
+				<h:selectOneMenu id="somDistrito" value="#{desempeno.codDist}">
 					<f:selectItem itemLabel="Select Dist." />
-					<f:selectItems value="#{desempeno.ubigeoDistrito}" var="itemDist" itemLabel="#{itemDist.nombre}" itemValue="#{itemDist.codigoDistrito}" />
+					<f:selectItems value="#{desempeno.distritos}" var="itemDist"
+						itemLabel="#{itemDist.nombre}"
+						itemValue="#{itemDist.codigoDistrito}" />
 				</h:selectOneMenu>
-				
+
 			</p:panelGrid>
 		</p:panelGrid>
 		<p:panelGrid columns="2" style="margin:0 auto;width:600px">
 			<p:commandButton id="btnBuscar" value="Buscar" style="margin:0 auto"
-				actionListener="#{desempeno.buscar}" update="dtDesempeno" />
+				actionListener="#{desempeno.buscar}"  update="linear"/>
 			<p:button id="btnCancelar" value="Cancelar" style="margin:0 auto" />
 		</p:panelGrid>
-		<p:dataTable var="dtDesempeno" id="dtDesempeno"
+		<!--p:dataTable var="dtDesempeno" id="dtDesempeno"
 			value="#{desempeno.rutaPersonal}">
+			<p:column headerText="Codigo_Personal">
+				<h:outputText value="#{dtDesempeno.personal.codigoPersonal}" />
+			</p:column>
+			<p:column headerText="DNI">
+				<h:outputText value="#{dtDesempeno.personal.numeroDocumento}" />
+			</p:column>
 			<p:column headerText="Codigo_Ruta">
 				<h:outputText value="#{dtDesempeno.ruta.codigoRuta}" />
 			</p:column>
 			<p:column headerText="Numero_Ruta">
 				<h:outputText value="#{dtDesempeno.ruta.numeroRuta}" />
 			</p:column>
-		</p:dataTable>
+
+		</p:dataTable-->
+		<p:lineChart id="linear" value="#{desempeno.linearModel}" title="Desempeño de Encuestador" minY="0" maxY="30"
+			minX="0" maxX="6" style="margin:0 auto" />
 
 	</h:form>
 
