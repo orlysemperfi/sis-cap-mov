@@ -4,11 +4,11 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	template="/WEB-INF/plantilla/principal.xhtml">
-	
+
 	<ui:define name="titulo">
 		<h:outputText value="admin" />
 	</ui:define>
-	
+
 	<ui:define name="head">
 	</ui:define>
 
@@ -16,14 +16,38 @@
 	</ui:define>
 
 	<ui:define name="izquierda">
-		<ui:include src="WEB-INF/componente/menu.xhtml"></ui:include>
+		<h:form id="formSeccRes">
+			<p:menu style="width:180px;margin:0 auto">
+				<p:submenu label="#{msg['menuPrincipal']}">
+
+					<p:menuitem value="#{msg['menuEncuesta']}" icon="ui-icon-bookmark" />
+					<p:menuitem value="#{msg['menuDesempeno']}" icon="ui-icon-bookmark" />
+					<p:menuitem value="#{msg['menuTransferencia']}"
+						icon="ui-icon-bookmark" />
+					<p:menuitem value="#{msg['menuPreTransferencia']}"
+						icon="ui-icon-bookmark" />
+					<p:menuitem value="#{msg['menuAvanceEncuesta']}"
+						icon="ui-icon-bookmark" />
+					<p:menuitem value="#{msg['menuProResultados']}"
+						icon="ui-icon-bookmark" />
+					<p:menuitem value="#{msg['menuAsignarCarga']}"
+						icon="ui-icon-bookmark" />
+					<p:menuitem value="#{msg['menuMarcoMuestral']}"
+						icon="ui-icon-bookmark" />
+					<p:menuitem value="#{msg['menuRuta']}" icon="ui-icon-bookmark" />
+
+					<p:menuitem value="#{msg['menuSalir']}" icon="ui-icon-power" />
+				</p:submenu>
+
+			</p:menu>
+		</h:form>
 	</ui:define>
 
 	<ui:define name="derecha">
 	</ui:define>
 
 	<ui:define name="centro">
-		<ui:include src="WEB-INF/componente/desempeno.xhtml"></ui:include>
+		<ui:include src="WEB-INF/componente/avanceEncuesta.xhtml"></ui:include>
 	</ui:define>
-	
+
 </ui:composition>
