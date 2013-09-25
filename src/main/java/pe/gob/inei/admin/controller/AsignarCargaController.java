@@ -21,6 +21,10 @@ import pe.gob.inei.sistencuesta.RutaPersonal;
 @ViewScoped
 public class AsignarCargaController implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3035412819443793899L;
 	private Integer codigoRuta;
 	private Integer codigoPersonal;
 	private Integer numeroEncuestas;

@@ -11,9 +11,11 @@ import pe.gob.inei.admin.dao.HibernateUtil;
 import pe.gob.inei.admin.dao.MarcoMuestralDAO;
 import pe.gob.inei.admin.dao.RubroDAO;
 import pe.gob.inei.admin.dao.EncuestaDAO;
+import pe.gob.inei.sistencuesta.Cuestionario;
 import pe.gob.inei.sistencuesta.MarcoMuestral;
 import pe.gob.inei.sistencuesta.Rubro;
 import pe.gob.inei.sistencuesta.Encuesta;
+import pe.gob.inei.sistencuesta.Ubigeo;
 
 public class EncuestaDAOImpl extends GenericDAOImpl<Encuesta, String> implements EncuestaDAO{	
 	
@@ -160,5 +162,16 @@ public class EncuestaDAOImpl extends GenericDAOImpl<Encuesta, String> implements
 		EncuestaDAO encuestaDAO=DAOFactory.getInstance().getEncuestaDAO();
 		delete(encuestaDAO.buscarxCodigo(codigoEncuesta));
 		
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Encuesta> buscarEncuestas() {
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery("select o from Encuesta o ");
+		
+		List<Encuesta> lista = query.list();
+		tx.commit();
+		return lista;
 	}	
 }

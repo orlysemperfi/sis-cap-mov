@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
-	xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
-	<application>
-		<resource-bundle>
-			<base-name>pe.gob.inei.admin.controller.mensajes</base-name>
-			<var>msg</var>
-		</resource-bundle>
-	</application>
+ xmlns:xi="http://www.w3.org/2001/XInclude"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+ <navigation-rule>
+  <from-view-id>/*</from-view-id>
+  <navigation-case>
+   <from-outcome>desempeno</from-outcome>
+   <to-view-id>/desempeno.xhtml</to-view-id>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>encuesta</from-outcome>
+   <to-view-id>/encuesta.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <application>
+  <resource-bundle>
+   <base-name>pe.gob.inei.admin.controller.mensajes</base-name>
+   <var>msg</var>
+  </resource-bundle>
+ </application>
 </faces-config>

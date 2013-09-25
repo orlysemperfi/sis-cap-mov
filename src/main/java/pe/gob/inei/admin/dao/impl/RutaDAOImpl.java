@@ -110,4 +110,14 @@ public class RutaDAOImpl  extends GenericDAOImpl<Ruta, Integer> implements RutaD
 		query.setInteger("p_codigoRuta", codigoRuta);
 		tx.commit();	
 	}
+	@SuppressWarnings("unchecked")
+	public List<Ruta> buscarRutaPorUbigeo(String codigoUbigeo) {
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery("select o from Ruta o where o.codigoUbigeo=:p_codigoUbigeo");
+		query.setString("p_codigoUbigeo", codigoUbigeo);
+		List<Ruta> ruta = query.list();
+		tx.commit();
+		return ruta;
+	}
 }

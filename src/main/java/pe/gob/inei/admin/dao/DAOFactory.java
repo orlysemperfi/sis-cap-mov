@@ -15,6 +15,8 @@ public abstract class DAOFactory {
 	public abstract EncuestaDAO getEncuestaDAO(); 
 	public abstract RubroDAO getRubroDAO();
 	public abstract MarcoMuestralDAO getMarcoMuestralDAO();
+	public abstract CuestionarioDAO getCuestionarioDAO();
+	
 	public synchronized static DAOFactory getInstance () {
 		if (daoFactory==null) {
 			daoFactory = new DAOFactoryImpl();

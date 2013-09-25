@@ -9,17 +9,18 @@ import javax.faces.event.ActionEvent;
 
 import pe.gob.inei.admin.dao.DAOFactory;
 import pe.gob.inei.admin.dao.PersonalDAO;
+import pe.gob.inei.admin.dao.RutaDAO;
 import pe.gob.inei.admin.dao.RutaPersonalDAO;
 import pe.gob.inei.admin.dao.UbigeoDAO;
 import pe.gob.inei.sistencuesta.Personal;
+import pe.gob.inei.sistencuesta.Ruta;
 import pe.gob.inei.sistencuesta.RutaPersonal;
 import pe.gob.inei.sistencuesta.Ubigeo;
 
-@ManagedBean(name="transferencia")
+@ManagedBean(name = "transferencia")
 @ViewScoped
-public class TransferenciaController implements Serializable{
+public class TransferenciaController implements Serializable {
 
-	
 	/**
 	 * 
 	 */
@@ -30,35 +31,50 @@ public class TransferenciaController implements Serializable{
 	private String codDep;
 	private String codProv;
 	private String codDist;
+	private String numRuta;
 	private List<Ubigeo> departamentos;
 	private List<Ubigeo> provincias;
 	private List<Ubigeo> distritos;
-	public TransferenciaController() {
-		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
-		departamentos=ubigeoDAO.BuscarPorDepartamento();
-		}
+	private List<Ubigeo> distritosGen;
+	private List<Ruta> rutas;
 
-	public void buscar(ActionEvent event){
-		PersonalDAO personalDAO=DAOFactory.getInstance().getPersonalDAO();
-		Personal personal=personalDAO.buscarPorDni(dni);
-		if (personal!=null){
-		RutaPersonalDAO rutaPersonalDAO=DAOFactory.getInstance().getRutaPersonalDAO();
-		rutaPersonal =rutaPersonalDAO.buscarPersona(personal.getCodigoPersonal());
+	public TransferenciaController() {
+		UbigeoDAO ubigeoDAO = DAOFactory.getInstance().getUbigeoDAO();
+		departamentos = ubigeoDAO.BuscarPorDepartamento();
+		
+	}
+
+	public void buscar(ActionEvent event) {
+		PersonalDAO personalDAO = DAOFactory.getInstance().getPersonalDAO();
+		Personal personal = personalDAO.buscarPorDni(dni);
+		if (personal != null) {
+			RutaPersonalDAO rutaPersonalDAO = DAOFactory.getInstance()
+					.getRutaPersonalDAO();
+			rutaPersonal = rutaPersonalDAO.buscarPersona(personal
+					.getCodigoPersonal());
 		}
 	}
-	public void buscarProvincia(){
-		System.out.println("Ingreso a buscar provincia:"+codDep);
-		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
-		provincias=ubigeoDAO.BuscarPorProvincia(codDep);
-		//distritos=ubigeoDAO.BuscarPorDistrito(codDep,codProv);
+
+	public void buscarProvincia() {
+		UbigeoDAO ubigeoDAO = DAOFactory.getInstance().getUbigeoDAO();
+		provincias = ubigeoDAO.BuscarPorProvincia(codDep);
+	}
+
+	public void buscarDistrito() {
+		UbigeoDAO ubigeoDAO = DAOFactory.getInstance().getUbigeoDAO();
+		distritos = ubigeoDAO.BuscarPorDistrito(codDep, codProv);
+
+	}
+	public void buscarRutas(){
+		System.out.println("ubigeo:"+codDep+"-"+codProv+"-"+codDist);
+		UbigeoDAO ubigeoDAO = DAOFactory.getInstance().getUbigeoDAO();
+		Ubigeo distritosGen = ubigeoDAO.BuscarPorCodigo(codDep, codProv,codDist);
+		System.out.println(distritosGen.getCodigoUbigeo());
+		RutaDAO rutaDAO=DAOFactory.getInstance().getRutaDAO();
+		rutas=rutaDAO.buscarRutaPorUbigeo(distritosGen.getCodigoUbigeo());
 		
 	}
-	public void buscarDistrito(){
-		System.out.println("Dep:"+codDep+" - Prov:"+codProv);
-		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
-		distritos=ubigeoDAO.BuscarPorDistrito(codDep,codProv);
-		
-	}
+
 	public String getDni() {
 		return dni;
 	}
@@ -98,6 +114,7 @@ public class TransferenciaController implements Serializable{
 	public void setProvincias(List<Ubigeo> provincias) {
 		this.provincias = provincias;
 	}
+
 	public String getCodDep() {
 		return codDep;
 	}
@@ -130,6 +147,28 @@ public class TransferenciaController implements Serializable{
 		this.distritos = distritos;
 	}
 
-	
+	public List<Ruta> getRutas() {
+		return rutas;
+	}
+
+	public void setRutas(List<Ruta> rutas) {
+		this.rutas = rutas;
+	}
+
+	public String getNumRuta() {
+		return numRuta;
+	}
+
+	public void setNumRuta(String numRuta) {
+		this.numRuta = numRuta;
+	}
+
+	public List<Ubigeo> getDistritosGen() {
+		return distritosGen;
+	}
+
+	public void setDistritosGen(List<Ubigeo> distritosGen) {
+		this.distritosGen = distritosGen;
+	}
 
 }
