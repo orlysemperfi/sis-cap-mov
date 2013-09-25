@@ -21,8 +21,7 @@
 					<p:ajax update="somProvincia"
 						listener="#{transferencia.buscarProvincia}" />
 				</h:selectOneMenu>
-				<h:selectOneMenu id="somProvincia"
-					value="#{transferencia.codProv}">
+				<h:selectOneMenu id="somProvincia" value="#{transferencia.codProv}">
 					<f:selectItem itemLabel="Select Prov." itemValue="" />
 					<f:selectItems value="#{transferencia.provincias}" var="item"
 						itemLabel="#{item.nombre}" itemValue="#{item.codigoProvincia}" />
@@ -33,8 +32,16 @@
 					<f:selectItem itemLabel="Select Dist." itemValue="" />
 					<f:selectItems value="#{transferencia.distritos}" var="item"
 						itemLabel="#{item.nombre}" itemValue="#{item.codigoDistrito}" />
+					<p:ajax update="somRuta" listener="#{transferencia.buscarRutas}" />
 				</h:selectOneMenu>
 			</p:panelGrid>
+			<h:panelGrid>
+				<h:selectOneMenu id="somRuta" value="#{transferencia.numRuta}">
+					<f:selectItem itemLabel="Select Ruta" itemValue="" />
+					<f:selectItems value="#{transferencia.rutas}" var="item"
+						itemLabel="#{item.descripcion}" itemValue="#{item.numeroRuta}" />
+				</h:selectOneMenu>
+			</h:panelGrid>
 
 		</p:panelGrid>
 		<p:panelGrid columns="2" style="margin:0 auto;width:600px">

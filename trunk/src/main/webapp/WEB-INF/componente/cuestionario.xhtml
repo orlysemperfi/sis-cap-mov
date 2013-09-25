@@ -1,0 +1,263 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:panel visible="#{cuestionario.pintaPregunta}"  id="mantPregunta">
+
+	<p:panelGrid columns="1" style="margin:0 auto;width:600px">
+			<f:facet name="header">
+        	PREGUNTA DE CUESTIONARIO
+    		</f:facet>
+			
+			<p:panelGrid columns="2" style="width:100%">
+				
+				<h:outputLabel for="lblTiTCapitulo" value="Capitulo:" />
+				<p:inputText id="txtTitCapitulo" value="#{cuestionario.tituloCapitulo}" label="txtTitCapitulo" style="width:100%" disabled="true" />
+				
+				<h:outputLabel for="lblNumeroPregunta" value="Numero:" />
+				<p:inputText id="txtNumeroPregunta" value="#{cuestionario.numeroPregunta}" label="txtNumeroPregunta" style="width:100%" />
+				
+				<h:outputLabel for="lblNivelPregunta" value="Nivel:" />
+				<p:inputText id="txtNivelPregunta" value="#{cuestionario.nivelPregunta}" label="txtNivelPregunta" style="width:100%" />
+				
+				<h:outputLabel for="lblDescripcionPregunta" value="Descripcion:" />
+				<p:inputText id="txtDescripcionPregunta" value="#{cuestionario.descripcionPregunta}" label="txtDescripcionPregunta" style="width:100%" />
+				
+				<h:outputLabel for="lblTipoPregunta" value="Tipo Pregunta:" />
+				<h:selectOneMenu for="somTipoPregunta" value="#{cuestionario.tipoPregunta}">
+						<f:selectItem itemLabel="Elegir Tipo Pregunta" itemValue="" />
+						<f:selectItem itemLabel="Texto" itemValue="TX" />
+						<f:selectItem itemLabel="Numerico" itemValue="NR" />
+						<f:selectItem itemLabel="Fecha" itemValue="FH" />
+						<f:selectItem itemLabel="Seleccion Simple" itemValue="SS" />
+						<f:selectItem itemLabel="Seleccion Multiple" itemValue="SM" />
+				</h:selectOneMenu>
+				
+				<h:outputLabel for="lblLongitudDato" value="Longitud Respuesta:" />
+				<p:inputText id="txtLongitudDato" value="#{cuestionario.longitudDato}" label="txtLongitudDato" style="width:100%" />
+				
+				<h:outputLabel for="lblTipoValidacion" value="Tipo Validacion:" />
+				<h:selectOneMenu for="somTipoValidacion" value="#{cuestionario.tipoValidacion}">
+						<f:selectItem itemLabel="Elegir Tipo Validacion" itemValue="" />
+						<f:selectItem itemLabel="Nombres" itemValue="NM" />
+						<f:selectItem itemLabel="Direccion" itemValue="DR" />
+						<f:selectItem itemLabel="Documento" itemValue="DC" />
+				</h:selectOneMenu>
+				
+				<h:outputLabel for="lblOpcional" value="Opcional:" />
+				<h:selectOneMenu for="somOpcional" value="#{cuestionario.opcional}">
+						<f:selectItem itemLabel="Elegir Opcion" itemValue="" />
+						<f:selectItem itemLabel="SI" itemValue="S" />
+						<f:selectItem itemLabel="NO" itemValue="N" />
+				</h:selectOneMenu>
+				
+				<h:outputLabel for="lblRespuestaOtros" value="RespuestaOtros:" />
+				<h:selectOneMenu for="somRespuestaOtros" value="#{cuestionario.respuestaOtros}">
+						<f:selectItem itemLabel="Elegir Opcion" itemValue="" />
+						<f:selectItem itemLabel="SI" itemValue="S" />
+						<f:selectItem itemLabel="NO" itemValue="N" />
+				</h:selectOneMenu>
+				
+			</p:panelGrid>
+			
+			<p:panelGrid columns="1" style="width:100%">
+				<p:panelGrid columns="2" style="width:100%">
+					<f:facet name="header">
+			        	RESPUESTAS
+			    	</f:facet>
+					<h:outputLabel for="lblPosicion" value="Posicion:" />
+					<p:inputText id="txtPosicion" value="#{cuestionario.posicion}" label="txtPosicion" style="width:100%" disabled="true" />
+					
+					<h:outputLabel for="lblValorRespuesta" value="Valor:" />
+					<p:inputText id="txtValorRespuesta" value="#{cuestionario.valorRespuesta}" label="txtValorRespuesta" style="width:100%" disabled="true" />
+					
+					<h:outputLabel for="lblDescripcionRespuesta" value="Descripcion:" />
+					<p:inputText id="txtDescripcionRespuesta" value="#{cuestionario.descripcionRespuesta}" label="txtDescripcionRespuesta" style="width:100%" disabled="true" />
+					
+				</p:panelGrid>	
+				
+				<p:dataTable var="dtRespuesta" id="dtRespuesta"
+			value="#{Cuestionario.respuesta}">
+			<p:column headerText="Posicion" width="5%">
+				<h:outputText value="#{dtRespuesta.posicion}" />
+			</p:column>
+
+			<p:column headerText="Valor" width="20%">
+				<h:outputText value="#{dtCuestionario.valor}" />
+			</p:column>
+
+			<p:column headerText="Descripcion" width="75%">
+				<h:outputText value="#{dtRespuesta.descripcion}" />
+			</p:column>
+
+			<p:column>
+				<p:commandButton id="selectButton" update=":mantRespuesta" actionListener="#{cuestionario.editarRespuesta}"
+					 title="Editar" value="Editar" >
+					<f:param name="prmRespuesta" value="#{dtRespuesta.posicion}"></f:param>
+				</p:commandButton>
+			</p:column>			
+		</p:dataTable>
+		
+			</p:panelGrid>
+			
+						
+		</p:panelGrid>
+
+</p:panel>
+
+
+<p:panel visible="#{cuestionario.pintaPanel}"  id="mantenimiento">
+<h:form id="formMantenimiento">
+	<p:panelGrid columns="1" style="margin:0 auto;width:600px">
+			<f:facet name="header">
+        	MANTENIMIENTO DE CUESTIONARIO
+    		</f:facet>
+			
+			<p:panelGrid columns="2" style="width:100%">
+				
+				<h:outputLabel for="lblCodigoEncuesta" value="Encuesta:" />
+				<p:inputText id="txtCodigoEncuesta" value="#{cuestionario.codigoEncuesta}" label="txtCodigoEncuesta" style="width:40%" disabled="true" />
+				
+				<h:outputLabel for="lblNumeroCuestionario" value="Numero:" />
+				<p:inputText id="txtNumeroCuestionario" value="#{cuestionario.numeroCuestionario}" label="txtNumeroCuestionario" style="width:40%" />
+					
+				<h:outputLabel for="lblDescripcion" value="Descripción:" />
+				<p:inputText id="txtDescripcion" value="#{ruta.descripcion}" label="txtDescripcion" style="width:100%" />
+				
+				<h:outputLabel for="lblCategoria" value="Categoria:" />
+				<h:selectOneMenu id="somCategoria" value="#{cuestionario.codigoCategoria}">
+					<f:selectItem itemLabel="Elegir Categoria" itemValue="" />
+					<f:selectItems value="#{cuestionario.categoria}" var="itemC" itemValue="#{itemC.codigoCategoria}" itemLabel="#{itemC.nombre}"/>
+				</h:selectOneMenu>
+								 
+			</p:panelGrid>	
+			
+			
+			<p:panelGrid columns="1" style="margin:0 auto;width:600px">
+			
+				<p:panelGrid columns="2" style="margin:0 auto;width:600px">
+				
+				<h:outputLabel for="lblNumeroCapitulo" value="Numero Capitulo:" />
+				<p:inputText id="txtNumeroCapitulo" value="#{cuestionario.numeroCapitulo}" label="txtNumeroCapitulo" style="width:100%" />
+				
+				<h:outputLabel for="lblTituloCapitulo" value="Capitulo:" />
+				<p:inputText id="txtTituloCapitulo" value="#{cuestionario.tituloCapitulo}" label="txtTituloCapitulo" style="width:100%" />
+				
+				<p:commandButton id="btnAgregarCapitulo" value="Agregar" update=":mantenimiento"
+						style="margin:0 auto" actionListener="#{cuestionario.agregarCapitulo}" />
+				
+				</p:panelGrid>
+				
+				<p:dataTable var="dtCapitulo" id="dtCapitulo"
+					value="#{Cuestionario.capitulo}">
+					<p:column headerText="Numero Capitulo" width="5%">
+						<h:outputText value="#{dtCapitulo.numero}" />
+					</p:column>
+		
+					<p:column headerText="Titulo Capitulo" width="80%">
+						<h:outputText value="#{dtCapitulo.titulo}" />
+					</p:column>
+		
+					<p:column>
+						<p:commandButton id="selectButton" update=":consulta,:mantenimiento" actionListener="#{cuestionario.editar}"
+							 title="Editar" value="Editar" >
+							<f:param name="prmCapitulo" value="#{dtCapitulo.numero}"></f:param>
+						</p:commandButton>
+					</p:column>			
+				</p:dataTable>
+			
+			<p:commandButton id="btnAgregarPregunta" value="Agregar" update=":mantenimiento,:mantPregunta"
+						style="margin:0 auto" actionListener="#{cuestionario.agregarPregunta}" />
+				<p:dataTable var="dtPregunta" id="dtPregunta"
+					value="#{Cuestionario.pregunta}">
+					
+					<p:column headerText="Pregunta" width="80%">
+						<h:outputText value="#{dtPregunta.descripcion}" />
+					</p:column>
+		
+					<p:column>
+						<p:commandButton id="selectButton" update=":mantenimiento,:mantPregunta" actionListener="#{cuestionario.editarPregunta}"
+							 title="Editar" value="Editar" >
+							<f:param name="prmPregunta" value="#{dtPregunta.numero}"></f:param>
+						</p:commandButton>
+					</p:column>			
+				</p:dataTable>
+			
+			</p:panelGrid>
+			
+			<p:panelGrid columns="3" style="margin:0 auto;width:600px">
+		
+			<p:commandButton id="btnGrabar" value="Grabar" update=":consulta,:mantenimiento,:mantPregunta"
+						style="margin:0 auto" actionListener="#{cuestionario.grabar}" />
+						
+			<p:commandButton disabled="#{cuestionario.verEliminar}"  id="btnEliminar" value="Eliminar" update=":consulta,:mantenimiento,:mantPregunta"
+						style="margin:0 auto" actionListener="#{cuestionario.eliminar}" />
+						
+			<p:button id="btnCancelarEdicion" value="Cancelar"
+						style="margin:0 auto" />
+						
+		</p:panelGrid>		
+	</p:panelGrid>
+
+</h:form>
+</p:panel>
+
+
+<p:panel visible="#{cuestionario.pintaListado}"  id="consulta">
+	<h:form id="form">
+		<p:panelGrid columns="1" style="margin:0 auto;width:600px">
+			<f:facet name="header">
+        	MANTENIMIENTO DE CUESTIONARIO
+    		</f:facet>
+			<p:panelGrid columns="2" style="width:100%">
+				<h:outputLabel for="lblCodEncuesta" value="Codigo Encuesta:" />
+				<p:inputText id="txtCodEnc" value="#{cuestionario.codigoEncuesta}" label="txtCodEnc"
+					style="width:30%" />
+					
+				<h:outputLabel for="lblNombreEnc" value="Nombre Encuesta:" />
+				<p:inputText id="txtNomEnc" value="#{cuestionario.nombreEncuesta}" label="txtNomEnc"
+					style="width:25%" />
+					
+			</p:panelGrid>			
+		</p:panelGrid>
+
+		<p:panelGrid columns="3" style="margin:0 auto;width:600px">
+			<p:commandButton id="btnBuscar" value="Buscar" style="margin:0 auto"
+				actionListener="#{cuestionario.buscar}" update="dtCuestionario" />
+				
+			<p:button id="btnCancelar" value="Cancelar" style="margin:0 auto" />
+				
+				<p:commandButton id="btnNuevo" value="Nuevo" style="margin:0 auto"
+					actionListener="#{cuestionario.nuevo}" update=":consulta,:mantenimiento"/>
+				
+		</p:panelGrid>
+		
+		<p:growl id="msgs" showDetail="true" />  
+		
+		<p:dataTable var="dtCuestionario" id="dtCuestionario"
+			value="#{Cuestionario.cuestionario}">
+			<p:column headerText="Numero " width="5%">
+				<h:outputText value="#{dtCuestionario.numero}" />
+			</p:column>
+
+			<p:column headerText="Descripcion" width="80%">
+				<h:outputText value="#{dtCuestionario.descripcion}" />
+			</p:column>
+
+			<p:column headerText="Categoria" width="10%">
+				<h:outputText value="#{dtCuestionario.categoria.nombre}" />
+			</p:column>
+
+			<p:column>
+				<p:commandButton id="selectButton" update=":consulta,:mantenimiento" actionListener="#{cuestionario.editar}"
+					 title="Editar" value="Editar" >
+					<f:param name="prmCuestionario" value="#{dtCuestionario.codigoCuestionario}"></f:param>
+				</p:commandButton>
+			</p:column>			
+		</p:dataTable>
+	</h:form>
+	</p:panel>
+	
+</ui:composition>

@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 
 import pe.gob.inei.admin.dao.HibernateUtil;
 import pe.gob.inei.admin.dao.UbigeoDAO;
+import pe.gob.inei.sistencuesta.Personal;
 import pe.gob.inei.sistencuesta.Ubigeo;
 
 public class UbigeoDAOImpl extends GenericDAOImpl<Ubigeo, String> implements UbigeoDAO{
@@ -102,6 +103,19 @@ public class UbigeoDAOImpl extends GenericDAOImpl<Ubigeo, String> implements Ubi
 		List<Ubigeo> lista = query.list();
 		tx.commit();
 		return lista;		
+	}
+
+	public Ubigeo BuscarPorCodigo(String codDepartamento,
+			String codProvincia, String codDistrito) {
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery("select o from Ubigeo o where o.codigoDepartamento=:p_codigoDepartamento and o.codigoProvincia=:p_codigoProvincia and o.codigoDistrito=:p_codigoDistrito");
+		query.setString("p_codigoDepartamento", codDepartamento);
+		query.setString("p_codigoProvincia", codProvincia);
+		query.setString("p_codigoDistrito", codDistrito);
+		Ubigeo ubigeo = (Ubigeo) query.uniqueResult();
+		tx.commit();
+		return ubigeo;
 	}
 
 }

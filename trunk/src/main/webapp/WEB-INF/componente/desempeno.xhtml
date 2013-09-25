@@ -58,8 +58,7 @@
 			</p:panelGrid>
 		</p:panelGrid>
 		<p:panelGrid columns="2" style="margin:0 auto;width:600px">
-			<p:commandButton id="btnBuscar" value="Buscar" style="margin:0 auto"
-				actionListener="#{desempeno.buscar}"  update="linear"/>
+			<p:commandButton id="btnBuscar" value="Buscar" style="margin:0 auto" />
 			<p:button id="btnCancelar" value="Cancelar" style="margin:0 auto" />
 		</p:panelGrid>
 		<!--p:dataTable var="dtDesempeno" id="dtDesempeno"
@@ -78,8 +77,11 @@
 			</p:column>
 
 		</p:dataTable-->
-		<p:lineChart id="linear" value="#{desempeno.linearModel}" title="Desempeño de Encuestador" minY="0" maxY="30"
-			minX="0" maxX="6" style="margin:0 auto" />
+
+			<p:lineChart id="linear" value="#{desempeno.linearModel}"
+				title="Desempeño de Encuestador" minY="0" maxY="30" minX="0"
+				maxX="6" style="margin:0 auto" />
+
 
 	</h:form>
 

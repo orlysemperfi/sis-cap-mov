@@ -10,4 +10,5 @@ public interface EncuestaDAO extends GenericDAO<Encuesta, String>{
 	void registrar(String codigoEncuesta, String nombre, Integer año, String descripcion, String objetivo, String fechaInicio, String fechaFin, String tipoArea, Integer codigoRubro, String codigoMarcoMuestral);
 	void actualizar(String codigoEncuesta, String nombre, Integer año, String descripcion, String objetivo, String fechaInicio, String fechaFin, String tipoArea, Integer codigoRubro, String codigoMarcoMuestral);
 	void eliminar(String codigoEncuesta);
+	List<Encuesta> buscarEncuestas();
 }
