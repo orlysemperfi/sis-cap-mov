@@ -63,13 +63,10 @@
 				
 			</p:panelGrid>	
 			
-		<p:panelGrid columns="3" style="margin:0 auto;width:600px">
+		<p:panelGrid columns="2" style="margin:0 auto;width:600px">
 		
 			<p:commandButton id="btnGrabar" value="Grabar" update=":consulta,:mantenimiento"
 						style="margin:0 auto" actionListener="#{asignarCarga.grabar}" />
-						
-			<p:commandButton disabled="#{asignarCarga.verEliminar}"  id="btnEliminar" value="Eliminar" update=":consulta,:mantenimiento"
-						style="margin:0 auto" actionListener="#{asignarCarga.eliminar}" />
 						
 			<p:button id="btnCancelarEdicion" value="Cancelar" style="margin:0 auto" />
 						
@@ -137,11 +134,18 @@
 			</p:column>
 			
 			<p:column>
-					<p:commandButton id="selectButton" update=":consulta,:mantenimiento" actionListener="#{asignarCarga.editar}"
-						 title="Asignar" value="Asignar" >
-						<f:param name="prmRuta" value="#{dtRutaCarga.codigoRuta}"></f:param>
-					</p:commandButton>
-				</p:column>
+				<p:commandButton id="selectButton" update=":consulta,:mantenimiento" actionListener="#{asignarCarga.editar}"
+					 title="Asignar" value="Asignar" >
+					<f:param name="prmRuta" value="#{dtRutaCarga.codigoRuta}"></f:param>
+				</p:commandButton>
+			</p:column>
+			
+			<p:column>
+				<p:commandButton id="selectEliminar" update=":consulta" actionListener="#{asignarCarga.eliminar}"
+					 title="Eliminar" value="Eliminar" >
+					<f:param name="prmRuta" value="#{dtRutaCarga.codigoRuta}"></f:param>					
+				</p:commandButton>
+			</p:column>	
 			
 		</p:dataTable>
 		
