@@ -8,7 +8,12 @@
 		<p:menu style="width:180px;margin:0 auto">
 			<p:submenu label="#{msg['menuPrincipal']}">
 
+				<p:menuitem value="#{msg['menuMarcoMuestral']}" icon="ui-icon-bookmark" action="marcoMuestral"/>
 				<p:menuitem value="#{msg['menuEncuesta']}" icon="ui-icon-bookmark" action="encuesta"/>
+				<p:menuitem value="#{msg['menuCuestionario']}" icon="ui-icon-bookmark" action="cuestionario"/>
+				<p:menuitem value="#{msg['menuRuta']}" icon="ui-icon-bookmark" action="ruta"/>
+				<p:menuitem value="#{msg['menuAsignarCarga']}" icon="ui-icon-bookmark" action="asignarCarga"/>
+				
 				<p:menuitem value="#{msg['menuDesempeno']}" icon="ui-icon-bookmark" action="desempeno"/>
 				<p:menuitem value="#{msg['menuTransferencia']}"
 					icon="ui-icon-bookmark" />
@@ -18,12 +23,7 @@
 					icon="ui-icon-bookmark" />
 				<p:menuitem value="#{msg['menuProResultados']}"
 					icon="ui-icon-bookmark" />
-				<p:menuitem value="#{msg['menuAsignarCarga']}"
-					icon="ui-icon-bookmark" />
-				<p:menuitem value="#{msg['menuMarcoMuestral']}"
-					icon="ui-icon-bookmark" />
-				<p:menuitem value="#{msg['menuRuta']}" icon="ui-icon-bookmark" />
-
+				
 				<p:menuitem value="#{msg['menuSalir']}" icon="ui-icon-power" />
 			</p:submenu>
 
