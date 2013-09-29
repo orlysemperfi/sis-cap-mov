@@ -37,7 +37,6 @@ public class EncuestaController implements Serializable {
 	private Encuesta selectedEncuesta;
 	private List<Rubro> rubro;
 	private List<MarcoMuestral> marcoMuestral;
-	//private List<TipoArea> tipoAreaArr;
 	
 	private Boolean pintaPanel;
 	private Boolean pintaListado;
@@ -51,12 +50,6 @@ public class EncuestaController implements Serializable {
 		
 		rubro =rubroDAO.buscar();
 		marcoMuestral =marcoMuestralDAO.buscar();
-		/*
-		tipoAreaArr= new ArrayList<TipoArea>();  
-		tipoAreaArr.add(new TipoArea("U","Urbano"));
-		tipoAreaArr.add(new TipoArea("R","Rural"));
-		tipoAreaArr.add(new TipoArea("T","Rural-Urbano"));*/
-		
 		pintaPanel=false;
 		pintaListado=true;
 		verEliminar=true;
@@ -66,12 +59,6 @@ public class EncuestaController implements Serializable {
 	public void buscar(ActionEvent event){
 		EncuestaDAO encuestaDAO=DAOFactory.getInstance().getEncuestaDAO();
 		encuesta=encuestaDAO.buscar(nombre, año);
-		/*
-		if (encuesta!=null){
-		EncuestaDAO encuestaDAO=DAOFactory.getInstance().getEncuestaDAO();
-		rutaPersonal =rutaPersonalDAO.buscarPersona(encuesta.getCodigoPersonal());
-		}
-		*/
 	}	
 
 	public void nuevo(ActionEvent event){
@@ -88,9 +75,6 @@ public class EncuestaController implements Serializable {
 		agregar=false;
 		verEliminar=false;
 		desactivaCodigo=true;
-		
-		//prmEncuesta
-		//codigoEncuesta=selectedEncuesta.getCodigoEncuesta();
 		
 		codigoEncuesta=FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("prmEncuesta");
 		
@@ -123,7 +107,7 @@ public class EncuestaController implements Serializable {
 		codigoMarcoMuestral="";	
 		
 	}
-	public void grabar(ActionEvent event){
+	public void grabar(ActionEvent event){		
 		EncuestaDAO encuestaDAO=DAOFactory.getInstance().getEncuestaDAO();
 			
 		if(agregar)
@@ -137,8 +121,7 @@ public class EncuestaController implements Serializable {
 		
 		encuesta=encuestaDAO.buscar(nombre, año);
 		
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Rate Event", "You rated:" );  
-		  
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Encuesta", "Registro guardado correctamente" );
         FacesContext.getCurrentInstance().addMessage(null, message);  
         
 	}
@@ -158,6 +141,8 @@ public class EncuestaController implements Serializable {
 		pintaListado=true;
 		pintaPanel=false;
 		encuesta=encuestaDAO.buscar(nombre, año);
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Encuesta", "Registro e correctamente" );
+        FacesContext.getCurrentInstance().addMessage(null, message);  
 	}
 	
 	public List<Encuesta> getEncuesta() {

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
 
 import pe.gob.inei.admin.dao.DAOFactory;
@@ -64,15 +65,6 @@ public class RutaController implements Serializable {
 		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
 		departamento=ubigeoDAO.buscarDepartamento();
 		desactivaNuevo=true;
-		
-		/*
-		provincia=ubigeoDAO.buscarProvincia("13");
-		distrito=ubigeoDAO.buscarDistrito("13", "01");
-		
-		EstablecimientoDAO establecimientoDAO=DAOFactory.getInstance().getEstablecimientoDAO();
-		establecimiento=establecimientoDAO.buscar("150101");
-		selectedEstablecimiento=establecimientoDAO.buscar("000000");
-*/
 		strEstablecimiento= new ArrayList<String>();
 		
 		pintaPanel=false;
@@ -243,6 +235,8 @@ public class RutaController implements Serializable {
 		pintaPanel=false;
 		
 		ruta=rutaDAO.buscar(codigoEncuesta);
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ruta", "Registro guardado correctamente" );
+        FacesContext.getCurrentInstance().addMessage(null, message); 
 	}
 	
 	public void eliminar(ActionEvent event){
@@ -253,6 +247,8 @@ public class RutaController implements Serializable {
 		pintaListado=true;
 		pintaPanel=false;
 		ruta=rutaDAO.buscar(codigoEncuesta);
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ruta", "Registro eliminado correctamente" );
+        FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 	public List<Ruta> getRuta() {
 		return ruta;

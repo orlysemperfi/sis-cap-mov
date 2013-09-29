@@ -13,10 +13,7 @@ import pe.gob.inei.admin.dao.MarcoMuestralDAO;
 import pe.gob.inei.admin.dao.UbigeoDAO;
 import pe.gob.inei.sistencuesta.MarcoMuestral;
 import pe.gob.inei.sistencuesta.Ubigeo;
-
-import javax.faces.application.FacesMessage;  
-
-import org.primefaces.event.TransferEvent;  
+import javax.faces.application.FacesMessage; 
   
 import org.primefaces.model.DualListModel; 
 
@@ -49,28 +46,10 @@ public class MarcoMuestralController implements Serializable {
 	private Boolean agregar;
 	private Boolean desactivaCodigo;
 	private Boolean verEliminar;
-
-
-	 public void onTransfer(TransferEvent event) {		 
-	        StringBuilder builder = new StringBuilder();  
-	        for(Object item : event.getItems()) {  
-	            builder.append(((Ubigeo) item).getNombre()).append("<br />");  
-	        }  
-	        /*
-	        FacesMessage msg = new FacesMessage();  
-	        msg.setSeverity(FacesMessage.SEVERITY_INFO);  
-	        msg.setSummary("Items Transferred");  
-	        msg.setDetail(builder.toString());  
-	          
-	        FacesContext.getCurrentInstance().addMessage(null, msg);
-	        */
-	        descripcion=builder.toString();
-	    }  
 	 
 	public MarcoMuestralController() {
 		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
 
-		//List<Ubigeo> ubigeo;
 		List<Ubigeo> ubigeoSeleccionado;
 		
 		ubigeo =ubigeoDAO.buscarDepartamento();
@@ -156,34 +135,7 @@ public class MarcoMuestralController implements Serializable {
 	public void buscar(ActionEvent event){
 		MarcoMuestralDAO marcoMuestralDAO=DAOFactory.getInstance().getMarcoMuestralDAO();
 		marcoMuestral=marcoMuestralDAO.buscar(descripcion, "", año);
-		/*
-		if (encuesta!=null){
-		EncuestaDAO encuestaDAO=DAOFactory.getInstance().getEncuestaDAO();
-		rutaPersonal =rutaPersonalDAO.buscarPersona(encuesta.getCodigoPersonal());
-		}
-		*/
-	}	
-/*
-	public void buscarPorCodigo(ActionEvent event){
-		MarcoMuestralDAO marcoMuestralDAO=DAOFactory.getInstance().getMarcoMuestralDAO();
-		selectedMarcoMuestral=marcoMuestralDAO.buscarxCodigo(codigoMarcoMuestral);
-		
-		if (selectedMarcoMuestral!=null){
-			UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
-			ubigeo =ubigeoDAO.buscarDepartamentoNoMarcoMuestral(codigoMarcoMuestral);
-			ubigeoSeleccionado =ubigeoDAO.buscarUbigeoPorMarcoMuestral(codigoMarcoMuestral);
-		}		
 	}
-*/
-	/*
-	public void buscarDepartamento(ActionEvent event){
-		List<Ubigeo> ubigeo;
-		List<Ubigeo> ubigeoSeleccionado;
-		
-		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
-		ubigeo =ubigeoDAO.buscarDepartamento();
-	}
-	*/
 	public void grabar(ActionEvent event){
 		MarcoMuestralDAO marcoMuestralDAO=DAOFactory.getInstance().getMarcoMuestralDAO();
 		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
@@ -206,10 +158,12 @@ public class MarcoMuestralController implements Serializable {
 		
 		
 		pintaListado=true;
-		pintaPanel=false;
-		
+		pintaPanel=false;		
 		marcoMuestral=marcoMuestralDAO.buscar("", "", 0);
-		
+
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Marco Muestral", "Registro guardado correctamente" );
+        FacesContext.getCurrentInstance().addMessage(null, message); 
+
 	}
 	
 	public void eliminar(ActionEvent event){
@@ -221,6 +175,9 @@ public class MarcoMuestralController implements Serializable {
 		pintaListado=true;
 		pintaPanel=false;
 		marcoMuestral=marcoMuestralDAO.buscar("", "", año);
+
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Marco Muestral", "Registro eliminado correctamente" );
+        FacesContext.getCurrentInstance().addMessage(null, message); 
 	}
 
 	public List<MarcoMuestral> getMarcoMuestral() {
