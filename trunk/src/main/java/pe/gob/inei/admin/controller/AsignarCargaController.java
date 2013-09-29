@@ -5,19 +5,17 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
 
 import pe.gob.inei.admin.dao.DAOFactory;
-import pe.gob.inei.admin.dao.EncuestaDAO;
 import pe.gob.inei.admin.dao.PersonalDAO;
 import pe.gob.inei.admin.dao.RutaDAO;
 import pe.gob.inei.admin.dao.UbigeoDAO;
 import pe.gob.inei.admin.dao.RutaPersonalDAO;
-import pe.gob.inei.sistencuesta.Establecimiento;
 import pe.gob.inei.sistencuesta.Personal;
 import pe.gob.inei.sistencuesta.Ruta;
 import pe.gob.inei.sistencuesta.Ubigeo;
-import pe.gob.inei.sistencuesta.Encuesta;
 import pe.gob.inei.sistencuesta.RutaPersonal;
 
 @ManagedBean(name="asignarCarga")
@@ -172,10 +170,6 @@ public class AsignarCargaController implements Serializable {
 		}
 	}
 	public void buscar(ActionEvent event){
-		/*RutaPersonalDAO rutaPersonalDAO=DAOFactory.getInstance().getRutaPersonalDAO();
-		rutaPersonal=rutaPersonalDAO.buscarPersonaRuta(codigoRuta);
-		*/
-		
 		RutaDAO rutaDAO=DAOFactory.getInstance().getRutaDAO();
 		ruta=rutaDAO.buscar(codigoEncuesta);
 		if(ruta!=null)
@@ -204,9 +198,12 @@ public class AsignarCargaController implements Serializable {
 		pintaListado=true;
 		pintaPanel=false;
 		
-		//RutaPersonal=rutaDAO.buscar(codigoEncuesta);
 		RutaDAO rutaDAO=DAOFactory.getInstance().getRutaDAO();
 		ruta=rutaDAO.buscar(codigoEncuesta);
+		
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Asignación de Carga", "Registro guardado correctamente" );
+        FacesContext.getCurrentInstance().addMessage(null, message); 
+
 	}
 	
 	public void eliminar(ActionEvent event){
@@ -226,6 +223,9 @@ public class AsignarCargaController implements Serializable {
 		//ruta=rutaDAO.buscar(codigoEncuesta);
 		RutaDAO rutaDAO=DAOFactory.getInstance().getRutaDAO();
 		ruta=rutaDAO.buscar(codigoEncuesta);
+		
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Asignación de Carga", "Registro eliminado correctamente" );
+        FacesContext.getCurrentInstance().addMessage(null, message); 
 	}
 	
 	public Integer getCodigoRuta() {
