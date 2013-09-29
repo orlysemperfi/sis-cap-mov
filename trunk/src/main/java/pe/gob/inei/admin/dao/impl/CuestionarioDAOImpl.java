@@ -6,9 +6,17 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import pe.gob.inei.admin.dao.CuestionarioDAO;
+import pe.gob.inei.admin.dao.DAOFactory;
 import pe.gob.inei.admin.dao.HibernateUtil;
+import pe.gob.inei.admin.dao.CuestionarioDAO;
+import pe.gob.inei.admin.dao.CategoriaDAO;
+import pe.gob.inei.admin.dao.EncuestaDAO;
 import pe.gob.inei.sistencuesta.Cuestionario;
+import pe.gob.inei.sistencuesta.Encuesta;
+import pe.gob.inei.sistencuesta.Categoria;
+import pe.gob.inei.sistencuesta.Capitulo;
+import pe.gob.inei.sistencuesta.Pregunta;
+import pe.gob.inei.sistencuesta.Respuesta;
 
 public class CuestionarioDAOImpl extends GenericDAOImpl<Cuestionario, Integer> implements CuestionarioDAO{	
 
@@ -34,43 +42,27 @@ public class CuestionarioDAOImpl extends GenericDAOImpl<Cuestionario, Integer> i
 		tx.commit();
 		return cuestionario;		
 	}
-	public void registrar(Integer numero, String descripcion, Integer codigoCategoria, String codigoEncuesta)
-	{
-		Session session = HibernateUtil.getCurrentSession();
-		Transaction tx = session.beginTransaction();
-		Query query = session.createQuery("insert into Cuestionario o values(o.numero, o.descripcion, o.codigoCategoria, o.codigoEncuesta, o.flagPlantilla, o.estado) VALUES (" + 
-											":p_numero, :p_descripcion, :p_codigoCategoria, :p_codigoEncuesta, :p_flagPlantilla, :p_estado)");
+
+	public void registrar(String codigoEncuesta, Integer codigoCategoria, Cuestionario cuestionario)
+	{	
+		EncuestaDAO encuestaDAO=DAOFactory.getInstance().getEncuestaDAO();
+		CategoriaDAO categoriaDAO=DAOFactory.getInstance().getCategoriaDAO();
+
+		cuestionario.setEncuesta(encuestaDAO.buscarxCodigo(codigoEncuesta));
+		cuestionario.setCategoria(categoriaDAO.buscarxCodigo(codigoCategoria));
 		
-		query.setInteger("p_numero", numero);
-		query.setString("p_descripcion", descripcion);
-		query.setInteger("p_codigoCategoria", codigoCategoria);
-		query.setString("p_codigoEncuesta", codigoEncuesta);
-		query.setString("p_flagPlantilla", "N");
-		query.setString("p_estado", "A");
-		tx.commit();
+		save(cuestionario);
 	}
-	public void actualizar(Integer codigoCuestionario, Integer numero, String descripcion, Integer codigoCategoria, String codigoEncuesta)
+	
+	public void actualizar(String codigoEncuesta, Integer codigoCategoria, Cuestionario cuestionario)
 	{
-		Session session = HibernateUtil.getCurrentSession();
-		Transaction tx = session.beginTransaction();
-		Query query = session.createQuery("update from Cuestionario o set o.numero=:p_numero, o.descripcion=:p_descripcion, " + 
-											"o.codigoCategoria=:p_codigoCategoria, o.codigoEncuesta=:p_codigoEncuesta " + 
-											"where o.codigoCuestionario=:p_codigoCuestionario");
-		
-		query.setInteger("p_codigoCuestionario", codigoCuestionario);
-		query.setInteger("p_numero", numero);
-		query.setString("p_descripcion", descripcion);
-		query.setInteger("p_codigoCategoria", codigoCategoria);
-		query.setString("p_codigoEncuesta", codigoEncuesta);
-		tx.commit();
-	}
+		CategoriaDAO categoriaDAO=DAOFactory.getInstance().getCategoriaDAO();
+		cuestionario.setCategoria(categoriaDAO.buscarxCodigo(codigoCategoria));		
+		update(cuestionario);		
+	}	
+	
 	public void eliminar(Integer codigoCuestionario)
-	{
-		Session session = HibernateUtil.getCurrentSession();
-		Transaction tx = session.beginTransaction();
-		Query query = session.createQuery("delete from Cuestionario o where o.codigoCuestionario=:p_codigoCuestionario");
-		
-		query.setInteger("p_codigoCuestionario", codigoCuestionario);
-		tx.commit();
+	{	
+		deleteById(codigoCuestionario);		
 	}
 }
