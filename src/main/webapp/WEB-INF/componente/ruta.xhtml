@@ -4,158 +4,148 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<p:panel visible="true" id="mantenimiento">
-<h:form id="formMantenimiento">
-	<p:panelGrid columns="1" style="margin:0 auto;width:600px">
-			<f:facet name="header">
-        	MANTENIMIENTO DE RUTA
+	<p:panel visible="#{encuesta.pintaPanel}" id="mantenimientoEncuesta">
+		<h:form id="formMantenimientoEncuesta">
+			<p:panelGrid columns="1" style="margin:0 auto;width:600px">
+				<f:facet name="header">
+        	MANTENIMIENTO DE ENCUESTA
     		</f:facet>
-			<p:panelGrid columns="2" style="width:100%">
-				
-				<h:outputLabel for="lblNumeroRuta" value="Numero Ruta:" />
-				<p:inputText id="txtNumeroRuta" value="#{ruta.numeroRuta}" label="txtNumeroRuta" style="width:40%" />
-					
-				<h:outputLabel for="lblDescripcion" value="Descripción:" />
-				<p:inputText id="txtDescripcion" value="#{ruta.descripcion}" label="txtDescripcion" style="width:100%" />
-					
-				<h:outputLabel for="lblNumeroEncuestas" value="Numero Encuestas:" />
-				<p:inputText id="txtNumeroEncuestas" value="#{ruta.numeroEncuestas}" label="txtNumeroEncuestas" style="width:30%" />
-				
-				<h:outputLabel for="lblCorrelativoInicial" value="Correlativo Inicial:" />
-				<p:inputText id="txtCorrelativoInicial" value="#{ruta.correlativoInicial}" label="txtCorrelativoInicial" style="width:30%" />
-				
-				<h:outputLabel for="lblCorrelativoFinal" value="Correlativo Final:" />
-				<p:inputText id="txtCorrelativoFinal" value="#{ruta.correlativoFinal}" label="txtCorrelativoFinal" style="width:30%" />
-								 
-			</p:panelGrid>	
-			
-			
-			<p:panelGrid columns="3" style="width:100%">
-				<h:outputLabel for="lblDepartamento" value="Departamento:" />
-				<h:outputLabel for="lblProvincia" value="Provincia:" />
-				<h:outputLabel for="lblDistrito" value="Distrito:" />
-				
-				<h:selectOneMenu for="somDepartamento" value="#{ruta.codigoDepartamento}">
-					<f:selectItem itemLabel="Elegir Departamento" itemValue="" />
-					<f:selectItems value="#{ruta.departamento}" var="itemD" itemValue="#{itemD.codigoDepartamento}" itemLabel="#{itemD.nombre}"/>
-				</h:selectOneMenu>
-				
-				<h:selectOneMenu for="somProvincia" value="#{ruta.codigoProvincia}">
-					<f:selectItem itemLabel="Elegir Provincia" itemValue="" />
-					<f:selectItems value="#{ruta.provincia}" var="itemP" itemValue="#{itemP.codigoProvincia}" itemLabel="#{itemP.nombre}"/>
-				</h:selectOneMenu>
-				
-				
-				<h:selectOneMenu for="somDistrito" value="#{ruta.codigoDistrito}">
-					<f:selectItem itemLabel="Elegir Distrito" itemValue="" />
-					<f:selectItems value="#{ruta.distrito}" var="itemS" itemValue="#{itemS.codigoDistrito}" itemLabel="#{itemS.nombre}"/>
-				</h:selectOneMenu>
-				
+				<p:panelGrid columns="2" style="width:100%">
+					<h:outputLabel for="lblCodigoEncuesta" value="Codigo:" />
+					<p:inputText id="txtCodigoEncuesta" disabled="#{encuesta.desactivaCodigo}"
+						value="#{encuesta.codigoEncuesta}" label="txtCodigoEncuesta"
+						style="width:25%" />
+
+					<h:outputLabel for="lblNombre" value="Nombre:" />
+					<p:inputText id="txtNombre" value="#{encuesta.nombre}"
+						label="txtNombre" style="width:100%" />
+
+					<h:outputLabel for="lblAño" value="Año:" />
+					<p:inputText id="txtAño" value="#{encuesta.año}" label="txtAño"
+						style="width:25%" />
+
+					<h:outputLabel for="lblDescripcion" value="Descripción:" />
+					<p:inputText id="txtDescripcion" value="#{encuesta.descripcion}"
+						label="txtDescripcion" style="width:100%" />
+
+					<h:outputLabel for="lblObjetivo" value="Objetivo:" />
+					<p:inputText id="txtObjetivo" value="#{encuesta.objetivo}"
+						label="txtObjetivo" style="width:100%" />
+
+					<h:outputLabel for="lblRubro" value="Rubro:" />
+					<h:selectOneMenu for="somRubro" value="#{encuesta.codigoRubro}">
+						<f:selectItem itemLabel="Elegir Rubro" itemValue="" />
+						<f:selectItems value="#{encuesta.rubro}" var="itemRubro"
+							itemLabel="#{itemRubro.nombre}"
+							itemValue="#{itemRubro.codigoRubro}" />
+					</h:selectOneMenu>
+
+					<h:outputLabel for="lblArea" value="Area:" />
+					<h:selectOneMenu for="somArea" value="#{encuesta.tipoArea}">
+						<f:selectItem itemLabel="Elegir Area" itemValue="" />
+						<f:selectItems value="#{encuesta.tipoAreaArr}" var="itemArea"
+							itemLabel="#{itemArea.nombre}"
+							itemValue="#{itemArea.codigoTipoArea}" />
+					</h:selectOneMenu>
+
+					<h:outputLabel for="lblMarcoMuestral" value="Marco Muestral:" />
+					<h:selectOneMenu for="somMarcoMuestral"
+						value="#{encuesta.codigoMarcoMuestral}">
+						<f:selectItem itemLabel="Elegir Marco Muestral" itemValue="" />
+						<f:selectItems value="#{encuesta.marcoMuestral}"
+							var="itemMarcoMuestral"
+							itemLabel="#{itemMarcoMuestral.descripcion}"
+							itemValue="#{itemMarcoMuestral.codigoMarcoMuestral}" />
+					</h:selectOneMenu>
+
+					<h:outputLabel for="lblFechaInicio" value="Fecha Inicio:" />
+					<p:inputText id="txtFechaInicio" value="#{encuesta.fechaInicio}"
+						label="txtFechaInicio" style="width:30%" />
+
+					<h:outputLabel for="lblFechaFin" value="Fecha Fin:" />
+					<p:inputText id="txtFechaFin" value="#{encuesta.fechaFin}"
+						label="txtFechaFin" style="width:30%" />
+
+				</p:panelGrid>
+
+				<p:panelGrid columns="3" style="margin:0 auto;width:600px">
+					<p:commandButton id="btnGrabar" value="Grabar" update=":consultaEncuesta,:mantenimientoEncuesta"
+						style="margin:0 auto" actionListener="#{encuesta.grabar}" />
+						
+						<p:commandButton disabled="#{encuesta.verEliminar}"  id="btnEliminar" value="Eliminar" update=":consultaEncuesta,:mantenimientoEncuesta"
+						style="margin:0 auto" actionListener="#{encuesta.eliminar}" />
+						
+					<p:button id="btnCancelarEdicion" value="Cancelar"
+						style="margin:0 auto" />
+				</p:panelGrid>
 			</p:panelGrid>
-			
-			
-			<p:panelGrid columns="1" style="width:100%">
-			<h:outputLabel for="lblEstablecimiento" value="Establecimientos:" />
-			 <p:selectManyCheckbox   
-            	layout="pageDirection">  
-            	<f:selectItems value="#{ruta.establecimiento}" var="itemEstab" itemValue="#{itemEstab.codigoEstablecimiento}" itemLabel="#{itemEstab.nombre}" />  
-        		</p:selectManyCheckbox>
-        
-			</p:panelGrid>
-			
-		<p:panelGrid columns="2" style="margin:0 auto;width:600px">
-			<p:commandButton id="btnGrabar" value="Grabar" style="margin:0 auto"
-				actionListener="#{ruta.grabar}" />
-			<p:button id="btnCancelarEdicion" value="Cancelar" style="margin:0 auto" />
-		</p:panelGrid>		
-	</p:panelGrid>
 
-</h:form>
-</p:panel>
-
-
-<p:panel visible="false" id="consulta">
-	<h:form id="form">
-		<p:panelGrid columns="1" style="margin:0 auto;width:600px">
-			<f:facet name="header">
-        	MANTENIMIENTO DE RUTA
-    		</f:facet>
-			<p:panelGrid columns="2" style="width:100%">
-				<h:outputLabel for="lblCodEncuesta" value="Codigo Encuesta:" />
-				<p:inputText id="txtCodEnc" value="#{ruta.codigoEncuesta}" label="txtCodEnc"
-					style="width:30%" />
-					
-				<h:outputLabel for="lblAnio" value="Año:" />
-				<p:inputText id="txtAnio" value="#{ruta.encuesta.año}" label="txtAnio"
-					style="width:25%" />
-					
-					
-				<h:outputLabel for="lblEncNombre" value="Encuesta:" />
-				<p:inputText id="txtEncNombre" value="#{ruta.encuesta.nombre}" label="txtEncNombre"
-					style="width:50%" />
-					
-			</p:panelGrid>			
-		</p:panelGrid>
-
-
-
-		<p:panelGrid columns="3" style="margin:0 auto;width:600px">
-			<p:commandButton id="btnBuscar" value="Buscar" style="margin:0 auto"
-				actionListener="#{ruta.buscar}" update="dtEncuesta" />
-				
-			<p:button id="btnCancelar" value="Cancelar" style="margin:0 auto" />
-			
-			<p:commandButton id="btnNuevo" value="Nuevo" style="margin:0 auto"
-				actionListener="#{ruta.buscar}" update="dtRuta"/>
-				
-		</p:panelGrid>
-		
-              
-		
-		<p:growl id="msgs" showDetail="true" />  
-		
-		<p:dataTable var="dtRuta" id="dtRuta"
-			value="#{ruta.ruta}">
-			<p:column headerText="Numero Ruta" width="5%">
-				<h:outputText value="#{dtRuta.numeroRuta}" />
-			</p:column>
-
-			<p:column headerText="Descripcion" width="5%">
-				<h:outputText value="#{dtRuta.descripcion}" />
-			</p:column>
-
-			<p:column headerText="Numero Encuestas" width="10%">
-				<h:outputText value="#{dtRuta.numeroEncuestas}" />
-			</p:column>
-
-			<p:column headerText="Correlativo Inicial" width="35%">
-				<h:outputText value="#{dtRuta.correlativoInicial}" />
-			</p:column>
-			
-			<p:column headerText="Correlativo Final" width="35%">
-				<h:outputText value="#{dtRuta.correlativoFinal}" />
-			</p:column>
-			
-			<p:column>  
-                <p:commandButton id="selectButton" update=":form:display" oncomplete="PF('encDialog').show()" icon="ui-icon-search"  title="Editar" value="Editar">  
-                <f:setPropertyActionListener value="#{dtRuta}" target="#{ruta.selectedRuta}" />  
-           		</p:commandButton>  
-        	</p:column>  
-			
-		</p:dataTable>
-		
-		<p:dialog header="Editar Ruta" widgetVar="encDialog" resizable="false" id="encDlg"  
-                showEffect="fade" hideEffect="explode" modal="true">  
-  
-        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">    
-  			<h:outputText value="Nombre:" />
-            <h:outputText value="#{ruta.selectedRuta.descripcion}" style="font-weight:bold"/>
-        </h:panelGrid>  
-  
-    </p:dialog>  
-
-
-	</h:form>
+		</h:form>
 	</p:panel>
-	
+
+
+	<p:panel visible="#{encuesta.pintaListado}"  id="consultaEncuesta">
+		<h:form id="form">
+			<p:panelGrid columns="1" style="margin:0 auto;width:600px">
+				<f:facet name="header">
+        	MANTENIMIENTO DE RUTA
+    		</f:facet>
+				<p:panelGrid columns="2" style="width:100%">
+					<h:outputLabel for="lblNomb" value="Nombre:" />
+					<p:inputText id="txtNomb" value="#{encuesta.nombre}"
+						label="txtNomb" style="width:100%" />
+
+					<h:outputLabel for="lblAnio" value="Año:" />
+					<p:inputText id="txtAnio" value="#{encuesta.año}" label="txtAnio"
+						style="width:25%" />
+				</p:panelGrid>
+			</p:panelGrid>
+
+			<p:panelGrid columns="3" style="margin:0 auto;width:600px">
+				<p:commandButton id="btnBuscar" value="Buscar" style="margin:0 auto"
+					actionListener="#{encuesta.buscar}" update="dtEncuesta" />
+
+				<p:button id="btnCancelar" value="Cancelar" style="margin:0 auto" />
+
+				<p:commandButton id="btnNuevo" value="Nuevo" style="margin:0 auto"
+					actionListener="#{encuesta.nuevo}" update=":consultaEncuesta,:mantenimientoEncuesta"/>
+
+			</p:panelGrid>
+
+
+			<p:growl id="msgs" showDetail="true" />
+
+			<p:dataTable var="dtEncuesta" id="dtEncuesta"
+				value="#{encuesta.encuesta}">
+				<p:column headerText="Encuesta" width="5%">
+					<h:outputText value="#{dtEncuesta.codigoEncuesta}" />
+				</p:column>
+
+				<p:column headerText="Año" width="5%">
+					<h:outputText value="#{dtEncuesta.año}" />
+				</p:column>
+
+				<p:column headerText="Nombre" width="10%">
+					<h:outputText value="#{dtEncuesta.nombre}" />
+				</p:column>
+
+				<p:column headerText="Descripcion" width="35%">
+					<h:outputText value="#{dtEncuesta.descripcion}" />
+				</p:column>
+
+				<p:column headerText="Objetivo" width="35%">
+					<h:outputText value="#{dtEncuesta.objetivo}" />
+				</p:column>
+
+				<p:column>
+					<p:commandButton id="selectButton" update=":consultaEncuesta,:mantenimientoEncuesta" actionListener="#{encuesta.editar}"
+						 title="Editar" value="Editar" >
+						<f:param name="prmEncuesta" value="#{dtEncuesta.codigoEncuesta}"></f:param>
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</p:panel>
+
 </ui:composition>
