@@ -2,147 +2,28 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/plantilla/principal.xhtml">
 
-<p:panel visible="true" id="mantenimiento">
-<h:form id="formMantenimiento">
-	<p:panelGrid columns="1" style="margin:0 auto;width:600px">
-			<f:facet name="header">
-        	MANTENIMIENTO DE MARCO MUESTRAL
-    		</f:facet>
-			<p:panelGrid columns="2" style="width:100%">
-				<h:outputLabel for="lblCodigoMarcoMuestral" value="Codigo:" />
-				<p:inputText id="txtCodigoMarcoMuestral" value="#{marcoMuestral.codigoMarcoMuestral}" label="txtCodigoMarcoMuestrals" style="width:25%" />
-				
-				
-				<h:outputLabel for="lblAño" value="Año:" />
-				<p:inputText id="txtAño" value="#{marcoMuestral.año}" label="txtAño" style="width:25%" />
-				
-				<h:outputLabel for="lblNombre" value="Nombre:" />
-				<p:inputText id="txtNombre" value="#{marcoMuestral.descripcion}" label="txtNombre" style="width:100%" />
-					
-				<h:outputLabel for="lblCantidad" value="Cantidad:" />
-				<p:inputText id="txtCantidad" value="#{marcoMuestral.numeroEncuestas}" label="txtCantidad" style="width:25%" />
-					
-					
-                
-			</p:panelGrid>	
-			
-				<p:panelGrid columns="3" style="width:100%">
-				
-					<h:outputLabel for="lblTipoUbigeo" value="Tipo Ubigeo:" />	
-			        <h:outputLabel for="lblTipoArea" value="Tipo Area:" />			        
-			        <h:outputLabel for="lblEstado" value="Estado:" />
-			        
-			        <p:selectOneRadio id="optTipoUbigeo" value="#{marcoMuestral.tipoUbigeo} " layout="pageDirection">  
-			            <f:selectItem itemLabel="Nacional" itemValue="N" />  
-			            <f:selectItem itemLabel="Lima y Callao" itemValue="L" />  
-			            <f:selectItem itemLabel="Especificar Departamento()s)" itemValue="D" />  
-			        </p:selectOneRadio>  
-			        
-			        <p:selectOneRadio id="optTipoArea" value="#{marcoMuestral.tipoArea}" layout="pageDirection">  
-			            <f:selectItem itemLabel="Urbano" itemValue="U" />  
-			            <f:selectItem itemLabel="Rural" itemValue="R" />  
-			            <f:selectItem itemLabel="Rural-Urbano" itemValue="T" />  
-			        </p:selectOneRadio>  
-			        
-			        <p:selectOneRadio id="optEstado" value="#{marcoMuestral.estado}" layout="pageDirection">  
-			            <f:selectItem itemLabel="Sin Asignar" itemValue="S" />  
-			            <f:selectItem itemLabel="Vigente" itemValue="V" />  
-			            <f:selectItem itemLabel="No" itemValue="N" />  
-			        </p:selectOneRadio>  
-			        
-        		</p:panelGrid>
-        <p:panelGrid columns="2" style="width:100%">
-				<p:orderList value="#{marcoMuestral.ubigeo}" var="departamento" controlsLocation="none"  
-                 itemLabel="#{departamento.nombre}" itemValue="#{departamento.codigoUbigeo}" id="basicList"/>  
-                
-                <p:orderList value="#{marcoMuestral.ubigeo}" var="departamentoSelec" controlsLocation="none"  
-                  itemLabel="#{departamentoSelec.nombre}" itemValue="#{departamentoSelec.codigoUbigeo}" id="basicList"/>
-                  </p:panelGrid>
-                                      
-		<p:panelGrid columns="2" style="margin:0 auto;width:600px">
-			<p:commandButton id="btnGrabar" value="Grabar" style="margin:0 auto"
-				actionListener="#{marcoMuestral.grabar}" />
-			<p:button id="btnCancelarEdicion" value="Cancelar" style="margin:0 auto" />
-		</p:panelGrid>		
-		
-	</p:panelGrid>
+	<ui:define name="titulo">
+		<h:outputText value="admin" />
+	</ui:define>
 
-</h:form>
-</p:panel>
+	<ui:define name="head">
+	</ui:define>
 
+	<ui:define name="cabecera">
+	</ui:define>
 
-<p:panel visible="false" id="consulta">
-	<h:form id="form">
-		<p:panelGrid columns="1" style="margin:0 auto;width:600px">
-			<f:facet name="header">
-        	MANTENIMIENTO DE MARCO MUESTRAL
-    		</f:facet>
-			<p:panelGrid columns="2" style="width:100%">
-				<h:outputLabel for="lblNomb" value="Nombre:" />
-				<p:inputText id="txtNomb" value="#{marcoMuestral.descripcion}" label="txtNomb"
-					style="width:100%" />
-					
-				<h:outputLabel for="lblenc" value="Encuesta:" />
-				<p:inputText id="txtenc"  label="txtEnc"
-					style="width:25%" />
-					
-				<h:outputLabel for="lblAnio" value="Año:" />
-				<p:inputText id="txtAnio" value="#{marcoMuestral.año}" label="txtAnio"
-					style="width:25%" />					
-			</p:panelGrid>			
-		</p:panelGrid>
+	<ui:define name="izquierda">
+		<ui:include src="WEB-INF/componente/menu.xhtml"></ui:include>
+	</ui:define>
 
-		<p:panelGrid columns="3" style="margin:0 auto;width:600px">
-			<p:commandButton id="btnBuscar" value="Buscar" style="margin:0 auto"
-				actionListener="#{marcoMuestral.buscar}" update="dtMarcoMuestral" />
-				
-			<p:button id="btnCancelar" value="Cancelar" style="margin:0 auto" />
-			
-			<p:commandButton id="btnNuevo" value="Nuevo" style="margin:0 auto"
-				actionListener="#{marcoMuestral.buscar}" update="dtMarcoMuestral"/>
-				
-		</p:panelGrid>
-		
-              
-		
-		<p:growl id="msgs" showDetail="true" />  
-		
-		<p:dataTable var="dtMarcoMuestral" id="dtMarcoMuestral"
-			value="#{marcoMuestral.marcoMuestral}">
-			<p:column headerText="Codigo" width="5%">
-				<h:outputText value="#{dtMarcoMuestral.codigoMarcoMuestral}" />
-			</p:column>
+	<ui:define name="derecha">
+	</ui:define>
 
-			<p:column headerText="Nombre" width="35%">
-				<h:outputText value="#{dtMarcoMuestral.descripcion}" />
-			</p:column>
-			
-			<p:column headerText="Cantidad" width="5%">
-				<h:outputText value="#{dtMarcoMuestral.numeroEncuestas}" />
-			</p:column>
-			
-			<p:column>  
-                <p:commandButton id="selectButton" update=":form:display" oncomplete="PF('mMuestralDialog').show()" icon="ui-icon-search"  title="Editar" value="Editar">  
-                <f:setPropertyActionListener value="#{dtMarcoMuestral}" target="#{marcoMuestral.selectedMarcoMuestral}" />  
-           		</p:commandButton>  
-        	</p:column>  
-			
-		</p:dataTable>
-		
-		<p:dialog header="Editar Marco Muestral" widgetVar="mMuestralDialog" resizable="false" id="mMuestralDlg"  
-                showEffect="fade" hideEffect="explode" modal="true">  
-  
-        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">    
-  			<h:outputText value="Nombre:" />
-            <h:outputText value="#{marcoMuestral.selectedMarcoMuestral.descripcion}" style="font-weight:bold"/>
-        </h:panelGrid>  
-  
-    </p:dialog>  
+	<ui:define name="centro">
+		<ui:include src="WEB-INF/componente/asignarCarga.xhtml"></ui:include>
+	</ui:define>
 
-
-	</h:form>
-	</p:panel>
-	
 </ui:composition>
