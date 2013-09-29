@@ -6,6 +6,8 @@
 
 	<p:panel visible="#{encuesta.pintaPanel}" id="mantenimientoEncuesta">
 		<h:form id="formMantenimientoEncuesta">
+		 <p:growl id="messages" showDetail="true"/>  
+		 <p:confirmDialog></p:confirmDialog>
 			<p:panelGrid columns="1" style="margin:0 auto;width:600px">
 				<f:facet name="header">
         	MANTENIMIENTO DE ENCUESTA
@@ -18,22 +20,22 @@
 
 					<h:outputLabel for="lblNombre" value="Nombre:" />
 					<p:inputText id="txtNombre" value="#{encuesta.nombre}"
-						label="txtNombre" style="width:100%" />
+						label="txtNombre" style="width:100%" required="true"  />
 
 					<h:outputLabel for="lblAño" value="Año:" />
-					<p:inputText id="txtAño" value="#{encuesta.año}" label="txtAño"
+					<p:inputText id="txtAño" value="#{encuesta.año}" label="txtAño" required="true" 
 						style="width:25%" />
 
 					<h:outputLabel for="lblDescripcion" value="Descripción:" />
-					<p:inputText id="txtDescripcion" value="#{encuesta.descripcion}"
+					<p:inputText id="txtDescripcion" value="#{encuesta.descripcion}" required="true" 
 						label="txtDescripcion" style="width:100%" />
 
 					<h:outputLabel for="lblObjetivo" value="Objetivo:" />
-					<p:inputText id="txtObjetivo" value="#{encuesta.objetivo}"
+					<p:inputText id="txtObjetivo" value="#{encuesta.objetivo}" required="true" 
 						label="txtObjetivo" style="width:100%" />
 
 					<h:outputLabel for="lblRubro" value="Rubro:" />
-					<h:selectOneMenu for="somRubro" value="#{encuesta.codigoRubro}">
+					<h:selectOneMenu for="somRubro" value="#{encuesta.codigoRubro}" required="true"  >
 						<f:selectItem itemLabel="Elegir Rubro" itemValue="" />
 						<f:selectItems value="#{encuesta.rubro}" var="itemRubro"
 							itemLabel="#{itemRubro.nombre}"
@@ -41,15 +43,16 @@
 					</h:selectOneMenu>
 
 					<h:outputLabel for="lblArea" value="Area:" />
-					<h:selectOneMenu for="somArea" value="#{encuesta.tipoArea}">
-						<f:selectItem itemLabel="Elegir Area" itemValue="" />
-						<f:selectItems value="#{encuesta.tipoAreaArr}" var="itemArea"
-							itemLabel="#{itemArea.nombre}"
-							itemValue="#{itemArea.codigoTipoArea}" />
+					<h:selectOneMenu for="somArea" value="#{encuesta.tipoArea}" required="true" >
+						<f:selectItem itemLabel="Elegir Area" itemValue="" />						
+						<f:selectItem itemLabel="Urbano" itemValue="U" />
+						<f:selectItem itemLabel="Rural" itemValue="R" />
+						<f:selectItem itemLabel="Rural-Urbano" itemValue="T" />		
+		
 					</h:selectOneMenu>
 
 					<h:outputLabel for="lblMarcoMuestral" value="Marco Muestral:" />
-					<h:selectOneMenu for="somMarcoMuestral"
+					<h:selectOneMenu for="somMarcoMuestral" required="true" 
 						value="#{encuesta.codigoMarcoMuestral}">
 						<f:selectItem itemLabel="Elegir Marco Muestral" itemValue="" />
 						<f:selectItems value="#{encuesta.marcoMuestral}"
@@ -59,11 +62,11 @@
 					</h:selectOneMenu>
 
 					<h:outputLabel for="lblFechaInicio" value="Fecha Inicio:" />
-					<p:inputText id="txtFechaInicio" value="#{encuesta.fechaInicio}"
+					<p:inputText id="txtFechaInicio" value="#{encuesta.fechaInicio}" required="true" 
 						label="txtFechaInicio" style="width:30%" />
 
 					<h:outputLabel for="lblFechaFin" value="Fecha Fin:" />
-					<p:inputText id="txtFechaFin" value="#{encuesta.fechaFin}"
+					<p:inputText id="txtFechaFin" value="#{encuesta.fechaFin}" required="true" 
 						label="txtFechaFin" style="width:30%" />
 
 				</p:panelGrid>
@@ -71,12 +74,9 @@
 				<p:panelGrid columns="3" style="margin:0 auto;width:600px">
 					<p:commandButton id="btnGrabar" value="Grabar" update=":consultaEncuesta,:mantenimientoEncuesta"
 						style="margin:0 auto" actionListener="#{encuesta.grabar}" />
-						
-						<p:commandButton disabled="#{encuesta.verEliminar}"  id="btnEliminar" value="Eliminar" update=":consultaEncuesta,:mantenimientoEncuesta"
-						style="margin:0 auto" actionListener="#{encuesta.eliminar}" />
-						
-					<p:button id="btnCancelarEdicion" value="Cancelar"
-						style="margin:0 auto" />
+							 
+					<p:commandButton id="btnCancelarEdicion" value="Cancelar" update=":consultaEncuesta,:mantenimientoEncuesta"
+						style="margin:0 auto" actionListener="#{encuesta.cancelar}" />
 				</p:panelGrid>
 			</p:panelGrid>
 
@@ -113,15 +113,14 @@
 			</p:panelGrid>
 
 
-			<p:growl id="msgs" showDetail="true" />
 
 			<p:dataTable var="dtEncuesta" id="dtEncuesta"
 				value="#{encuesta.encuesta}">
-				<p:column headerText="Encuesta" width="5%">
+				<p:column headerText="Encuesta" width="8%">
 					<h:outputText value="#{dtEncuesta.codigoEncuesta}" />
 				</p:column>
 
-				<p:column headerText="Año" width="5%">
+				<p:column headerText="Año" width="6%">
 					<h:outputText value="#{dtEncuesta.año}" />
 				</p:column>
 
@@ -129,20 +128,38 @@
 					<h:outputText value="#{dtEncuesta.nombre}" />
 				</p:column>
 
-				<p:column headerText="Descripcion" width="35%">
+				<p:column headerText="Descripcion" width="25%">
 					<h:outputText value="#{dtEncuesta.descripcion}" />
 				</p:column>
 
-				<p:column headerText="Objetivo" width="35%">
+				<p:column headerText="Objetivo" width="25%">
 					<h:outputText value="#{dtEncuesta.objetivo}" />
 				</p:column>
 
+
+				<p:column headerText="Fecha Inicio" width="10%">
+					<h:outputText value="#{dtEncuesta.fechainicio}" />
+				</p:column>
+				
+				
+				<p:column headerText="Fecha Fin" width="10%">
+					<h:outputText value="#{dtEncuesta.fechafin}" />
+				</p:column>
+				
 				<p:column>
 					<p:commandButton id="selectButton" update=":consultaEncuesta,:mantenimientoEncuesta" actionListener="#{encuesta.editar}"
 						 title="Editar" value="Editar" >
 						<f:param name="prmEncuesta" value="#{dtEncuesta.codigoEncuesta}"></f:param>
 					</p:commandButton>
 				</p:column>
+				<p:column>
+					<p:commandButton id="selectEliminar" update=":consultaEncuesta" actionListener="#{encuesta.eliminar}"
+						 title="Eliminar" value="Eliminar" >
+						<f:param name="prmEncuesta" value="#{dtEncuesta.codigoEncuesta}"></f:param>
+						
+					</p:commandButton>
+				</p:column>
+
 
 			</p:dataTable>
 		</h:form>

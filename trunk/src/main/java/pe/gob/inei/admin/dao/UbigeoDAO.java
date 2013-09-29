@@ -14,5 +14,6 @@ public interface UbigeoDAO extends GenericDAO<Ubigeo, String> {
 	List<Ubigeo> buscarDistrito(String codigoDepartamento, String codigoProvincia);
 	List<Ubigeo> buscarUbigeoPorMarcoMuestral(String codigoMarcoMuestral);
 	List<Ubigeo> buscarDepartamentoNoMarcoMuestral(String codigoMarcoMuestral);
+	List<Ubigeo> buscarUbigeoxCodigos(String codigos);
 
 }

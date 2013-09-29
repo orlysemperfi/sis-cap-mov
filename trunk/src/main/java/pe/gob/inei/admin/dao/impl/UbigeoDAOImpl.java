@@ -61,7 +61,7 @@ public class UbigeoDAOImpl extends GenericDAOImpl<Ubigeo, String> implements Ubi
 	{		
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction tx = session.beginTransaction();
-		Query query = session.createQuery("select o from Ubigeo o where o.codigoDepartamento=:p_codigoDepartamento and o.codigoDistrito='00' ");
+		Query query = session.createQuery("select o from Ubigeo o where o.codigoDepartamento=:p_codigoDepartamento and o.codigoProvincia<>'00'  and o.codigoDistrito='00' ");
 		query.setString("p_codigoDepartamento", codigoDepartamento);
 		List<Ubigeo> lista = query.list();
 		tx.commit();
@@ -73,24 +73,37 @@ public class UbigeoDAOImpl extends GenericDAOImpl<Ubigeo, String> implements Ubi
 	{		
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction tx = session.beginTransaction();
-		Query query = session.createQuery("select o from Ubigeo o where o.codigoDepartamento=:p_codigoDepartamento and o.codigoProvincia=:p_codigoProvincia ");
+		Query query = session.createQuery("select o from Ubigeo o where o.codigoDepartamento=:p_codigoDepartamento and o.codigoProvincia=:p_codigoProvincia and o.codigoDistrito<>'00' ");
 		query.setString("p_codigoDepartamento", codigoDepartamento);
 		query.setString("p_codigoProvincia", codigoProvincia);
 		List<Ubigeo> lista = query.list();
 		tx.commit();
 		return lista;		
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Ubigeo> buscarUbigeoxCodigos(String codigos)
+	{		
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery("select o from Ubigeo o where o.codigoUbigeo IN ("+codigos+") ");
+		List<Ubigeo> lista = query.list();
+		tx.commit();
+		return lista;		
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	public List<Ubigeo> buscarUbigeoPorMarcoMuestral(String codigoMarcoMuestral)
 	{		
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction tx = session.beginTransaction();
-		Query query = session.createQuery("select o from Ubigeo o inner join DetalleMarcoMuestral d ON o.codigoUbigeo=d.codigoUbigeo where d.codigoMarcoMuestral=:p_codigoMarcoMuestral");
+		Query query = session.createQuery("select o from Ubigeo o where o.codigoUbigeo=:p_codigoMarcoMuestral");
 		query.setString("p_codigoMarcoMuestral", codigoMarcoMuestral);
 		List<Ubigeo> lista = query.list();
 		tx.commit();
-		return lista;		
+		return lista;
+		
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -98,7 +111,7 @@ public class UbigeoDAOImpl extends GenericDAOImpl<Ubigeo, String> implements Ubi
 	{		
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction tx = session.beginTransaction();
-		Query query = session.createQuery("select o from Ubigeo o ");
+		Query query = session.createQuery("select o from Ubigeo o where o.codigoProvincia='00' and o.codigoDistrito='00' ");
 		//query.setString("p_codigoMarcoMuestral", codigoMarcoMuestral);
 		List<Ubigeo> lista = query.list();
 		tx.commit();

@@ -3,6 +3,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;  
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -15,7 +16,7 @@ import pe.gob.inei.admin.dao.MarcoMuestralDAO;
 import pe.gob.inei.sistencuesta.Encuesta;
 import pe.gob.inei.sistencuesta.Rubro;
 import pe.gob.inei.sistencuesta.MarcoMuestral;
-import pe.gob.inei.sistencuesta.TipoArea;
+//import pe.gob.inei.sistencuesta.TipoArea;
 
 @ManagedBean(name="encuesta")
 @ViewScoped
@@ -36,7 +37,7 @@ public class EncuestaController implements Serializable {
 	private Encuesta selectedEncuesta;
 	private List<Rubro> rubro;
 	private List<MarcoMuestral> marcoMuestral;
-	private List<TipoArea> tipoAreaArr;
+	//private List<TipoArea> tipoAreaArr;
 	
 	private Boolean pintaPanel;
 	private Boolean pintaListado;
@@ -50,11 +51,11 @@ public class EncuestaController implements Serializable {
 		
 		rubro =rubroDAO.buscar();
 		marcoMuestral =marcoMuestralDAO.buscar();
-		
+		/*
 		tipoAreaArr= new ArrayList<TipoArea>();  
 		tipoAreaArr.add(new TipoArea("U","Urbano"));
 		tipoAreaArr.add(new TipoArea("R","Rural"));
-		tipoAreaArr.add(new TipoArea("T","Rural-Urbano"));
+		tipoAreaArr.add(new TipoArea("T","Rural-Urbano"));*/
 		
 		pintaPanel=false;
 		pintaListado=true;
@@ -136,19 +137,21 @@ public class EncuestaController implements Serializable {
 		
 		encuesta=encuestaDAO.buscar(nombre, año);
 		
-		/*
-		if(codigoEncuesta == "" || 1==1)
-		{
-			encuestaDAO.registrar(codigoEncuesta, nombre, año, descripcion, objetivo, fechaInicio, fechaFin, tipoArea, codigoRubro, codigoMarcoMuestral);
-			encuesta=encuestaDAO.buscar(nombre, año);
-		 }
-		else
-		{
-			encuestaDAO.actualizar(codigoEncuesta, nombre, año, descripcion, objetivo, fechaInicio, fechaFin, tipoArea, codigoRubro, codigoMarcoMuestral);	
-		}*/
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Rate Event", "You rated:" );  
+		  
+        FacesContext.getCurrentInstance().addMessage(null, message);  
+        
 	}
 	
+	public void cancelar(ActionEvent event){
+		limpiar();
+		pintaListado=true;
+		pintaPanel=false;
+	}
+	
+	
 	public void eliminar(ActionEvent event){
+		codigoEncuesta=FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("prmEncuesta");
 		EncuestaDAO encuestaDAO=DAOFactory.getInstance().getEncuestaDAO();
 		encuestaDAO.eliminar(codigoEncuesta);
 		limpiar();
@@ -268,7 +271,7 @@ public class EncuestaController implements Serializable {
 	public void setMarcoMuestral(List<MarcoMuestral> marcoMuestral) {
 		this.marcoMuestral = marcoMuestral;
 	}
-
+/*
 	public List<TipoArea> getTipoAreaArr() {
 		return tipoAreaArr;
 	}
@@ -276,7 +279,7 @@ public class EncuestaController implements Serializable {
 	public void setTipoAreaArr(List<TipoArea> tipoAreaArr) {
 		this.tipoAreaArr = tipoAreaArr;
 	}
-
+*/
 	public Boolean getPintaPanel() {
 		return pintaPanel;
 	}
