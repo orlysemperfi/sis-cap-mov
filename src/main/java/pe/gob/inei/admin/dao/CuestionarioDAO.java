@@ -7,7 +7,7 @@ public interface CuestionarioDAO extends GenericDAO<Cuestionario, Integer>{
 
 	List<Cuestionario> buscar(String codigoEncuesta);
 	Cuestionario buscarxCodigo(Integer codigoCuestionario);
-	void registrar(Integer numero, String descripcion, Integer codigoCategoria, String codigoEncuesta);
-	void actualizar(Integer codigoCuestionario, Integer numero, String descripcion, Integer codigoCategoria, String codigoEncuesta);
+	void registrar(String codigoEncuesta, Integer codigoCategoria, Cuestionario cuestionario);
+	void actualizar(String codigoEncuesta, Integer codigoCategoria, Cuestionario cuestionario);
 	void eliminar(Integer codigoCuestionario);
 }

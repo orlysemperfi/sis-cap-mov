@@ -18,17 +18,14 @@ import pe.gob.inei.admin.dao.CapituloDAO;
 import pe.gob.inei.admin.dao.PreguntaDAO;
 import pe.gob.inei.admin.dao.RespuestaDAO;
 */
-
-
-import pe.gob.inei.admin.dao.MarcoMuestralDAO;
-import pe.gob.inei.admin.dao.UbigeoDAO;
+import pe.gob.inei.admin.dao.CuestionarioDAO;
+import pe.gob.inei.admin.dao.CategoriaDAO;
 import pe.gob.inei.sistencuesta.Encuesta;
 import pe.gob.inei.sistencuesta.Categoria;
 import pe.gob.inei.sistencuesta.Cuestionario;
 import pe.gob.inei.sistencuesta.Capitulo;
 import pe.gob.inei.sistencuesta.Pregunta;
 import pe.gob.inei.sistencuesta.Respuesta;
-import pe.gob.inei.sistencuesta.Ubigeo;
 
 @ManagedBean(name="cuestionario")
 @ViewScoped
@@ -36,7 +33,7 @@ public class CuestionarioController  implements Serializable {
 
 	private String codigoEncuesta;
 	private String nombreEncuesta;
-	private String codigoCuestionario;
+	private Integer codigoCuestionario;
 	private Integer numeroCuestionario;
 	private String descripcionCuestionario;
 	private Integer codigoCategoria;
@@ -62,6 +59,7 @@ public class CuestionarioController  implements Serializable {
 	
 	private List<Categoria> categoria;
 	private List<Cuestionario> cuestionario;
+	private Cuestionario selectedCuestionario;
 	private List<Capitulo> capitulo;
 	private List<Pregunta> pregunta;
 	private List<Respuesta> respuesta;
@@ -75,30 +73,26 @@ public class CuestionarioController  implements Serializable {
 	private Boolean verEliminar;
 	
 	public CuestionarioController() {
-		/*UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();		
-		ubigeo =ubigeoDAO.buscarDepartamento();
-		ubigeoSeleccionado = ubigeoDAO.buscarUbigeoPorMarcoMuestral("NS");
+		CategoriaDAO categoriaDAO=DAOFactory.getInstance().getCategoriaDAO();		
+		categoria =categoriaDAO.buscar();
 		
-		setUbigeoDual(new DualListModel<Ubigeo>(ubigeo, ubigeoSeleccionado)); 
-        */
 		setPintaPanel(false);
 		setPintaListado(true);
 		setVerEliminar(true);
 		setDesactivaCodigo(false);
+		
+		limpiar();
 	}
 	
 	public void nuevo(ActionEvent event){
+		//limpiar();
 		setPintaListado(false);
 		setPintaPanel(true);
-		setAgregar(true);
-		setVerEliminar(true);
-		setDesactivaCodigo(false);	
-		/*
-		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
-		ubigeo =ubigeoDAO.buscarDepartamento();
-		ubigeoSeleccionado = ubigeoDAO.buscarUbigeoPorMarcoMuestral("NS");
-		setUbigeoDual(new DualListModel<Ubigeo>(ubigeo, ubigeoSeleccionado)); 
-		*/
+		agregar=true;
+		verEliminar=true;
+		desactivaCodigo=false;	
+		
+		
 	}
 	
 	public void editar(ActionEvent event){
@@ -130,40 +124,78 @@ public class CuestionarioController  implements Serializable {
 	
 	public void limpiar()
 	{
-		/*codigoMarcoMuestral="";
-		año=0;
-		descripcion="";
-		numeroEncuestas=0;
-		tipoUbigeo="";
-		tipoArea="";
-		estado="";	*/	
+		codigoCuestionario=0;
+		numeroCuestionario=0;
+		descripcionCuestionario="";
+		codigoCategoria=0;
+		
+		codigoCapitulo=0;
+		numeroCapitulo=0;
+		tituloCapitulo="";
+		
+		codigoPregunta=0;
+		numeroPregunta=0;
+		nivelPregunta=0;
+		descripcionPregunta="";
+		tipoPregunta="";
+		longitudDato=0;
+		tipoValidacion="";
+		opcional="";
+		respuestaOtros="";
+		
+		codigoRespuesta=0;
+		valorRespuesta="";
+		descripcionRespuesta="";
+		posicion=0;
+		
+		selectedCuestionario= new Cuestionario();
+		capitulo=new ArrayList<Capitulo>();
+		pregunta=new ArrayList<Pregunta>() ;
+		respuesta=new ArrayList<Respuesta>() ;
 	}
 	
 	public void agregarCapitulo(ActionEvent event){
-	
+		Capitulo selectedCapitulo= new Capitulo();
+		selectedCapitulo.setNumero(numeroCapitulo);
+		selectedCapitulo.setTitulo(tituloCapitulo);
+		capitulo.add(selectedCapitulo);
+		numeroCapitulo=capitulo.size();
+		tituloCapitulo="";
 	}
+	public void editarCapitulo(ActionEvent event){
+		//capitulo.add(new Capitulo(selectedCuestionario, numeroCapitulo, tituloCapitulo));
+	}
+	
 
 	public void agregarPregunta(ActionEvent event){
+		Categoria selectedCategoria=new Categoria();
+		pregunta.add(new Pregunta(selectedCategoria, descripcionPregunta, tipoPregunta, longitudDato, tipoValidacion, opcional));
+		
 		pintaPregunta=true;
 		pintaPanel=false;
 	}
 	
 	public void buscar(ActionEvent event){
-		/*MarcoMuestralDAO marcoMuestralDAO=DAOFactory.getInstance().getMarcoMuestralDAO();
-		marcoMuestral=marcoMuestralDAO.buscar("", "", 0);
-		*/
+		CuestionarioDAO cuestionarioDAO=DAOFactory.getInstance().getCuestionarioDAO();
+		cuestionario=cuestionarioDAO.buscar(codigoEncuesta);
+		
 	}	
 	
 	public void grabar(ActionEvent event){
-		/*MarcoMuestralDAO marcoMuestralDAO=DAOFactory.getInstance().getMarcoMuestralDAO();
+		/*CuestionarioDAO cuestionarioDAO=DAOFactory.getInstance().getCuestionarioDAO();
 
-		if(agregar)
-			marcoMuestralDAO.registrar(codigoMarcoMuestral, año, descripcion, numeroEncuestas, tipoUbigeo, tipoArea, estado, ubigeoDual.getTarget());
-		else
-			marcoMuestralDAO.actualizar(codigoMarcoMuestral, año, descripcion, numeroEncuestas, tipoUbigeo, tipoArea, estado, ubigeoDual.getTarget());
-		*/
+		//Codigo de crear entidad Encuesta
 		
-		limpiar();
+		
+		
+		//********************************
+		
+		if(agregar)
+			cuestionarioDAO.registrar(codigoEncuesta, codigoCategoria, selectedCuestionario);
+		else
+			cuestionarioDAO.actualizar(codigoEncuesta, codigoCategoria, selectedCuestionario);
+		
+		limpiar();*/
 		pintaListado=true;
 		pintaPanel=false;
 		
@@ -171,13 +203,13 @@ public class CuestionarioController  implements Serializable {
 	}
 	
 	public void eliminar(ActionEvent event){
-		/*MarcoMuestralDAO marcoMuestralDAO=DAOFactory.getInstance().getMarcoMuestralDAO();
-		marcoMuestralDAO.eliminar(codigoMarcoMuestral);
-		*/
+		CuestionarioDAO cuestionarioDAO=DAOFactory.getInstance().getCuestionarioDAO();
+		cuestionarioDAO.eliminar(codigoCuestionario);
+		
 		limpiar();
 		pintaListado=true;
 		pintaPanel=false;
-		//marcoMuestral=marcoMuestralDAO.buscar("", "", año);
+		cuestionario=cuestionarioDAO.buscar(codigoEncuesta);
 	}
 	
 	
@@ -193,10 +225,10 @@ public class CuestionarioController  implements Serializable {
 	public void setCodigoEncuesta(String codigoEncuesta) {
 		this.codigoEncuesta = codigoEncuesta;
 	}
-	public String getCodigoCuestionario() {
+	public Integer getCodigoCuestionario() {
 		return codigoCuestionario;
 	}
-	public void setCodigoCuestionario(String codigoCuestionario) {
+	public void setCodigoCuestionario(Integer codigoCuestionario) {
 		this.codigoCuestionario = codigoCuestionario;
 	}
 	public Integer getNumeroCuestionario() {
@@ -402,6 +434,14 @@ public class CuestionarioController  implements Serializable {
 
 	public void setPintaPregunta(Boolean pintaPregunta) {
 		this.pintaPregunta = pintaPregunta;
+	}
+
+	public Cuestionario getSelectedCuestionario() {
+		return selectedCuestionario;
+	}
+
+	public void setSelectedCuestionario(Cuestionario selectedCuestionario) {
+		this.selectedCuestionario = selectedCuestionario;
 	}
 	
 }
