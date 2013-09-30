@@ -126,8 +126,6 @@ public class RutaController implements Serializable {
 			strEstablecimiento.add(selectedEstablecimiento.get(index).getCodigoEstablecimiento().toString());
 		}
 		
-		
-		
 		codigoEncuesta=selectedRuta.getEncuesta().getCodigoEncuesta();
 		codigoMarcoMuestral=selectedRuta.getEncuesta().getMarcoMuestral().getCodigoMarcoMuestral();
 		

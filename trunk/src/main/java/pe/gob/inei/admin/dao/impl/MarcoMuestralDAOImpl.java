@@ -27,6 +27,12 @@ public class MarcoMuestralDAOImpl extends GenericDAOImpl<MarcoMuestral, String> 
 		return lista;
 	}
 	
+	public String getValor(String dato)
+	{		
+		return dato;
+	}
+	
+	
 	@SuppressWarnings("unchecked")
 	public List<MarcoMuestral> buscar(String nombre, String encuesta, Integer año)
 	{
