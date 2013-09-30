@@ -33,13 +33,14 @@
 			        <h:outputLabel for="lblTipoArea" value="Tipo Area:" />			        
 			        <h:outputLabel for="lblEstado" value="Estado:" />
 			        
-			        <p:selectOneRadio id="optTipoUbigeoaa" required="true"   value="#{marcoMuestral.tipoUbigeo}" layout="pageDirection">  
+			        <p:selectOneRadio id="optTipoUbigeoaa" required="true"  value="#{marcoMuestral.tipoUbigeo}" layout="pageDirection">  
 			            <f:selectItem itemLabel="Nacional" itemValue="N" />  
 			            <f:selectItem itemLabel="Lima y Callao" itemValue="L" />  
 			            <f:selectItem itemLabel="Especificar Departamento(s)" itemValue="D" />  
- 
+ 						<p:ajax update=":mantenimiento"  listener="#{marcoMuestral.elegirTipoUbigeo}" >
+ 						 </p:ajax> 
 			        </p:selectOneRadio>  
-			        
+			
 			        <p:selectOneRadio id="optTipoArea" required="true" value="#{marcoMuestral.tipoArea}" layout="pageDirection">  
 			            <f:selectItem itemLabel="Urbano" itemValue="U" />  
 			            <f:selectItem itemLabel="Rural" itemValue="R" />  
@@ -57,7 +58,7 @@
         
             <p:panelGrid columns="1" style="width:100%">
             <h:outputLabel for="lblSA" value="Departamentos:" />		
-				<p:selectManyCheckbox id="somDepartamento"  value="#{marcoMuestral.ubigeoDep}" 
+				<p:selectManyCheckbox id="somDepartamento"   value="#{marcoMuestral.ubigeoDep}"  disabled="#{marcoMuestral.desactivaDepartamento}"
             	layout="pageDirection"> 
             	
             	<f:selectItems value="#{marcoMuestral.ubigeo}" var="itemDep" itemValue="#{itemDep.codigoUbigeo}" itemLabel="#{itemDep.nombre}" />  
@@ -65,7 +66,6 @@
         
             </p:panelGrid>
             
-			
 			<p:panelGrid columns="2" style="margin:0 auto;width:600px">
 		
 			<p:commandButton id="btnGrabar" value="Grabar" update=":consulta,:mantenimiento"

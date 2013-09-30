@@ -35,7 +35,6 @@ public class MarcoMuestralController implements Serializable {
 	private List<MarcoMuestral> marcoMuestral;
 	private MarcoMuestral selectedMarcoMuestral;
 	
-	private DualListModel<Ubigeo> ubigeoDual;
 	private List<Ubigeo> ubigeo;
 	//private List<Ubigeo> ubigeoSeleccionado;
 	
@@ -46,46 +45,55 @@ public class MarcoMuestralController implements Serializable {
 	private Boolean agregar;
 	private Boolean desactivaCodigo;
 	private Boolean verEliminar;
+	private Boolean desactivaDepartamento;
 	 
 	public MarcoMuestralController() {
 		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
-
-		List<Ubigeo> ubigeoSeleccionado;
-		
 		ubigeo =ubigeoDAO.buscarDepartamento();
-		ubigeoSeleccionado = ubigeoDAO.buscarUbigeoPorMarcoMuestral("NS");
-		
-		ubigeoDual= new DualListModel<Ubigeo>(ubigeo, ubigeoSeleccionado);
 		ubigeoDep=new ArrayList<String>();
 		
 		pintaPanel=false;
 		pintaListado=true;
 		verEliminar=true;
 		desactivaCodigo=false;
+		desactivaDepartamento=true;
 	}
+	
+	public void elegirTipoUbigeo()
+	{
+		ubigeoDep=new ArrayList<String>();
+		desactivaDepartamento=true;
+		Integer index;
+		
+		if(tipoUbigeo.equalsIgnoreCase("N"))
+		{
+			for(index=0;index<ubigeo.size();index++)
+			{
+				ubigeoDep.add(ubigeo.get(index).getCodigoUbigeo());
+			}
+		}
+		else if(tipoUbigeo.equalsIgnoreCase("L"))
+		{
+			ubigeoDep.add("150000");
+		}
+		else if(tipoUbigeo.equalsIgnoreCase("D"))
+		{
+			desactivaDepartamento=false;
+		}
+
+	}
+	
 	public void nuevo(ActionEvent event){
 		pintaListado=false;
 		pintaPanel=true;
 		agregar=true;
 		verEliminar=true;
 		desactivaCodigo=false;	
-		estado="S";
-		
-		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
-		//List<Ubigeo> ubigeo;
-		List<Ubigeo> ubigeoSeleccionado;
-		
-		ubigeo =ubigeoDAO.buscarDepartamento();
-		ubigeoSeleccionado = ubigeoDAO.buscarUbigeoPorMarcoMuestral("NS");
-		ubigeoDual= new DualListModel<Ubigeo>(ubigeo, ubigeoSeleccionado); 
-		
-		
+		estado="S";		
 	}
 
 	public void editar(ActionEvent event){
-		//List<Ubigeo> ubigeo;
 		List<Ubigeo> ubigeoSeleccionado;
-		
 		
 		pintaListado=false;
 		pintaPanel=true;
@@ -105,12 +113,8 @@ public class MarcoMuestralController implements Serializable {
 		tipoArea=selectedMarcoMuestral.getTipoArea();
 		estado=selectedMarcoMuestral.getEstado();
 		
-
-		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
-		ubigeo =ubigeoDAO.buscarDepartamento();// ubigeoDAO.buscarDepartamentoNoMarcoMuestral(codigoMarcoMuestral);
-		
+		elegirTipoUbigeo();
 		ubigeoSeleccionado = new ArrayList<Ubigeo> (selectedMarcoMuestral.getUbigeos());// ubigeoDAO.buscarUbigeoPorMarcoMuestral(codigoMarcoMuestral);
-		//ubigeoDual= new DualListModel<Ubigeo>(ubigeo, ubigeoSeleccionado);
 		
 		ubigeoDep=new ArrayList<String>();
 		Integer index;
@@ -129,7 +133,8 @@ public class MarcoMuestralController implements Serializable {
 		numeroEncuestas=0;
 		tipoUbigeo="";
 		tipoArea="";
-		estado="S";		
+		estado="S";
+		desactivaDepartamento=true;
 	}
 	
 	public void buscar(ActionEvent event){
@@ -304,13 +309,7 @@ public class MarcoMuestralController implements Serializable {
 	public void setVerEliminar(Boolean verEliminar) {
 		this.verEliminar = verEliminar;
 	}
-	public DualListModel<Ubigeo> getUbigeoDual() {
-		return ubigeoDual;
-	}
-	public void setUbigeoDual(DualListModel<Ubigeo> ubigeoDual) {
-		this.ubigeoDual = ubigeoDual;
-	}
-
+	
 	public List<String> getUbigeoDep() {
 		return ubigeoDep;
 	}
@@ -319,4 +318,11 @@ public class MarcoMuestralController implements Serializable {
 		this.ubigeoDep = ubigeoDep;
 	}
 	
+	public Boolean getDesactivaDepartamento() {
+		return desactivaDepartamento;
+	}
+
+	public void setDesactivaDepartamento(Boolean desactivaDepartamento) {
+		this.desactivaDepartamento = desactivaDepartamento;
+	}
 }
