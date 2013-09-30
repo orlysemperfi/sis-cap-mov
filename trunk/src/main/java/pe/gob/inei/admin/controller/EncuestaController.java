@@ -46,16 +46,18 @@ public class EncuestaController implements Serializable {
 	
 	public EncuestaController() {
 		RubroDAO rubroDAO=DAOFactory.getInstance().getRubroDAO();
-		MarcoMuestralDAO marcoMuestralDAO=DAOFactory.getInstance().getMarcoMuestralDAO();
-		
 		rubro =rubroDAO.buscar();
-		marcoMuestral =marcoMuestralDAO.buscar();
 		pintaPanel=false;
 		pintaListado=true;
 		verEliminar=true;
 		desactivaCodigo=false;
 	}
 
+	public void elegirTipoArea()
+	{
+		MarcoMuestralDAO marcoMuestralDAO=DAOFactory.getInstance().getMarcoMuestralDAO();
+		marcoMuestral =marcoMuestralDAO.buscarPorTipoArea(tipoArea);
+	}
 	public void buscar(ActionEvent event){
 		EncuestaDAO encuestaDAO=DAOFactory.getInstance().getEncuestaDAO();
 		encuesta=encuestaDAO.buscar(nombre, año);
@@ -88,6 +90,7 @@ public class EncuestaController implements Serializable {
 		fechaInicio=selectedEncuesta.getFechainicio();
 		fechaFin=selectedEncuesta.getFechafin();
 		tipoArea=selectedEncuesta.getTipoArea();
+		elegirTipoArea();
 		codigoRubro=selectedEncuesta.getRubro().getCodigoRubro();
 		codigoMarcoMuestral=selectedEncuesta.getMarcoMuestral().getCodigoMarcoMuestral();	
 		

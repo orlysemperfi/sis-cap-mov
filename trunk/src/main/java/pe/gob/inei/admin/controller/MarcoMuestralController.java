@@ -80,7 +80,6 @@ public class MarcoMuestralController implements Serializable {
 		{
 			desactivaDepartamento=false;
 		}
-
 	}
 	
 	public void nuevo(ActionEvent event){
