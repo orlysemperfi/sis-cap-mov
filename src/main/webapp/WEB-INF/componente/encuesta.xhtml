@@ -49,10 +49,11 @@
 						<f:selectItem itemLabel="Rural" itemValue="R" />
 						<f:selectItem itemLabel="Rural-Urbano" itemValue="T" />		
 		
+ 						<p:ajax update="somMarcoMuestral"  listener="#{encuesta.elegirTipoArea}" />
 					</h:selectOneMenu>
 
 					<h:outputLabel for="lblMarcoMuestral" value="Marco Muestral:" />
-					<h:selectOneMenu for="somMarcoMuestral" required="true" 
+					<h:selectOneMenu id="somMarcoMuestral" for="somMarcoMuestral" required="true" 
 						value="#{encuesta.codigoMarcoMuestral}">
 						<f:selectItem itemLabel="Elegir Marco Muestral" itemValue="" />
 						<f:selectItems value="#{encuesta.marcoMuestral}"

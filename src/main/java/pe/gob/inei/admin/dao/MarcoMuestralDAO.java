@@ -14,5 +14,5 @@ public interface MarcoMuestralDAO extends GenericDAO<MarcoMuestral, String> {
 	void eliminar(String codigoMarcoMuestral);
 	void registrarDetalle(String codigoMarcoMuestral, String codigoUbigeo);
 	void eliminarDetalle(String codigoMarcoMuestral);
-	String getValor(String dato);
+	List<MarcoMuestral> buscarPorTipoArea(String tipoArea);
 }

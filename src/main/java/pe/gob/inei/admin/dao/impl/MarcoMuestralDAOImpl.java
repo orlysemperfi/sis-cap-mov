@@ -27,12 +27,6 @@ public class MarcoMuestralDAOImpl extends GenericDAOImpl<MarcoMuestral, String> 
 		return lista;
 	}
 	
-	public String getValor(String dato)
-	{		
-		return dato;
-	}
-	
-	
 	@SuppressWarnings("unchecked")
 	public List<MarcoMuestral> buscar(String nombre, String encuesta, Integer año)
 	{
@@ -127,4 +121,17 @@ public class MarcoMuestralDAOImpl extends GenericDAOImpl<MarcoMuestral, String> 
 		tx.commit();		
 	}
 	
+
+	@SuppressWarnings("unchecked")
+	public List<MarcoMuestral> buscarPorTipoArea(String tipoArea)
+	{
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery("select o from MarcoMuestral o where o.tipoArea=:p_tipoArea ");
+		query.setString("p_tipoArea", tipoArea);
+		List<MarcoMuestral> lista = query.list();
+		tx.commit();
+		return lista;
+	}
+
 }

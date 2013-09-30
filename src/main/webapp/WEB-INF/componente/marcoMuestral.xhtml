@@ -36,9 +36,8 @@
 			        <p:selectOneRadio id="optTipoUbigeoaa" required="true"  value="#{marcoMuestral.tipoUbigeo}" layout="pageDirection">  
 			            <f:selectItem itemLabel="Nacional" itemValue="N" />  
 			            <f:selectItem itemLabel="Lima y Callao" itemValue="L" />  
-			            <f:selectItem itemLabel="Especificar Departamento(s)" itemValue="D" />  
- 						<p:ajax update=":mantenimiento"  listener="#{marcoMuestral.elegirTipoUbigeo}" >
- 						 </p:ajax> 
+			            <f:selectItem itemLabel="Especificar Departamento(s)" itemValue="D" />
+ 						<p:ajax update="somDepartamento"  listener="#{marcoMuestral.elegirTipoUbigeo}" />
 			        </p:selectOneRadio>  
 			
 			        <p:selectOneRadio id="optTipoArea" required="true" value="#{marcoMuestral.tipoArea}" layout="pageDirection">  
