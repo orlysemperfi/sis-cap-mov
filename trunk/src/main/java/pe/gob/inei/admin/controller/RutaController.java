@@ -11,6 +11,7 @@ import javax.faces.event.ActionEvent;
 
 import pe.gob.inei.admin.dao.DAOFactory;
 import pe.gob.inei.admin.dao.EncuestaDAO;
+import pe.gob.inei.admin.dao.MarcoMuestralDAO;
 import pe.gob.inei.admin.dao.RutaDAO;
 import pe.gob.inei.admin.dao.UbigeoDAO;
 import pe.gob.inei.admin.dao.EstablecimientoDAO;
@@ -34,6 +35,9 @@ public class RutaController implements Serializable {
 	private String codigoEncuesta;
 	private String encuestaNombre;
 	private String encuestaAño;
+	private Integer encuestaTotal;
+	private Integer encuestaAsignada;
+	private Integer encuestaFinal;
 	
 	private Encuesta encuesta;
 	private Ruta selectedRuta;
@@ -50,6 +54,7 @@ public class RutaController implements Serializable {
 	private Integer correlativoInicial;
 	private Integer correlativoFinal;
 	private String codigoUbigeo;
+	private Integer correlativoActual;
 	
 	private Boolean pintaPanel;
 	private Boolean pintaListado;
@@ -62,8 +67,6 @@ public class RutaController implements Serializable {
 	
 	public RutaController()
 	{		
-		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
-		departamento=ubigeoDAO.buscarDepartamento();
 		desactivaNuevo=true;
 		strEstablecimiento= new ArrayList<String>();
 		
@@ -81,8 +84,48 @@ public class RutaController implements Serializable {
 		verEliminar=true;
 		desactivaCodigo=false;
 		strEstablecimiento=new ArrayList<String>();
+		
+		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
+		EncuestaDAO encuestaDAO=DAOFactory.getInstance().getEncuestaDAO();
+		encuesta = encuestaDAO.buscarxCodigo(codigoEncuesta);
+		getDatosEncuesta();
+	}
+	public void calculaCorrelativoFinal()
+	{
+		correlativoFinal=(correlativoInicial+numeroEncuestas-1);
+		if(correlativoFinal<0)correlativoFinal=0;
 	}
 
+	public void getDatosEncuesta()
+	{
+		EncuestaDAO encuestaDAO=DAOFactory.getInstance().getEncuestaDAO();
+		encuesta = encuestaDAO.buscarxCodigo(codigoEncuesta);
+		List<Ruta> rutaAsignada; 
+		Integer index;
+		
+		encuestaNombre=encuesta.getNombre();
+		encuestaTotal=encuesta.getMarcoMuestral().getNumeroEncuestas();
+		departamento=new ArrayList<Ubigeo>(encuesta.getMarcoMuestral().getUbigeos());  //encuesta.getMarcoMuestral().getUbigeos());
+		
+		encuestaFinal=0;
+		encuestaAsignada=0;
+		if(encuesta.getRutas()!=null)
+		{
+			if(encuesta.getRutas().size()>0)
+			{
+				rutaAsignada = new ArrayList<Ruta> (encuesta.getRutas());
+				for(index=0;index<rutaAsignada.size();index++)
+				{
+					encuestaAsignada+=rutaAsignada.get(index).getNumeroEncuestas();
+					if(rutaAsignada.get(index).getCorrelativoFinal()>encuestaFinal)
+						encuestaFinal=rutaAsignada.get(index).getCorrelativoFinal();
+				}
+				encuestaAsignada=encuestaAsignada-numeroEncuestas;
+			}
+		}
+	}
+	
+	
 	public void editar(ActionEvent event){
 		pintaListado=false;
 		pintaPanel=true;
@@ -96,12 +139,18 @@ public class RutaController implements Serializable {
 		RutaDAO rutaDAO=DAOFactory.getInstance().getRutaDAO();
 		selectedRuta=rutaDAO.buscarxCodigo(codigoRuta);
 		
-		
 		numeroRuta=selectedRuta.getNumeroRuta();
 		descripcion=selectedRuta.getDescripcion();
 		numeroEncuestas=selectedRuta.getNumeroEncuestas();
 		correlativoInicial=selectedRuta.getCorrelativoInicial();
 		correlativoFinal=selectedRuta.getCorrelativoFinal();
+		correlativoActual=correlativoInicial;
+		
+
+		codigoEncuesta=selectedRuta.getEncuesta().getCodigoEncuesta();
+		codigoMarcoMuestral=selectedRuta.getEncuesta().getMarcoMuestral().getCodigoMarcoMuestral();
+		getDatosEncuesta();
+		
 		codigoUbigeo=selectedRuta.getUbigeo().getCodigoUbigeo();
 		
 		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
@@ -126,9 +175,6 @@ public class RutaController implements Serializable {
 			strEstablecimiento.add(selectedEstablecimiento.get(index).getCodigoEstablecimiento().toString());
 		}
 		
-		codigoEncuesta=selectedRuta.getEncuesta().getCodigoEncuesta();
-		codigoMarcoMuestral=selectedRuta.getEncuesta().getMarcoMuestral().getCodigoMarcoMuestral();
-		
 	}
 	
 	public void limpiar()
@@ -144,7 +190,8 @@ public class RutaController implements Serializable {
 		numeroEncuestas=0;
 		correlativoInicial=0;
 		correlativoFinal=0;
-		codigoUbigeo="";	
+		codigoUbigeo="";
+		correlativoActual=0;
 		strEstablecimiento=new ArrayList<String>();
 	}
 	
@@ -156,6 +203,7 @@ public class RutaController implements Serializable {
 		{
 			if(ruta.size()>0)
 			{
+				desactivaNuevo=false;
 				encuestaAño= String.valueOf(ruta.get(0).getEncuesta().getAño());
 				encuestaNombre=ruta.get(0).getEncuesta().getNombre();
 			}
@@ -166,6 +214,8 @@ public class RutaController implements Serializable {
 		if(encuesta!=null)
 		{
 			desactivaNuevo=false;
+			encuestaAño= String.valueOf(encuesta.getAño());
+			encuestaNombre=encuesta.getNombre();
 		}
 		
 	}
@@ -214,27 +264,48 @@ public class RutaController implements Serializable {
 		RutaDAO rutaDAO=DAOFactory.getInstance().getRutaDAO();
 		codigoUbigeo=codigoDepartamento+codigoProvincia+codigoDistrito;
 		Integer index;
-		String codEstab="0"; 
+		String codEstab="0", mensajeError=""; 
+		Integer encLibre=encuestaTotal-encuestaAsignada;
 		
-		for(index=0;index<strEstablecimiento.size();index++)
-		{
-			codEstab+=","+strEstablecimiento.get(index);
-		}
-		
-		selectedEstablecimiento = establecimientoDAO.buscarxCodigos(codEstab);
+		if(encLibre<numeroEncuestas) mensajeError+="El numero de encuestas es mayor al disponible: " + encLibre.toString();
 		
 		if(agregar)
-			rutaDAO.registrar(codigoEncuesta, codigoUbigeo, numeroRuta, descripcion, numeroEncuestas, correlativoInicial, correlativoFinal, selectedEstablecimiento);
+		{
+			if(encuestaFinal>correlativoInicial) mensajeError+="El correlativo inicial debe ser mayor al ultimo usado: " + encuestaFinal.toString();
+		}
 		else
-			rutaDAO.actualizar(codigoRuta, codigoEncuesta, codigoUbigeo, numeroRuta, descripcion, numeroEncuestas, correlativoInicial, correlativoFinal, selectedEstablecimiento);
+		{
+			//if(encuestaFinal>correlativoInicial && correlativoInicial!=correlativoActual) mensajeError+="mOEl correlativo inicial debe ser mayor al ultimo usado: " + correlativoActual.toString();
+		}
 		
-		limpiar();
-		pintaListado=true;
-		pintaPanel=false;
-		
-		ruta=rutaDAO.buscar(codigoEncuesta);
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ruta", "Registro guardado correctamente" );
-        FacesContext.getCurrentInstance().addMessage(null, message); 
+		if(mensajeError.length()>0)
+		{
+			FacesMessage message2 = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ruta", mensajeError);
+	        FacesContext.getCurrentInstance().addMessage(null, message2); 	
+		}
+		else
+		{
+			for(index=0;index<strEstablecimiento.size();index++)
+			{
+				codEstab+=","+strEstablecimiento.get(index);
+			}
+			
+			correlativoFinal=correlativoInicial+numeroEncuestas-1;
+			selectedEstablecimiento = establecimientoDAO.buscarxCodigos(codEstab);
+			
+			if(agregar)
+				rutaDAO.registrar(codigoEncuesta, codigoUbigeo, numeroRuta, descripcion, numeroEncuestas, correlativoInicial, correlativoFinal, selectedEstablecimiento);
+			else
+				rutaDAO.actualizar(codigoRuta, codigoEncuesta, codigoUbigeo, numeroRuta, descripcion, numeroEncuestas, correlativoInicial, correlativoFinal, selectedEstablecimiento);
+			
+			limpiar();
+			pintaListado=true;
+			pintaPanel=false;
+			
+			ruta=rutaDAO.buscar(codigoEncuesta);
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ruta", "Registro guardado correctamente" );
+	        FacesContext.getCurrentInstance().addMessage(null, message); 
+		}
 	}
 	
 	public void eliminar(ActionEvent event){
@@ -493,6 +564,46 @@ public class RutaController implements Serializable {
 
 	public void setDesactivaNuevo(Boolean desactivaNuevo) {
 		this.desactivaNuevo = desactivaNuevo;
+	}
+
+
+	public Integer getEncuestaTotal() {
+		return encuestaTotal;
+	}
+
+
+	public void setEncuestaTotal(Integer encuestaTotal) {
+		this.encuestaTotal = encuestaTotal;
+	}
+
+
+	public Integer getEncuestaAsignada() {
+		return encuestaAsignada;
+	}
+
+
+	public void setEncuestaAsignada(Integer encuestaAsignada) {
+		this.encuestaAsignada = encuestaAsignada;
+	}
+
+
+	public Integer getEncuestaFinal() {
+		return encuestaFinal;
+	}
+
+
+	public void setEncuestaFinal(Integer encuestaFinal) {
+		this.encuestaFinal = encuestaFinal;
+	}
+
+
+	public Integer getCorrelativoActual() {
+		return correlativoActual;
+	}
+
+
+	public void setCorrelativoActual(Integer correlativoActual) {
+		this.correlativoActual = correlativoActual;
 	}
 	
 }

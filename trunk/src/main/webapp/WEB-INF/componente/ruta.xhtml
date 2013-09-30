@@ -13,6 +13,23 @@
 			
 			<p:panelGrid columns="2" style="width:100%">
 				
+				
+				<h:outputLabel for="lblCEncuesta" value="Cod.Encuesta:" />
+				<p:inputText id="txtCEncuesta" value="#{ruta.codigoEncuesta}" disabled="true" label="txtCEncuesta" style="width:40%" />
+				
+				<h:outputLabel for="lblCNEncuesta" value="Encuesta:" />
+				<p:inputText id="txtCNEncuesta" value="#{ruta.encuestaNombre}" disabled="true" label="txtCNEncuesta" style="width:80%" />
+				
+				<h:outputLabel for="lblNEncuesta" value="Total Encuesta:" />
+				<p:inputText id="txtNEncuesta" value="#{ruta.encuestaTotal}" disabled="true" label="txtNEncuesta" style="width:80%" />
+				
+				<h:outputLabel for="lblAEncuesta" value="Encuestas Asignadas:" />
+				<p:inputText id="txtAEncuesta" value="#{ruta.encuestaAsignada}" disabled="true" label="txtAEncuesta" style="width:40%" />
+				
+				<h:outputLabel for="lblFEncuesta" value="Encuestas Final:" />
+				<p:inputText id="txtFEncuesta" value="#{ruta.encuestaFinal}" disabled="true" label="txtFEncuesta" style="width:40%" />
+				
+				
 				<h:outputLabel for="lblNumeroRuta" value="Numero Ruta:" />
 				<p:inputText id="txtNumeroRuta" value="#{ruta.numeroRuta}"  required="true" label="txtNumeroRuta" style="width:40%" />
 					
@@ -24,9 +41,6 @@
 				
 				<h:outputLabel for="lblCorrelativoInicial" value="Correlativo Inicial:" />
 				<p:inputText id="txtCorrelativoInicial" value="#{ruta.correlativoInicial}" required="true" label="txtCorrelativoInicial" style="width:30%" />
-				
-				<h:outputLabel for="lblCorrelativoFinal" value="Correlativo Final:" />
-				<p:inputText id="txtCorrelativoFinal" value="#{ruta.correlativoFinal}" required="true" label="txtCorrelativoFinal" style="width:30%" />
 								 
 			</p:panelGrid>	
 			
