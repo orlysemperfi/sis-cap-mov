@@ -17,11 +17,8 @@ public class EstablecimientoDAOImpl extends GenericDAOImpl<Establecimiento, Inte
 		
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction tx = session.beginTransaction();
-		String where="";
-		//if(codigoUbigeo=="000000") where=" where o.codigoEstablecimiento=2";
-		Query query = session.createQuery("select o from Establecimiento o "+where);// o.codigoUbigeo=:p_codigoUbigeo
-		
-		//query.setString("p_codigoUbigeo", codigoUbigeo);
+		Query query = session.createQuery("select o from Establecimiento o where o.ubigeo.codigoUbigeo=:p_codigoUbigeo");
+		query.setString("p_codigoUbigeo", codigoUbigeo);
 		List<Establecimiento> lista = query.list();
 		tx.commit();
 		return lista;
