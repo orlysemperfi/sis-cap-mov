@@ -6,7 +6,6 @@
 
 	<p:panel visible="#{encuesta.pintaPanel}" id="mantenimientoEncuesta">
 		<h:form id="formMantenimientoEncuesta">
-		 <p:growl id="messages" showDetail="true"/>  
 		 <p:confirmDialog></p:confirmDialog>
 			<p:panelGrid columns="1" style="margin:0 auto;width:600px">
 				<f:facet name="header">
@@ -93,6 +92,7 @@
 
 	<p:panel visible="#{encuesta.pintaListado}"  id="consultaEncuesta">
 		<h:form id="form">
+		 <p:growl id="messages" showDetail="true"/>  
 			<p:panelGrid columns="1" style="margin:0 auto;width:600px">
 				<f:facet name="header">
         	MANTENIMIENTO DE ENCUESTA
@@ -160,7 +160,7 @@
 					</p:commandButton>
 				</p:column>
 				<p:column>
-					<p:commandButton id="selectEliminar" update=":consultaEncuesta" actionListener="#{encuesta.preEliminar}"
+					<p:commandButton id="selectEliminar" update=":consultaEncuesta,:mantenimientoEncuesta" actionListener="#{encuesta.preEliminar}"
 						 title="Eliminar" value="Eliminar" oncomplete="conf.show()">
 						<f:param name="prmEncuesta" value="#{dtEncuesta.codigoEncuesta}"></f:param>
 						
@@ -169,12 +169,14 @@
 
 
 			</p:dataTable>
-			
-			<p:confirmDialog message="mensaje" header="cabecera" severity="alert" appendToBody="true" actionListener="#{encuesta.eliminar}" widgetVar="conf">
-				<p:commandButton value="si" oncomplete="conf.hide()"/>
-				<p:commandButton value="no" onclick="conf.hide()" type="button"/>
-			</p:confirmDialog>
 		</h:form>
+			
+			<p:confirmDialog message="mensaje" header="cabecera" severity="alert" appendToBody="true" widgetVar="conf">
+				<h:form>
+				<p:commandButton value="si" oncomplete="conf.hide()" update=":form:dtEncuesta" actionListener="#{encuesta.eliminar}" />
+				<p:commandButton value="no" onclick="conf.hide()" type="button"/>
+				</h:form>
+			</p:confirmDialog>
 	</p:panel>
 
 </ui:composition>
