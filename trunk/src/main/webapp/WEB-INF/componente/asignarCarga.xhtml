@@ -25,41 +25,40 @@
 					<p:inputText id="txtDist" value="#{asignarCarga.distritoNombre}" label="txtDist" style="width:100%" disabled="true" />
 				</p:panelGrid>
 				
+				
+				<h:outputLabel for="lblNumeroEncuestas" value="NumeroEncuestas:" />
+				<p:panelGrid columns="3" style="margin:0 auto;width:100%">
+					<p:inputText id="txtNumeroEncuestas" value="#{asignarCarga.numeroEncuestas}" label="txtNumeroEncuestas" style="width:50%" disabled="true" />
+				
+					<h:outputLabel for="lblCorrelativoInicial" value="Correlativo Inicial:" />
+					<p:inputText id="txtCorrelativoInicial" value="#{asignarCarga.correlativoInicial}" label="txtCorrelativoInicial" style="width:40%" disabled="true" />
+				</p:panelGrid>
+				
+				<h:outputLabel for="lblEncuestasPorDia" value="Encuestas por Dia:" />
+				<p:inputText id="txtEncuestasPorDia" value="#{asignarCarga.nroEncuestasPorDia}" label="txtEncuestasPorDia" style="width:20%" required="true" disabled="#{asignarCarga.desactivaCodigo}" />
+				
+				<h:outputLabel for="lblFechaInicio" value="Fecha Inicio:" required="true" />
+				<p:panelGrid columns="3" style="margin:0 auto;width:100%">
+					<p:inputText id="txtFechaInicio" value="#{asignarCarga.fechaInicio}" label="txtFechaInicio" style="width:60%"  required="true" disabled="#{asignarCarga.desactivaCodigo}" />
+					<h:outputLabel for="lblFechaFin" value="Fecha Fin:" />
+					<p:inputText id="txtFechaFin" value="#{asignarCarga.fechaFin}" label="txtFechaFin" style="width:60%" required="true" disabled="#{asignarCarga.desactivaCodigo}" />
+				</p:panelGrid>
+				
 				<h:outputLabel for="lblDNI" value="DNI:" />
 				<p:panelGrid columns="2" style="margin:0 auto;width:100%">
-					<p:inputText id="txtDNI" value="#{asignarCarga.personalDni}" label="txtDNI" style="width:20%" disabled="#{asignarCarga.desactivaCodigo}" required="true" />
+					<p:inputText id="txtDNI" value="#{asignarCarga.personalDni}" label="txtDNI" style="width:40%" disabled="#{asignarCarga.desactivaCodigo}" required="true" />
 					<p:commandButton id="btnBuscarPersonal" value="Buscar" style= "margin:0 auto"
-						actionListener="#{asignarCarga.buscarPersonal}" update=":mantenimiento"  disabled="#{asignarCarga.desactivaCodigo}"/>
-						
+									actionListener="#{asignarCarga.buscarPersonal}" update=":consulta,:mantenimiento"  disabled="#{asignarCarga.desactivaCodigo}"/>
 				</p:panelGrid>
 				
 				<h:outputLabel for="lblNombre" value="Nombre:" />
 				<p:panelGrid columns="3" style="margin:0 auto;width:100%">
-					<p:inputText id="txtNombre" value="#{asignarCarga.personalNombre}" label="txtNombre" style="width:95%" disabled="true" required="true"/>
+					<p:inputText id="txtNombre" value="#{asignarCarga.personalNombre}" label="txtNombre" style="width:95%" disabled="true" />
 					
 					<h:outputLabel for="lblApPaterno" value="Apellidos:" />
 					<p:inputText id="txtApPaterno" value="#{asignarCarga.personalApPaterno}" label="txtApPaterno" style="width:95%" disabled="true" />
 								
 				</p:panelGrid>
-				
-				<h:outputLabel for="lblFechaInicio" value="Fecha Inicio:" required="true" />
-				<p:panelGrid columns="3" style="margin:0 auto;width:100%">
-					<p:inputText id="txtFechaInicio" value="#{asignarCarga.fechaInicio}" label="txtFechaInicio" style="width:60%"  required="true"/>
-					<h:outputLabel for="lblFechaFin" value="Fecha Fin:" />
-					<p:inputText id="txtFechaFin" value="#{asignarCarga.fechaFin}" label="txtFechaFin" style="width:60%" required="true" />
-				</p:panelGrid>
-				
-				
-				<h:outputLabel for="lblNumeroEncuestas" value="NumeroEncuestas:" required="true"/>
-				<p:panelGrid columns="3" style="margin:0 auto;width:100%">
-					<p:inputText id="txtNumeroEncuestas" value="#{asignarCarga.numeroEncuestas}" label="txtNumeroEncuestas" style="width:30%" required="true" />
-					
-					<h:outputLabel for="lblEncuestasPorDia" value="Encuestas por Dia:" />
-					<p:inputText id="txtEncuestasPorDia" value="#{asignarCarga.nroEncuestasPorDia}" label="txtEncuestasPorDia" style="width:30%" required="true" />
-				</p:panelGrid>
-				
-				<h:outputLabel for="lblCorrelativoInicial" value="Correlativo Inicial:" />
-				<p:inputText id="txtCorrelativoInicial" value="#{asignarCarga.correlativoInicial}" label="txtCorrelativoInicial" style="width:15%" required="true" />
 				
 			</p:panelGrid>	
 			

@@ -117,4 +117,16 @@ public class RutaPersonalDAOImpl extends GenericDAOImpl<RutaPersonal, RutaPerson
 		RutaPersonalDAO rutaPersonalDAO=DAOFactory.getInstance().getRutaPersonalDAO();
 		delete(rutaPersonalDAO.buscarPersonaRuta(codigoRuta, codigoPersonal));
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<RutaPersonal> buscarPorDni(String dni)
+	{
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery("select o from RutaPersonal o where o.personal.numeroDocumento=:p_numeroDocumento and estado IN ('A','P') ");
+		query.setString("p_numeroDocumento", dni);
+		List<RutaPersonal> lista = query.list();
+		tx.commit();
+		return lista;		
+	}
 }

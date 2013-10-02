@@ -30,9 +30,9 @@ public class RutaDAOImpl  extends GenericDAOImpl<Ruta, Integer> implements RutaD
 		query.setString("p_codigoEncuesta", codigoEncuesta);
 		List<Ruta> lista = query.list();
 		tx.commit();
-		return lista;
-		
+		return lista;		
 	}
+		
 	public Ruta buscarxCodigo(Integer codigoRuta)
 	{
 		Session session = HibernateUtil.getCurrentSession();
@@ -117,5 +117,18 @@ public class RutaDAOImpl  extends GenericDAOImpl<Ruta, Integer> implements RutaD
 		List<Ruta> ruta = query.list();
 		tx.commit();
 		return ruta;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Ruta> buscar(String codigoEncuesta, String codigoUbigeo)
+	{
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery("select o from Ruta o where o.encuesta.codigoEncuesta=:p_codigoEncuesta and o.ubigeo.codigoUbigeo=:p_codigoUbigeo ");
+		query.setString("p_codigoEncuesta", codigoEncuesta);
+		query.setString("p_codigoUbigeo", codigoUbigeo);
+		List<Ruta> lista = query.list();
+		tx.commit();
+		return lista;		
 	}
 }

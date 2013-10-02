@@ -55,7 +55,7 @@
 					<f:selectItem itemLabel="Select Dpto." itemValue="" />
 					<f:selectItems value="#{ruta.departamento}" var="item"
 						itemLabel="#{item.nombre}" itemValue="#{item.codigoDepartamento}" />
-					<p:ajax update=":mantenimiento,somProvincia,somDistrito,somEstablecimiento"
+					<p:ajax update="somProvincia,somDistrito,somEstablecimiento"
 						listener="#{ruta.buscarProvincia}" />
 				</h:selectOneMenu>
 				<h:selectOneMenu id="somProvincia" required="true"

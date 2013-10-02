@@ -22,7 +22,6 @@ public class PersonalDAOImpl extends GenericDAOImpl<Personal, Integer> implement
 		return personal;
 	}
 	
-
 	public Personal buscarPorCodigo(Integer codigoPersonal)
 	{
 		Session session = HibernateUtil.getCurrentSession();

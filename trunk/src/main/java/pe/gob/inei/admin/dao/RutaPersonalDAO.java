@@ -14,5 +14,5 @@ public interface RutaPersonalDAO extends GenericDAO<RutaPersonal, RutaPersonalId
 	void registrar(Integer codigoRuta, Integer codigoPersonal, Integer numeroEncuestas, String fechaInicio, String fechaFin, Integer nroEncuestasPorDia, Integer correlativoInicial);
 	void actualizar(Integer codigoRuta, Integer codigoPersonalOriginal, Integer codigoPersonal, Integer numeroEncuestas, String fechaInicio, String fechaFin, Integer nroEncuestasPorDia, Integer correlativoInicial);
 	void eliminar(Integer codigoRuta, Integer codigoPersonal);
-	
+	List<RutaPersonal> buscarPorDni(String dni);
 }

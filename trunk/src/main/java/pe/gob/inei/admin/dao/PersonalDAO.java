@@ -8,5 +8,4 @@ public interface PersonalDAO extends GenericDAO<Personal, Integer>{
 	Personal buscarPorDni(String dni);
 	Personal buscarPorCodigo(Integer codigoPersonal);
 	List<Personal> buscarPorUbigeo(String codigoUbigeo);
-
 }

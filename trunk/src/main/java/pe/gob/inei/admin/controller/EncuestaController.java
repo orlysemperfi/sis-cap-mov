@@ -1,6 +1,8 @@
 package pe.gob.inei.admin.controller;
+import java.util.Date; 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;  
@@ -22,6 +24,7 @@ import pe.gob.inei.sistencuesta.MarcoMuestral;
 @ViewScoped
 public class EncuestaController implements Serializable {
 
+	
 	private String codigoEncuesta;
 	private String nombre;
 	private Integer año;
@@ -32,6 +35,8 @@ public class EncuestaController implements Serializable {
 	private String tipoArea;
 	private Integer codigoRubro;
 	private String codigoMarcoMuestral;	
+	private Date dFechaInicio;
+	private Date dFechaFin;
 	
 	private List<Encuesta> encuesta;
 	private Encuesta selectedEncuesta;
@@ -50,7 +55,7 @@ public class EncuestaController implements Serializable {
 		pintaPanel=false;
 		pintaListado=true;
 		verEliminar=true;
-		desactivaCodigo=false;
+		desactivaCodigo=false;		
 	}
 
 	public void elegirTipoArea()
@@ -89,6 +94,13 @@ public class EncuestaController implements Serializable {
 		objetivo=selectedEncuesta.getObjetivo();
 		fechaInicio=selectedEncuesta.getFechainicio();
 		fechaFin=selectedEncuesta.getFechafin();
+		
+		
+		dFechaInicio= new GregorianCalendar(Integer.parseInt(fechaInicio.substring(6, 10)),Integer.parseInt(fechaInicio.substring(3, 5))-1,Integer.parseInt(fechaInicio.substring(0, 2))).getTime();
+		dFechaFin= new GregorianCalendar(Integer.parseInt(fechaFin.substring(6, 10)),Integer.parseInt(fechaFin.substring(3, 5))-1,Integer.parseInt(fechaFin.substring(0, 2))).getTime();
+		//dFechaFin= new GregorianCalendar(2013,10,31).getTime();
+		//dFechaFin = new Date();
+		
 		tipoArea=selectedEncuesta.getTipoArea();
 		elegirTipoArea();
 		codigoRubro=selectedEncuesta.getRubro().getCodigoRubro();
@@ -108,25 +120,44 @@ public class EncuestaController implements Serializable {
 		tipoArea="";
 		codigoRubro=0;
 		codigoMarcoMuestral="";	
+		dFechaInicio=null;
+		dFechaFin=null;
 		
 	}
 	public void grabar(ActionEvent event){		
-		EncuestaDAO encuestaDAO=DAOFactory.getInstance().getEncuestaDAO();
-			
-		if(agregar)
-			encuestaDAO.registrar(codigoEncuesta, nombre, año, descripcion, objetivo, fechaInicio, fechaFin, tipoArea, codigoRubro, codigoMarcoMuestral);
+		EncuestaDAO encuestaDAO=DAOFactory.getInstance().getEncuestaDAO();		
+		String mensajeError="";
+		Long fInicio=(long) 0, fFin=(long) 0;
+		
+		fInicio= Long.parseLong(fechaInicio.substring(6, 10))*10000+Long.parseLong(fechaInicio.substring(3, 5))*100+Long.parseLong(fechaInicio.substring(0, 2));
+		fFin= Long.parseLong(fechaFin.substring(6, 10))*10000+Long.parseLong(fechaFin.substring(3, 5))*100+Long.parseLong(fechaFin.substring(0, 2));
+		
+		if(año<2000) 
+			mensajeError="Año no valido";
+		else if(fInicio>fFin) 
+			mensajeError="La Fecha Final debe ser mayor al Inicial";
+		
+		if(mensajeError.length()>0)
+		{
+			FacesMessage message2 = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Encuesta", mensajeError);
+	        FacesContext.getCurrentInstance().addMessage(null, message2); 	
+		}
 		else
-			encuestaDAO.actualizar(codigoEncuesta, nombre, año, descripcion, objetivo, fechaInicio, fechaFin, tipoArea, codigoRubro, codigoMarcoMuestral);
-		
-		limpiar();
-		pintaListado=true;
-		pintaPanel=false;
-		
-		encuesta=encuestaDAO.buscar(nombre, año);
-		
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Encuesta", "Registro guardado correctamente" );
-        FacesContext.getCurrentInstance().addMessage(null, message);  
-        
+		{
+			if(agregar)
+				encuestaDAO.registrar(codigoEncuesta, nombre, año, descripcion, objetivo, fechaInicio, fechaFin, tipoArea, codigoRubro, codigoMarcoMuestral);
+			else
+				encuestaDAO.actualizar(codigoEncuesta, nombre, año, descripcion, objetivo, fechaInicio, fechaFin, tipoArea, codigoRubro, codigoMarcoMuestral);
+			
+			limpiar();
+			pintaListado=true;
+			pintaPanel=false;
+			
+			encuesta=encuestaDAO.buscar(nombre, año);
+			
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Encuesta", "Registro guardado correctamente" );
+	        FacesContext.getCurrentInstance().addMessage(null, message);  
+		}
 	}
 	
 	public void cancelar(ActionEvent event){
@@ -135,10 +166,14 @@ public class EncuestaController implements Serializable {
 		pintaPanel=false;
 	}
 	
+	public void preEliminar(ActionEvent event){
+		codigoEncuesta=FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("prmEncuesta");
+	}
+	
 	
 	public void eliminar(ActionEvent event){
-		codigoEncuesta=FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("prmEncuesta");
 		EncuestaDAO encuestaDAO=DAOFactory.getInstance().getEncuestaDAO();
+		//codigoEncuesta=FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("prmEncuesta");
 		encuestaDAO.eliminar(codigoEncuesta);
 		limpiar();
 		pintaListado=true;
@@ -306,6 +341,22 @@ public class EncuestaController implements Serializable {
 
 	public void setDesactivaCodigo(Boolean desactivaCodigo) {
 		this.desactivaCodigo = desactivaCodigo;
+	}
+
+	public Date getdFechaInicio() {
+		return dFechaInicio;
+	}
+
+	public void setdFechaInicio(Date dFechaInicio) {
+		this.dFechaInicio = dFechaInicio;
+	}
+
+	public Date getdFechaFin() {
+		return dFechaFin;
+	}
+
+	public void setdFechaFin(Date dFechaFin) {
+		this.dFechaFin = dFechaFin;
 	}
 	
 	

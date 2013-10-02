@@ -14,4 +14,5 @@ public interface RutaDAO extends GenericDAO<Ruta, Integer> {
 	void registrarDetalle(Integer codigoRuta, Integer codigoEstablecimiento);
 	void eliminarDetalle(Integer codigoRuta);
 	List<Ruta> buscarRutaPorUbigeo(String codigoUbigeo);
+	List<Ruta> buscar(String codigoEncuesta, String codigoUbigeo);
 }

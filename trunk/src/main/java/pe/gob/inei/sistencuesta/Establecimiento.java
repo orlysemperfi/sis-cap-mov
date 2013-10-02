@@ -118,8 +118,9 @@ public class Establecimiento implements java.io.Serializable {
 		this.referenciaGeografica = referenciaGeografica;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "detalle_ruta", catalog = "bd_sistencuesta", joinColumns = { @JoinColumn(name = "CodigoEstablecimiento", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "CodigoRuta", nullable = false, updatable = false) })
+	//@ManyToMany(fetch = FetchType.LAZY)
+	//@JoinTable(name = "detalle_ruta", catalog = "bd_sistencuesta", joinColumns = { @JoinColumn(name = "CodigoEstablecimiento", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "CodigoRuta", nullable = false, updatable = false) })
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "establecimientos")
 	public Set<Ruta> getRutas() {
 		return this.rutas;
 	}
