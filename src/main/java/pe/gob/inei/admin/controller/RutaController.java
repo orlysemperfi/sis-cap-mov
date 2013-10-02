@@ -85,7 +85,6 @@ public class RutaController implements Serializable {
 		desactivaCodigo=false;
 		strEstablecimiento=new ArrayList<String>();
 		
-		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
 		EncuestaDAO encuestaDAO=DAOFactory.getInstance().getEncuestaDAO();
 		encuesta = encuestaDAO.buscarxCodigo(codigoEncuesta);
 		getDatosEncuesta();
@@ -99,6 +98,8 @@ public class RutaController implements Serializable {
 	public void getDatosEncuesta()
 	{
 		EncuestaDAO encuestaDAO=DAOFactory.getInstance().getEncuestaDAO();
+		RutaDAO rutaDAO=DAOFactory.getInstance().getRutaDAO();
+		
 		encuesta = encuestaDAO.buscarxCodigo(codigoEncuesta);
 		List<Ruta> rutaAsignada; 
 		Integer index;
@@ -109,19 +110,18 @@ public class RutaController implements Serializable {
 		
 		encuestaFinal=0;
 		encuestaAsignada=0;
-		if(encuesta.getRutas()!=null)
+		rutaAsignada=rutaDAO.buscar(codigoEncuesta);
+		
+		if(rutaAsignada!=null)
 		{
-			if(encuesta.getRutas().size()>0)
+			rutaAsignada = new ArrayList<Ruta> (encuesta.getRutas());
+			for(index=0;index<rutaAsignada.size();index++)
 			{
-				rutaAsignada = new ArrayList<Ruta> (encuesta.getRutas());
-				for(index=0;index<rutaAsignada.size();index++)
-				{
-					encuestaAsignada+=rutaAsignada.get(index).getNumeroEncuestas();
-					if(rutaAsignada.get(index).getCorrelativoFinal()>encuestaFinal)
-						encuestaFinal=rutaAsignada.get(index).getCorrelativoFinal();
-				}
-				encuestaAsignada=encuestaAsignada-numeroEncuestas;
+				encuestaAsignada+=rutaAsignada.get(index).getNumeroEncuestas();
+				if(rutaAsignada.get(index).getCorrelativoFinal()>encuestaFinal)
+					encuestaFinal=rutaAsignada.get(index).getCorrelativoFinal();
 			}
+			encuestaAsignada=encuestaAsignada-numeroEncuestas;
 		}
 	}
 	
@@ -132,12 +132,16 @@ public class RutaController implements Serializable {
 		agregar=false;
 		verEliminar=false;
 		desactivaCodigo=true;
-		strEstablecimiento=new ArrayList<String>();
 				
 		codigoRuta= Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("prmRuta"));
 		
 		RutaDAO rutaDAO=DAOFactory.getInstance().getRutaDAO();
 		selectedRuta=rutaDAO.buscarxCodigo(codigoRuta);
+		
+
+		selectedEstablecimiento = new ArrayList<Establecimiento>(selectedRuta.getEstablecimientos());
+		
+		Integer index;
 		
 		numeroRuta=selectedRuta.getNumeroRuta();
 		descripcion=selectedRuta.getDescripcion();
@@ -162,19 +166,12 @@ public class RutaController implements Serializable {
 		codigoDistrito=selectedRuta.getUbigeo().getCodigoDistrito();
 
 		distrito=ubigeoDAO.buscarDistrito(codigoDepartamento, codigoProvincia);
-		
-		EstablecimientoDAO establecimientoDAO=DAOFactory.getInstance().getEstablecimientoDAO();
-		establecimiento=establecimientoDAO.buscar(codigoDepartamento+codigoProvincia+codigoDistrito);
-
-		selectedEstablecimiento = new ArrayList<Establecimiento> (selectedRuta.getEstablecimientos());
-		
+		buscarEstablecimiento();
 		strEstablecimiento=new ArrayList<String>();
-		Integer index;
 		for(index=0;index<selectedEstablecimiento.size();index++)
 		{
 			strEstablecimiento.add(selectedEstablecimiento.get(index).getCodigoEstablecimiento().toString());
 		}
-		
 	}
 	
 	public void limpiar()
@@ -192,6 +189,9 @@ public class RutaController implements Serializable {
 		correlativoFinal=0;
 		codigoUbigeo="";
 		correlativoActual=0;
+		establecimiento= new ArrayList<Establecimiento>();
+		provincia= new ArrayList<Ubigeo>();
+		distrito= new ArrayList<Ubigeo>();
 		strEstablecimiento=new ArrayList<String>();
 	}
 	
@@ -253,9 +253,30 @@ public class RutaController implements Serializable {
 	}
 
 	public void buscarEstablecimiento(){
+		RutaDAO rutaDAO=DAOFactory.getInstance().getRutaDAO();
+		List<Establecimiento> estab;
+		List<Ruta> rutaA=rutaDAO.buscar(codigoEncuesta, codigoDepartamento+codigoProvincia+codigoDistrito);
+		Integer index,index2;
+		String codRutas="0";
+		
+		if(rutaA!=null)
+		{
+			for(index=0;index<rutaA.size();index++)
+			{
+				if(rutaA.get(index).getCodigoRuta()!=codigoRuta)
+				{
+					estab=new ArrayList<Establecimiento>(rutaA.get(index).getEstablecimientos());
+					for(index2=0;index2<estab.size();index2++)
+					{
+						codRutas+=","+estab.get(index2).getCodigoEstablecimiento().toString();
+					}
+				}
+			}
+		}
+		
 		strEstablecimiento=new ArrayList<String>();
-		EstablecimientoDAO establecimientoDAO=DAOFactory.getInstance().getEstablecimientoDAO();
-		establecimiento=establecimientoDAO.buscar(codigoDepartamento+codigoProvincia+codigoDistrito);
+		EstablecimientoDAO establecimientoDAO=DAOFactory.getInstance().getEstablecimientoDAO();		
+		establecimiento=establecimientoDAO.buscar(codigoDepartamento+codigoProvincia+codigoDistrito,codRutas);
 	}
 	
 	
@@ -268,6 +289,8 @@ public class RutaController implements Serializable {
 		Integer encLibre=encuestaTotal-encuestaAsignada;
 		
 		if(encLibre<numeroEncuestas) mensajeError+="El numero de encuestas es mayor al disponible: " + encLibre.toString();
+		else if(numeroEncuestas==0) mensajeError+="El numero de encuestas debe ser mayor a cero";
+		else if(correlativoInicial==0) mensajeError+="El correlativo inicial debe ser mayor a cero";
 		
 		if(agregar)
 		{
@@ -277,6 +300,7 @@ public class RutaController implements Serializable {
 		{
 			//if(encuestaFinal>correlativoInicial && correlativoInicial!=correlativoActual) mensajeError+="mOEl correlativo inicial debe ser mayor al ultimo usado: " + correlativoActual.toString();
 		}
+		
 		
 		if(mensajeError.length()>0)
 		{
@@ -298,13 +322,14 @@ public class RutaController implements Serializable {
 			else
 				rutaDAO.actualizar(codigoRuta, codigoEncuesta, codigoUbigeo, numeroRuta, descripcion, numeroEncuestas, correlativoInicial, correlativoFinal, selectedEstablecimiento);
 			
+			//descripcion= String.valueOf(selectedEstablecimiento.size());
 			limpiar();
 			pintaListado=true;
 			pintaPanel=false;
 			
 			ruta=rutaDAO.buscar(codigoEncuesta);
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ruta", "Registro guardado correctamente" );
-	        FacesContext.getCurrentInstance().addMessage(null, message); 
+	        FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
 	

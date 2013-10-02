@@ -18,6 +18,12 @@
 						value="#{encuesta.codigoEncuesta}" label="txtCodigoEncuesta"
 						style="width:25%" />
 
+					<h:outputLabel for="lblNombdd" value="Fecha Inicio:" />
+					<p:calendar value="#{encuesta.dFechaInicio}" pattern="dd-MM-yyyy" navigator="true"  showOn="button"  />  
+
+					<h:outputLabel for="lblNombddFF" value="Fecha Fin:" />
+					<p:calendar value="#{encuesta.dFechaFin}" pattern="dd-MM-yyyy" navigator="true"  showOn="button"  />
+					
 					<h:outputLabel for="lblNombre" value="Nombre:" />
 					<p:inputText id="txtNombre" value="#{encuesta.nombre}"
 						label="txtNombre" style="width:100%" required="true"  />
@@ -154,8 +160,8 @@
 					</p:commandButton>
 				</p:column>
 				<p:column>
-					<p:commandButton id="selectEliminar" update=":consultaEncuesta" actionListener="#{encuesta.eliminar}"
-						 title="Eliminar" value="Eliminar" >
+					<p:commandButton id="selectEliminar" update=":consultaEncuesta" actionListener="#{encuesta.preEliminar}"
+						 title="Eliminar" value="Eliminar" oncomplete="conf.show()">
 						<f:param name="prmEncuesta" value="#{dtEncuesta.codigoEncuesta}"></f:param>
 						
 					</p:commandButton>
@@ -163,6 +169,11 @@
 
 
 			</p:dataTable>
+			
+			<p:confirmDialog message="mensaje" header="cabecera" severity="alert" appendToBody="true" actionListener="#{encuesta.eliminar}" widgetVar="conf">
+				<p:commandButton value="si" oncomplete="conf.hide()"/>
+				<p:commandButton value="no" onclick="conf.hide()" type="button"/>
+			</p:confirmDialog>
 		</h:form>
 	</p:panel>
 

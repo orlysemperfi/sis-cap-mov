@@ -13,8 +13,10 @@ import pe.gob.inei.admin.dao.MarcoMuestralDAO;
 import pe.gob.inei.admin.dao.UbigeoDAO;
 import pe.gob.inei.sistencuesta.MarcoMuestral;
 import pe.gob.inei.sistencuesta.Ubigeo;
+
 import javax.faces.application.FacesMessage; 
   
+
 import org.primefaces.model.DualListModel; 
 
 @ManagedBean(name="marcoMuestral")
@@ -145,28 +147,44 @@ public class MarcoMuestralController implements Serializable {
 		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
 		Integer index;
 		String codUbigeo="'0'"; 
+		String mensajeError="";
 		
-		for(index=0;index<ubigeoDep.size();index++)
+		if(año<2000) 
+			mensajeError="Año no valido";
+		else if(numeroEncuestas==0) 
+			mensajeError="El numero de encuestas debe ser mayor a cero";
+		
+		if(mensajeError.length()>0)
 		{
-			codUbigeo+=", '"+ubigeoDep.get(index)+"' ";
+			FacesMessage message2 = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Marco Muestral", mensajeError);
+	        FacesContext.getCurrentInstance().addMessage(null, message2); 	
 		}
-		
-		List<Ubigeo> ubigeos= ubigeoDAO.buscarUbigeoxCodigos(codUbigeo);		
-		
-		if(agregar)
-			marcoMuestralDAO.registrar(codigoMarcoMuestral, año, descripcion, numeroEncuestas, tipoUbigeo, tipoArea, estado, ubigeos);
 		else
-			marcoMuestralDAO.actualizar(codigoMarcoMuestral, año, descripcion, numeroEncuestas, tipoUbigeo, tipoArea, estado, ubigeos);
+		{
 		
-		limpiar();
-		
-		
-		pintaListado=true;
-		pintaPanel=false;		
-		marcoMuestral=marcoMuestralDAO.buscar("", "", 0);
-
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Marco Muestral", "Registro guardado correctamente" );
-        FacesContext.getCurrentInstance().addMessage(null, message); 
+			for(index=0;index<ubigeoDep.size();index++)
+			{
+				codUbigeo+=", '"+ubigeoDep.get(index)+"' ";
+			}
+			
+			List<Ubigeo> ubigeos= ubigeoDAO.buscarUbigeoxCodigos(codUbigeo);		
+			
+			if(agregar)
+				marcoMuestralDAO.registrar(codigoMarcoMuestral, año, descripcion, numeroEncuestas, tipoUbigeo, tipoArea, estado, ubigeos);
+			else
+				marcoMuestralDAO.actualizar(codigoMarcoMuestral, año, descripcion, numeroEncuestas, tipoUbigeo, tipoArea, estado, ubigeos);
+			
+			limpiar();
+			
+			
+			pintaListado=true;
+			pintaPanel=false;		
+			marcoMuestral=marcoMuestralDAO.buscar("", "", 0);
+	
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Marco Muestral", "Registro guardado correctamente" );
+	        FacesContext.getCurrentInstance().addMessage(null, message); 
+			
+		}
 
 	}
 	

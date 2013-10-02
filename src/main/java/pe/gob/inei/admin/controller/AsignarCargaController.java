@@ -34,6 +34,12 @@ public class AsignarCargaController implements Serializable {
 	private Integer nroEncuestasPorDia;
 	private Integer correlativoInicial;
 
+	private Long fechaInicioEncuesta;
+	private Long fechaFinEncuesta;
+	private String fInicioEncuesta;
+	private String fFinEncuesta;
+	
+	
 	private List<RutaPersonal> rutaPersonal;
 	private List<Ruta> ruta;
 	private RutaPersonal selectedRutaPersonal;
@@ -88,6 +94,10 @@ public class AsignarCargaController implements Serializable {
 	}
 
 	public void editar(ActionEvent event){
+		RutaDAO rutaDAO=DAOFactory.getInstance().getRutaDAO();
+		RutaPersonalDAO rutaPersonalDAO=DAOFactory.getInstance().getRutaPersonalDAO();
+		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
+				
 		pintaListado=false;
 		pintaPanel=true;
 		agregar=false;
@@ -96,10 +106,15 @@ public class AsignarCargaController implements Serializable {
 				
 		codigoRuta= Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("prmRuta"));
 		
-		RutaDAO rutaDAO=DAOFactory.getInstance().getRutaDAO();
+		
 		selectedRuta=rutaDAO.buscarxCodigo(codigoRuta);
 		
-		RutaPersonalDAO rutaPersonalDAO=DAOFactory.getInstance().getRutaPersonalDAO();
+		fInicioEncuesta=selectedRuta.getEncuesta().getFechainicio();
+		fFinEncuesta=selectedRuta.getEncuesta().getFechafin();
+		
+		fechaInicioEncuesta= Long.parseLong(fInicioEncuesta.substring(6, 10))*10000+Long.parseLong(fInicioEncuesta.substring(3, 5))*100+Long.parseLong(fInicioEncuesta.substring(0, 2));
+		fechaFinEncuesta= Long.parseLong(fFinEncuesta.substring(6, 10))*10000+Long.parseLong(fFinEncuesta.substring(3, 5))*100+Long.parseLong(fFinEncuesta.substring(0, 2));
+		
 		codigoPersonal=0;
 		codigoPersonalOriginal=0;
 		selectedRutaPersonal=rutaPersonalDAO.buscarPersonaRuta(codigoRuta, codigoPersonal);
@@ -118,11 +133,17 @@ public class AsignarCargaController implements Serializable {
 			nroEncuestasPorDia=selectedRutaPersonal.getNroEncuestasPorDia();
 			correlativoInicial=selectedRutaPersonal.getCorrelativoInicial();			
 		}
+		else
+		{
+			numeroEncuestas=selectedRuta.getNumeroEncuestas();
+			correlativoInicial=selectedRuta.getCorrelativoInicial();
+		}
 		
 		numeroRuta=selectedRuta.getNumeroRuta();
-		departamentoNombre=selectedRuta.getUbigeo().getNombre();
-		provinciaNombre=selectedRuta.getUbigeo().getNombre();
-		distritoNombre=selectedRuta.getUbigeo().getNombre();
+		selectedRuta.getUbigeo().getNombre();
+		distritoNombre=selectedRuta.getUbigeo().getNombre();		
+		departamentoNombre=ubigeoDAO.findById(selectedRuta.getUbigeo().getCodigoDepartamento()+"0000").getNombre();
+		provinciaNombre=ubigeoDAO.findById(selectedRuta.getUbigeo().getCodigoDepartamento()+selectedRuta.getUbigeo().getCodigoProvincia()+"00").getNombre();
 		
 		if(codigoPersonal==0)
 		{
@@ -161,13 +182,45 @@ public class AsignarCargaController implements Serializable {
 	}
 	public void buscarPersonal(ActionEvent event){
 		PersonalDAO personalDAO=DAOFactory.getInstance().getPersonalDAO();
-		Personal personal=personalDAO.buscarPorDni(personalDni);
-		if (personal!=null){
-			codigoPersonal=personal.getCodigoPersonal();
-			personalDni=personal.getNumeroDocumento();
-			personalNombre=personal.getNombres();
-			personalApPaterno=personal.getApellidos();
+		RutaPersonalDAO rutaPersonalDAO=DAOFactory.getInstance().getRutaPersonalDAO();
+		String mensajeError="";
+		
+		List<RutaPersonal> rutaPers= rutaPersonalDAO.buscarPorDni(personalDni);
+		
+		if(rutaPers!=null)
+		{
+			if(rutaPers.size()>0)
+			{
+				mensajeError="El Personal ingresado ya ha sido asignado a otra Ruta";
+				codigoPersonal=0;
+				personalNombre="";
+				personalApPaterno="";		
+			}
 		}
+		if(mensajeError.length()==0)
+		{
+			Personal personal=personalDAO.buscarPorDni(personalDni);
+			if (personal!=null){
+				codigoPersonal=personal.getCodigoPersonal();
+				personalDni=personal.getNumeroDocumento();
+				personalNombre=personal.getNombres();
+				personalApPaterno=personal.getApellidos();
+			}
+			else
+			{
+				mensajeError="No Existe un personal con el dni ingresado";
+				codigoPersonal=0;
+				personalNombre="";
+				personalApPaterno="";				
+			}
+		}
+		if(mensajeError.length()>0)
+		{
+			
+			FacesMessage message3 = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Asignar Carga", mensajeError);
+	        FacesContext.getCurrentInstance().addMessage(null, message3); 	
+		}
+		
 	}
 	public void buscar(ActionEvent event){
 		RutaDAO rutaDAO=DAOFactory.getInstance().getRutaDAO();
@@ -187,23 +240,48 @@ public class AsignarCargaController implements Serializable {
 	}
 	
 	public void grabar(ActionEvent event){
-		RutaPersonalDAO rutaPersonalDAO=DAOFactory.getInstance().getRutaPersonalDAO();		
-
-		if(agregar)
-			rutaPersonalDAO.registrar(codigoRuta, codigoPersonal, numeroEncuestas, fechaInicio, fechaFin, nroEncuestasPorDia, correlativoInicial);
+		RutaPersonalDAO rutaPersonalDAO=DAOFactory.getInstance().getRutaPersonalDAO();	
+		String mensajeError="";
+		Long fInicio=(long) 0, fFin=(long) 0;
+		
+		fInicio= Long.parseLong(fechaInicio.substring(6, 10))*10000+Long.parseLong(fechaInicio.substring(3, 5))*100+Long.parseLong(fechaInicio.substring(0, 2));
+		fFin= Long.parseLong(fechaFin.substring(6, 10))*10000+Long.parseLong(fechaFin.substring(3, 5))*100+Long.parseLong(fechaFin.substring(0, 2));
+		
+		if(nroEncuestasPorDia>numeroEncuestas) 
+			mensajeError="El Numero de encuestas por dia no puede ser mayor al total";
+		else if(nroEncuestasPorDia==0) 
+			mensajeError="El Numero de encuestas por dia debe ser mayor a cero";
+		else if(fInicio>fFin) 
+			mensajeError="La Fecha Final debe ser mayor al Inicial";
+		else if(fInicio<fechaInicioEncuesta) 
+			mensajeError="La Fecha Inicial no puede ser menor al de la encuesta: "  + fInicioEncuesta;
+		else if(fFin>fechaFinEncuesta) 
+			mensajeError="La Fecha Final no puede ser mayor al de la encuesta: " + fFinEncuesta;
+		else if(codigoPersonal==0) 
+			mensajeError="No se ha eligido un encuestador";
+		
+		if(mensajeError.length()>0)
+		{
+			FacesMessage message2 = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Asignacion de Carga", mensajeError);
+	        FacesContext.getCurrentInstance().addMessage(null, message2); 	
+		}
 		else
-			rutaPersonalDAO.actualizar(codigoRuta, codigoPersonalOriginal, codigoPersonal, numeroEncuestas, fechaInicio, fechaFin, nroEncuestasPorDia, correlativoInicial);
-		
-		limpiar();
-		pintaListado=true;
-		pintaPanel=false;
-		
-		RutaDAO rutaDAO=DAOFactory.getInstance().getRutaDAO();
-		ruta=rutaDAO.buscar(codigoEncuesta);
-		
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Asignación de Carga", "Registro guardado correctamente" );
-        FacesContext.getCurrentInstance().addMessage(null, message); 
-
+		{
+			if(agregar)
+				rutaPersonalDAO.registrar(codigoRuta, codigoPersonal, numeroEncuestas, fechaInicio, fechaFin, nroEncuestasPorDia, correlativoInicial);
+			else
+				rutaPersonalDAO.actualizar(codigoRuta, codigoPersonalOriginal, codigoPersonal, numeroEncuestas, fechaInicio, fechaFin, nroEncuestasPorDia, correlativoInicial);
+			
+			limpiar();
+			pintaListado=true;
+			pintaPanel=false;
+			
+			RutaDAO rutaDAO=DAOFactory.getInstance().getRutaDAO();
+			ruta=rutaDAO.buscar(codigoEncuesta);
+			
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Asignación de Carga", "Registro guardado correctamente" );
+	        FacesContext.getCurrentInstance().addMessage(null, message); 
+		}
 	}
 	
 	public void eliminar(ActionEvent event){
@@ -484,5 +562,37 @@ public class AsignarCargaController implements Serializable {
 
 	public void setVerDNI(Boolean verDNI) {
 		this.verDNI = verDNI;
+	}
+
+	public Long getFechaInicioEncuesta() {
+		return fechaInicioEncuesta;
+	}
+
+	public void setFechaInicioEncuesta(Long fechaInicioEncuesta) {
+		this.fechaInicioEncuesta = fechaInicioEncuesta;
+	}
+
+	public Long getFechaFinEncuesta() {
+		return fechaFinEncuesta;
+	}
+
+	public void setFechaFinEncuesta(Long fechaFinEncuesta) {
+		this.fechaFinEncuesta = fechaFinEncuesta;
+	}
+
+	public String getfInicioEncuesta() {
+		return fInicioEncuesta;
+	}
+
+	public void setfInicioEncuesta(String fInicioEncuesta) {
+		this.fInicioEncuesta = fInicioEncuesta;
+	}
+
+	public String getfFinEncuesta() {
+		return fFinEncuesta;
+	}
+
+	public void setfFinEncuesta(String fFinEncuesta) {
+		this.fFinEncuesta = fFinEncuesta;
 	}
 }

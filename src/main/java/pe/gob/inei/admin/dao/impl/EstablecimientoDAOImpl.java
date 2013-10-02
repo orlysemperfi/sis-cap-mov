@@ -23,7 +23,18 @@ public class EstablecimientoDAOImpl extends GenericDAOImpl<Establecimiento, Inte
 		tx.commit();
 		return lista;
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	public List<Establecimiento> buscar(String codigoUbigeo,String codigosEstablecimiento)
+	{
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery("select o from Establecimiento o where o.ubigeo.codigoUbigeo=:p_codigoUbigeo and  o.codigoEstablecimiento NOT IN ("+codigosEstablecimiento+") ");
+		query.setString("p_codigoUbigeo", codigoUbigeo);
+		List<Establecimiento> lista = query.list();
+		tx.commit();
+		return lista;
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<Establecimiento> buscarxCodigos(String codigosEstablecimiento){
