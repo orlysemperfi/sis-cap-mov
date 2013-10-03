@@ -1,4 +1,5 @@
 package pe.gob.inei.admin.controller;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ import javax.faces.application.FacesMessage;
 
 import org.primefaces.model.DualListModel; 
 
-@ManagedBean(name="marcoMuestral")
+@ManagedBean(name = "marcoMuestral")
 @ViewScoped
 public class MarcoMuestralController implements Serializable {
 
@@ -30,18 +31,18 @@ public class MarcoMuestralController implements Serializable {
 	private String tipoUbigeo;
 	private String tipoArea;
 	private String estado;
-	
+
 	private String codigoEncuestas;
+
 	
-		
 	private List<MarcoMuestral> marcoMuestral;
 	private MarcoMuestral selectedMarcoMuestral;
 	
 	private List<Ubigeo> ubigeo;
-	//private List<Ubigeo> ubigeoSeleccionado;
-	
+	// private List<Ubigeo> ubigeoSeleccionado;
+
 	private List<String> ubigeoDep;
-	
+
 	private Boolean pintaPanel;
 	private Boolean pintaListado;
 	private Boolean agregar;
@@ -60,7 +61,6 @@ public class MarcoMuestralController implements Serializable {
 		desactivaCodigo=false;
 		desactivaDepartamento=true;
 	}
-	
 	public void elegirTipoUbigeo()
 	{
 		ubigeoDep=new ArrayList<String>();
@@ -84,16 +84,16 @@ public class MarcoMuestralController implements Serializable {
 		}
 	}
 	
-	public void nuevo(ActionEvent event){
+	public void nuevo(ActionEvent event) {
 		pintaListado=false;
 		pintaPanel=true;
 		agregar=true;
 		verEliminar=true;
 		desactivaCodigo=false;	
-		estado="S";		
+		estado="S";	
 	}
 
-	public void editar(ActionEvent event){
+	public void editar(ActionEvent event) {
 		List<Ubigeo> ubigeoSeleccionado;
 		
 		pintaListado=false;
@@ -123,9 +123,9 @@ public class MarcoMuestralController implements Serializable {
 		{
 			ubigeoDep.add(ubigeoSeleccionado.get(index).getCodigoUbigeo());
 		}
-		
+
 	}
-	
+
 	public void limpiar()
 	{
 		codigoMarcoMuestral="";
@@ -137,12 +137,12 @@ public class MarcoMuestralController implements Serializable {
 		estado="S";
 		desactivaDepartamento=true;
 	}
-	
+
 	public void buscar(ActionEvent event){
 		MarcoMuestralDAO marcoMuestralDAO=DAOFactory.getInstance().getMarcoMuestralDAO();
 		marcoMuestral=marcoMuestralDAO.buscar(descripcion, "", año);
 	}
-	public void grabar(ActionEvent event){
+	public void grabar(ActionEvent event) {
 		MarcoMuestralDAO marcoMuestralDAO=DAOFactory.getInstance().getMarcoMuestralDAO();
 		UbigeoDAO ubigeoDAO=DAOFactory.getInstance().getUbigeoDAO();
 		Integer index;
@@ -187,8 +187,8 @@ public class MarcoMuestralController implements Serializable {
 		}
 
 	}
-	
-	public void eliminar(ActionEvent event){
+
+	public void eliminar(ActionEvent event) {
 		MarcoMuestralDAO marcoMuestralDAO=DAOFactory.getInstance().getMarcoMuestralDAO();
 		codigoMarcoMuestral=FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("prmMarcoMuestral");
 		marcoMuestralDAO.eliminar(codigoMarcoMuestral);
@@ -225,52 +225,57 @@ public class MarcoMuestralController implements Serializable {
 	public void setUbigeo(List<Ubigeo> ubigeo) {
 		this.ubigeo = ubigeo;
 	}
-	
+
 	public String getCodigoMarcoMuestral() {
 		return codigoMarcoMuestral;
 	}
+
 	public void setCodigoMarcoMuestral(String codigoMarcoMuestral) {
 		this.codigoMarcoMuestral = codigoMarcoMuestral;
 	}
+
 	public Integer getAño() {
 		return año;
 	}
+
 	public void setAño(Integer año) {
 		this.año = año;
 	}
+
 	public String getDescripcion() {
 		return descripcion;
 	}
+
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+
 	public Integer getNumeroEncuestas() {
 		return numeroEncuestas;
 	}
+
 	public void setNumeroEncuestas(Integer numeroEncuestas) {
 		this.numeroEncuestas = numeroEncuestas;
 	}
+
 	public String getTipoUbigeo() {
 		return tipoUbigeo;
 	}
+
 	public void setTipoUbigeo(String tipoUbigeo) {
 		this.tipoUbigeo = tipoUbigeo;
 	}
+
 	public String getTipoArea() {
 		return tipoArea;
 	}
+
 	public void setTipoArea(String tipoArea) {
 		this.tipoArea = tipoArea;
 	}
-/*
-	public List<Ubigeo> getUbigeoSeleccionado() {
-		return ubigeoSeleccionado;
-	}
 
-	public void setUbigeoSeleccionado(List<Ubigeo> ubigeoSeleccionado) {
-		this.ubigeoSeleccionado = ubigeoSeleccionado;
-	}
-*/
+
+
 	public String getCodigoEncuestas() {
 		return codigoEncuestas;
 	}
@@ -334,7 +339,7 @@ public class MarcoMuestralController implements Serializable {
 	public void setUbigeoDep(List<String> ubigeoDep) {
 		this.ubigeoDep = ubigeoDep;
 	}
-	
+
 	public Boolean getDesactivaDepartamento() {
 		return desactivaDepartamento;
 	}
