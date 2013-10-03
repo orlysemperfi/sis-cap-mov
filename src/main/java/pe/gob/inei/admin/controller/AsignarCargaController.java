@@ -220,7 +220,7 @@ public class AsignarCargaController implements Serializable {
 			FacesMessage message3 = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Asignar Carga", mensajeError);
 	        FacesContext.getCurrentInstance().addMessage(null, message3); 	
 		}
-		
+
 	}
 	public void buscar(ActionEvent event){
 		RutaDAO rutaDAO=DAOFactory.getInstance().getRutaDAO();

@@ -55,7 +55,7 @@ public class EncuestaController implements Serializable {
 		pintaPanel=false;
 		pintaListado=true;
 		verEliminar=true;
-		desactivaCodigo=false;		
+		desactivaCodigo=false;
 	}
 
 	public void elegirTipoArea()
@@ -125,6 +125,13 @@ public class EncuestaController implements Serializable {
 		
 	}
 	public void grabar(ActionEvent event){		
+		EncuestaDAO encuestaDAO=DAOFactory.getInstance().getEncuestaDAO();
+			
+		if(agregar)
+			encuestaDAO.registrar(codigoEncuesta, nombre, año, descripcion, objetivo, fechaInicio, fechaFin, tipoArea, codigoRubro, codigoMarcoMuestral);
+		else
+			encuestaDAO.actualizar(codigoEncuesta, nombre, año, descripcion, objetivo, fechaInicio, fechaFin, tipoArea, codigoRubro, codigoMarcoMuestral);
+	public void grabar(ActionEvent event){		
 		EncuestaDAO encuestaDAO=DAOFactory.getInstance().getEncuestaDAO();		
 		String mensajeError="";
 		Long fInicio=(long) 0, fFin=(long) 0;
@@ -165,11 +172,9 @@ public class EncuestaController implements Serializable {
 		pintaListado=true;
 		pintaPanel=false;
 	}
-	
 	public void preEliminar(ActionEvent event){
 		codigoEncuesta=FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("prmEncuesta");
 	}
-	
 	
 	public void eliminar(ActionEvent event){
 		EncuestaDAO encuestaDAO=DAOFactory.getInstance().getEncuestaDAO();
